@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2022 at 04:46 AM
+-- Generation Time: Mar 16, 2022 at 09:50 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.1.30
 
@@ -33,6 +33,36 @@ CREATE TABLE `tbl_client` (
   `client_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `client_email` varchar(50) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_login`
+--
+
+CREATE TABLE `tbl_login` (
+  `login_id` int(10) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `login_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `token` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `out_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_login`
+--
+
+INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time`) VALUES
+(8, 1, '2022-03-16 15:10:21', NULL, '2022-03-16 15:13:22'),
+(9, 1, '2022-03-16 15:13:48', NULL, '2022-03-16 15:15:48'),
+(10, 1, '2022-03-16 15:16:47', NULL, '2022-03-16 15:19:38'),
+(11, 1, '2022-03-16 15:20:06', NULL, '2022-03-16 15:27:02'),
+(12, 1, '2022-03-16 15:27:33', NULL, '2022-03-16 15:47:38'),
+(13, 1, '2022-03-16 15:47:45', NULL, '2022-03-16 15:49:05'),
+(14, 1, '2022-03-16 15:50:45', NULL, '2022-03-16 15:51:02'),
+(15, 3, '2022-03-16 16:06:38', NULL, '2022-03-16 16:08:37'),
+(16, 3, '2022-03-16 16:09:22', NULL, '2022-03-16 16:33:05'),
+(17, 4, '2022-03-16 16:45:22', NULL, '2022-03-16 16:45:42');
 
 -- --------------------------------------------------------
 
@@ -89,19 +119,22 @@ CREATE TABLE `tbl_team` (
 --
 
 CREATE TABLE `tbl_user` (
-  `id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
   `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `display_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `birthday` date DEFAULT NULL
+  `birthday` date DEFAULT NULL,
+  `avatar` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tbl_user`
 --
 
-INSERT INTO `tbl_user` (`id`, `email`, `password`, `display_name`, `birthday`) VALUES
-(1, 'tul@fg.com', '123456', NULL, NULL);
+INSERT INTO `tbl_user` (`user_id`, `email`, `password`, `display_name`, `birthday`, `avatar`) VALUES
+(1, 'tul@fg.com', '123456', NULL, NULL, ''),
+(3, 'a@a.com', '123456', NULL, NULL, NULL),
+(4, 'b@b.com', '123456', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -145,6 +178,12 @@ ALTER TABLE `tbl_client`
   ADD PRIMARY KEY (`client_id`);
 
 --
+-- Indexes for table `tbl_login`
+--
+ALTER TABLE `tbl_login`
+  ADD PRIMARY KEY (`login_id`);
+
+--
 -- Indexes for table `tbl_organization`
 --
 ALTER TABLE `tbl_organization`
@@ -174,7 +213,7 @@ ALTER TABLE `tbl_team`
 -- Indexes for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
@@ -200,6 +239,12 @@ ALTER TABLE `tbl_work_settings`
 --
 ALTER TABLE `tbl_client`
   MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_login`
+--
+ALTER TABLE `tbl_login`
+  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_organization`
@@ -229,7 +274,7 @@ ALTER TABLE `tbl_team`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_dtc`
@@ -251,14 +296,14 @@ ALTER TABLE `tbl_work_settings`
 -- Constraints for table `tbl_team`
 --
 ALTER TABLE `tbl_team`
-  ADD CONSTRAINT `tbl_team_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_team_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_team_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `tbl_organization` (`organization_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_user_dtc`
 --
 ALTER TABLE `tbl_user_dtc`
-  ADD CONSTRAINT `tbl_user_dtc_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_user_dtc_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
