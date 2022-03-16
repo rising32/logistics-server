@@ -1,12 +1,5 @@
 const sql = require("./db.js");
 
-// constructor
-// const Tutorial = function(tutorial) {
-//   this.title = tutorial.title;
-//   this.description = tutorial.description;
-//   this.published = tutorial.published;
-// };
-
 const User = function(user) {
   this.user_id = user.user_id,
   this.email = user.email;
@@ -89,10 +82,10 @@ User.findOnlineUserByEmail = (user, result) => {
   });
 };
 
-User.updateById = (id, user, result) => {
+User.updateByUser = (user, result) => {
   sql.query(
-    "UPDATE tbl_user SET email = ?, password = ?, display_name = ?, birthday = ?, avatar = ? WHERE id = ?",
-    [user.email, user.password, user.display_name,user.birthday,user.avatar, id],
+    "UPDATE tbl_user SET email = ?, password = ?, display_name = ?, birthday = ?, avatar = ? WHERE user_id = ?",
+    [user.email, user.password, user.display_name,user.birthday,user.avatar, user.user_id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -106,8 +99,8 @@ User.updateById = (id, user, result) => {
         return;
       }
 
-      console.log("updated user: ", { id: id, ...user });
-      result(null, { id: id, ...user });
+      console.log("updated user: ", { ...user });
+      result(null, {...user });
     }
   );
 };
@@ -130,19 +123,6 @@ User.remove = (id, result) => {
     result(null, res);
   });
 };
-
-// Tutorial.removeAll = result => {
-//   sql.query("DELETE FROM tutorials", (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(null, err);
-//       return;
-//     }
-
-//     console.log(`deleted ${res.affectedRows} tutorials`);
-//     result(null, res);
-//   });
-// };
 User.removeAll = result => {
   sql.query("DELETE FROM tbl_user", (err, res) => {
     if (err) {

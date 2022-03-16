@@ -6,25 +6,25 @@ module.exports = app => {
   // Create a new User  
   app.post("/user/signUp", user.signup);
 
-  // Retrieve all Tutorials
-  //app.get("/", tutorials.findAll);
+  // Retrieve all Users
+  //app.get("/", Users.findAll);
 
-  // Retrieve all published Tutorials
-  //app.get("/published", tutorials.findAllPublished);
+  // Retrieve all published Users
+  //app.get("/published", Users.findAllPublished);
 
-  // Retrieve a single Tutorial with id
+  // Retrieve a single User with id
   app.get("/user/:id", user.findOne);
 
-  // Update a Tutorial with id
-  app.put("/user/:id", user.update);
+  // Update a User with id
+  app.post("/user/update", user.updateByUser);
 
-  // Delete a Tutorial with id
+  // Delete a User with id
   app.delete("/user/:id", user.delete);
 
-  // Delete all Tutorials
+  // Delete all Users
   app.delete("/user/all", user.deleteAll);
 
-  //app.use('/api/tutorials', app);
+  //app.use('/api/Users', app);
   // User Log out
   app.post("/user/logout", user.userLogout);
   // User Login

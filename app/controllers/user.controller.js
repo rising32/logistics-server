@@ -41,21 +41,7 @@ exports.signup = (req, res) => {
   });
 };
 
-// Retrieve all Tutorials from the database (with condition).
-// exports.findAll = (req, res) => {
-//   const title = req.query.title;
-
-//   Tutorial.getAll(title, (err, data) => {
-//     if (err)
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving tutorials."
-//       });
-//     else res.send(data);
-//   });
-// };
-
-// Find a single Tutorial by Id
+// Find a single User by Id
 exports.findOne = (req, res) => {
   User.findById(req.params.id, (err, data) => {
     if (err) {
@@ -107,7 +93,7 @@ exports.findOnlineUserByEmail = (req, res) => {
   });
 };
 // Update a User identified by the id in the request
-exports.update = (req, res) => {
+exports.updateByUser = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
@@ -116,19 +102,18 @@ exports.update = (req, res) => {
   }
 
   console.log(req.body);
-
-  User.updateById(
-    req.params.id,
-    new User(req.body),
+  const user = new User(req.body);
+  User.updateByUser(
+    user,
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found User with id ${req.params.id}.`
+            message: `Not found User with id ${user.user_id}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating User with id " + req.params.id
+            message: "Error updating User with id " + user.user_id
           });
         }
       } else res.send(data);

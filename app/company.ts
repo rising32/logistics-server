@@ -5,7 +5,7 @@ import { UserState } from './user';
 export interface CompanyState {
   company_id: string;
   manager_info: UserState;
-  organization: {
+  company_name: {
     name: string;
   };
   work_setting: {

@@ -1,13 +1,6 @@
 const sql = require("./db.js");
 
-// constructor
-// const Tutorial = function(tutorial) {
-//   this.title = tutorial.title;
-//   this.description = tutorial.description;
-//   this.published = tutorial.published;
-// };
-
-const User = function(user) {
+const User = function(team) {
   this.user_id = user.user_id,
   this.email = user.email;
   this.password = user.password;
