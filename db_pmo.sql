@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2022 at 09:50 AM
--- Server version: 10.3.16-MariaDB
--- PHP Version: 7.1.30
+-- Generation Time: Mar 16, 2022 at 04:09 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,7 +30,25 @@ SET time_zone = "+00:00";
 CREATE TABLE `tbl_client` (
   `client_id` int(8) NOT NULL,
   `client_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `client_email` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+  `is_active` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_client`
+--
+
+INSERT INTO `tbl_client` (`client_id`, `client_name`, `is_active`) VALUES
+(1, 'Apple', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_company`
+--
+
+CREATE TABLE `tbl_company` (
+  `company_id` int(8) NOT NULL,
+  `company_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -63,17 +80,6 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (15, 3, '2022-03-16 16:06:38', NULL, '2022-03-16 16:08:37'),
 (16, 3, '2022-03-16 16:09:22', NULL, '2022-03-16 16:33:05'),
 (17, 4, '2022-03-16 16:45:22', NULL, '2022-03-16 16:45:42');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_organization`
---
-
-CREATE TABLE `tbl_organization` (
-  `organization_id` int(11) NOT NULL,
-  `organization_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -133,8 +139,28 @@ CREATE TABLE `tbl_user` (
 
 INSERT INTO `tbl_user` (`user_id`, `email`, `password`, `display_name`, `birthday`, `avatar`) VALUES
 (1, 'tul@fg.com', '123456', NULL, NULL, ''),
-(3, 'a@a.com', '123456', NULL, NULL, NULL),
+(3, 'a@a.com', '123456', 'Jim', NULL, 'dsfasdfljakfdjkaldfjakljfdaljfdkadfklaj'),
 (4, 'b@b.com', '123456', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_user_client`
+--
+
+CREATE TABLE `tbl_user_client` (
+  `uc_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `client_id` int(8) NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_user_client`
+--
+
+INSERT INTO `tbl_user_client` (`uc_id`, `user_id`, `client_id`, `is_active`) VALUES
+(1, 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -178,16 +204,16 @@ ALTER TABLE `tbl_client`
   ADD PRIMARY KEY (`client_id`);
 
 --
+-- Indexes for table `tbl_company`
+--
+ALTER TABLE `tbl_company`
+  ADD PRIMARY KEY (`company_id`);
+
+--
 -- Indexes for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
   ADD PRIMARY KEY (`login_id`);
-
---
--- Indexes for table `tbl_organization`
---
-ALTER TABLE `tbl_organization`
-  ADD PRIMARY KEY (`organization_id`);
 
 --
 -- Indexes for table `tbl_project`
@@ -217,6 +243,12 @@ ALTER TABLE `tbl_user`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `tbl_user_client`
+--
+ALTER TABLE `tbl_user_client`
+  ADD PRIMARY KEY (`uc_id`);
+
+--
 -- Indexes for table `tbl_user_dtc`
 --
 ALTER TABLE `tbl_user_dtc`
@@ -238,19 +270,19 @@ ALTER TABLE `tbl_work_settings`
 -- AUTO_INCREMENT for table `tbl_client`
 --
 ALTER TABLE `tbl_client`
-  MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_company`
+--
+ALTER TABLE `tbl_company`
+  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
   MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `tbl_organization`
---
-ALTER TABLE `tbl_organization`
-  MODIFY `organization_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_project`
@@ -277,6 +309,12 @@ ALTER TABLE `tbl_user`
   MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `tbl_user_client`
+--
+ALTER TABLE `tbl_user_client`
+  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tbl_user_dtc`
 --
 ALTER TABLE `tbl_user_dtc`
@@ -297,7 +335,7 @@ ALTER TABLE `tbl_work_settings`
 --
 ALTER TABLE `tbl_team`
   ADD CONSTRAINT `tbl_team_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_team_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `tbl_organization` (`organization_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_team_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `tbl_company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_user_dtc`
