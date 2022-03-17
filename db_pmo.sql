@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2022 at 06:54 AM
+-- Generation Time: Mar 17, 2022 at 10:18 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.1.30
 
@@ -42,6 +42,24 @@ CREATE TABLE `mst_client` (
 
 INSERT INTO `mst_client` (`client_id`, `client_name`, `client_address`, `client_detail`, `is_active`) VALUES
 (1, 'Apple', NULL, '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mst_company`
+--
+
+CREATE TABLE `mst_company` (
+  `company_id` int(8) NOT NULL,
+  `company_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `mst_company`
+--
+
+INSERT INTO `mst_company` (`company_id`, `company_name`) VALUES
+(1, 'Amazon TM');
 
 -- --------------------------------------------------------
 
@@ -85,13 +103,24 @@ INSERT INTO `mst_team` (`team_id`, `team_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_company`
+-- Table structure for table `tbl_date_time_currency`
 --
 
-CREATE TABLE `tbl_company` (
+CREATE TABLE `tbl_date_time_currency` (
+  `dtc_id` int(8) NOT NULL,
   `company_id` int(8) NOT NULL,
-  `company_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+  `date_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `time_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `currency` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `decimal_seperator` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_date_time_currency`
+--
+
+INSERT INTO `tbl_date_time_currency` (`dtc_id`, `company_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
+(1, 1, 'YYYY-MM-DD', 'HH:mm:SS', '$', ',');
 
 -- --------------------------------------------------------
 
@@ -111,7 +140,8 @@ CREATE TABLE `tbl_employee` (
 --
 
 INSERT INTO `tbl_employee` (`employee_id`, `user_id`, `employee_code`, `employee_name`) VALUES
-(1, 1, '56324', 'Jim hantee');
+(1, 1, '56324', 'Jim hantee'),
+(3, 3, '3256', 'hantee');
 
 -- --------------------------------------------------------
 
@@ -175,6 +205,13 @@ CREATE TABLE `tbl_project` (
   `description` text COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `tbl_project`
+--
+
+INSERT INTO `tbl_project` (`project_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
+(1, 0, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -186,6 +223,13 @@ CREATE TABLE `tbl_project_manager` (
   `project_id` int(8) NOT NULL,
   `user_id` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_project_manager`
+--
+
+INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
+(2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -271,33 +315,25 @@ INSERT INTO `tbl_user_client` (`uc_id`, `user_id`, `client_id`, `is_active`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_user_dtc`
+-- Table structure for table `tbl_work_setting`
 --
 
-CREATE TABLE `tbl_user_dtc` (
-  `dtc_id` int(8) NOT NULL,
-  `user_id` int(8) NOT NULL,
-  `date_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `time_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `currency` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `decimal_seperator` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_work_settings`
---
-
-CREATE TABLE `tbl_work_settings` (
+CREATE TABLE `tbl_work_setting` (
   `ws_id` int(8) NOT NULL,
-  `user_id` int(8) NOT NULL,
-  `first_day_of_week` int(1) NOT NULL,
-  `work_on_week` tinyint(1) NOT NULL,
-  `start_work_time` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `end_work_time` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `remainder` varchar(20) COLLATE utf8_unicode_ci NOT NULL
+  `company_id` int(8) NOT NULL,
+  `first_day_of_week` int(1) DEFAULT NULL,
+  `work_on_week` tinyint(1) DEFAULT NULL,
+  `start_work_time` datetime DEFAULT NULL,
+  `end_work_time` datetime DEFAULT NULL,
+  `remainder` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_work_setting`
+--
+
+INSERT INTO `tbl_work_setting` (`ws_id`, `company_id`, `first_day_of_week`, `work_on_week`, `start_work_time`, `end_work_time`, `remainder`) VALUES
+(1, 1, 1, 0, NULL, NULL, 'Amazon TM');
 
 --
 -- Indexes for dumped tables
@@ -308,6 +344,12 @@ CREATE TABLE `tbl_work_settings` (
 --
 ALTER TABLE `mst_client`
   ADD PRIMARY KEY (`client_id`);
+
+--
+-- Indexes for table `mst_company`
+--
+ALTER TABLE `mst_company`
+  ADD PRIMARY KEY (`company_id`);
 
 --
 -- Indexes for table `mst_role`
@@ -323,10 +365,11 @@ ALTER TABLE `mst_team`
   ADD UNIQUE KEY `team_name` (`team_name`);
 
 --
--- Indexes for table `tbl_company`
+-- Indexes for table `tbl_date_time_currency`
 --
-ALTER TABLE `tbl_company`
-  ADD PRIMARY KEY (`company_id`);
+ALTER TABLE `tbl_date_time_currency`
+  ADD PRIMARY KEY (`dtc_id`),
+  ADD UNIQUE KEY `userId` (`company_id`);
 
 --
 -- Indexes for table `tbl_employee`
@@ -396,18 +439,11 @@ ALTER TABLE `tbl_user_client`
   ADD KEY `client_id` (`client_id`);
 
 --
--- Indexes for table `tbl_user_dtc`
+-- Indexes for table `tbl_work_setting`
 --
-ALTER TABLE `tbl_user_dtc`
-  ADD PRIMARY KEY (`dtc_id`),
-  ADD UNIQUE KEY `userId` (`user_id`);
-
---
--- Indexes for table `tbl_work_settings`
---
-ALTER TABLE `tbl_work_settings`
+ALTER TABLE `tbl_work_setting`
   ADD PRIMARY KEY (`ws_id`),
-  ADD UNIQUE KEY `user_id` (`user_id`);
+  ADD KEY `company_id` (`company_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -418,6 +454,12 @@ ALTER TABLE `tbl_work_settings`
 --
 ALTER TABLE `mst_client`
   MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `mst_company`
+--
+ALTER TABLE `mst_company`
+  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mst_role`
@@ -432,16 +474,16 @@ ALTER TABLE `mst_team`
   MODIFY `team_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `tbl_company`
+-- AUTO_INCREMENT for table `tbl_date_time_currency`
 --
-ALTER TABLE `tbl_company`
-  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbl_date_time_currency`
+  MODIFY `dtc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_employee`
 --
 ALTER TABLE `tbl_employee`
-  MODIFY `employee_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `employee_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
@@ -459,13 +501,13 @@ ALTER TABLE `tbl_on_project`
 -- AUTO_INCREMENT for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_project_manager`
 --
 ALTER TABLE `tbl_project_manager`
-  MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_task`
@@ -492,16 +534,10 @@ ALTER TABLE `tbl_user_client`
   MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `tbl_user_dtc`
+-- AUTO_INCREMENT for table `tbl_work_setting`
 --
-ALTER TABLE `tbl_user_dtc`
-  MODIFY `dtc_id` int(8) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tbl_work_settings`
---
-ALTER TABLE `tbl_work_settings`
-  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbl_work_setting`
+  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -547,12 +583,6 @@ ALTER TABLE `tbl_team_member`
 ALTER TABLE `tbl_user_client`
   ADD CONSTRAINT `tbl_user_client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_user_client_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_user_dtc`
---
-ALTER TABLE `tbl_user_dtc`
-  ADD CONSTRAINT `tbl_user_dtc_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

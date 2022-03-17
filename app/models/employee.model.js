@@ -1,7 +1,7 @@
 const sql = require("./db.js");
 
 const Employee = function(employee) {
-  this.employee_id = employee.employee_id,
+    this.employee_id = employee.employee_id,
     this.user_id = employee.user_id,
     this.employee_code = employee.employee_code;
     this.employee_name = employee.employee_name;
