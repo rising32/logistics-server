@@ -12,9 +12,12 @@ exports.signup = (req, res) => {
   // Create a Tutorial
   const user = new User({
     email: req.body.email,
+    phone_number: req.body.phone_number,
     password: req.body.password,
     display_name: req.body.display_name || null,
-    birthday:req.body.birthday || null
+    birthday:req.body.birthday || null,
+    is_project_manager:req.body.is_project_manager || 0,
+    registration_time:new Date()
   });
 
   // Save Tutorial in the database
