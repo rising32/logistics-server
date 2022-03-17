@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2022 at 01:18 PM
+-- Generation Time: Mar 17, 2022 at 04:30 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -41,24 +41,6 @@ CREATE TABLE `mst_client` (
 
 INSERT INTO `mst_client` (`client_id`, `client_name`, `client_address`, `client_detail`, `is_active`) VALUES
 (1, 'Apple', NULL, '', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `mst_company`
---
-
-CREATE TABLE `mst_company` (
-  `company_id` int(8) NOT NULL,
-  `company_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `mst_company`
---
-
-INSERT INTO `mst_company` (`company_id`, `company_name`) VALUES
-(1, 'Amazon TM');
 
 -- --------------------------------------------------------
 
@@ -102,6 +84,24 @@ INSERT INTO `mst_team` (`team_id`, `team_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_company`
+--
+
+CREATE TABLE `tbl_company` (
+  `company_id` int(8) NOT NULL,
+  `company_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_company`
+--
+
+INSERT INTO `tbl_company` (`company_id`, `company_name`) VALUES
+(1, 'Amazon TM');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_date_time_currency`
 --
 
@@ -125,23 +125,34 @@ INSERT INTO `tbl_date_time_currency` (`dtc_id`, `user_id`, `date_format`, `time_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_employee`
+-- Table structure for table `tbl_deliverable`
 --
 
-CREATE TABLE `tbl_employee` (
-  `employee_id` int(8) NOT NULL,
-  `user_id` int(8) NOT NULL,
-  `employee_code` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `employee_name` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL
+CREATE TABLE `tbl_deliverable` (
+  `deliverable_id` int(8) NOT NULL,
+  `deliverable_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `task_id` int(8) NOT NULL,
+  `periority` int(11) DEFAULT NULL,
+  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `planned_start_date` datetime DEFAULT NULL,
+  `planned_end_date` datetime DEFAULT NULL,
+  `budget` float DEFAULT NULL,
+  `actual_start_time` datetime DEFAULT NULL,
+  `actual_end_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tbl_employee`
+-- Table structure for table `tbl_deliverable_assign`
 --
 
-INSERT INTO `tbl_employee` (`employee_id`, `user_id`, `employee_code`, `employee_name`) VALUES
-(1, 1, '56324', 'Jim hantee'),
-(3, 3, '3256', 'hantee');
+CREATE TABLE `tbl_deliverable_assign` (
+  `assign_id` int(8) NOT NULL,
+  `deliverable_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `role_id` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -192,6 +203,50 @@ CREATE TABLE `tbl_on_project` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_priority_task`
+--
+
+CREATE TABLE `tbl_priority_task` (
+  `task_id` int(8) NOT NULL,
+  `task_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `project_id` int(8) NOT NULL,
+  `priority` int(2) DEFAULT NULL,
+  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `planned_start_date` datetime DEFAULT NULL,
+  `planned_end_date` datetime DEFAULT NULL,
+  `actual_start_date` datetime DEFAULT NULL,
+  `actual_end_date` datetime DEFAULT NULL,
+  `hourly_rate` float NOT NULL,
+  `is_add_all` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_proceed_deliverable`
+--
+
+CREATE TABLE `tbl_proceed_deliverable` (
+  `pd_id` int(8) NOT NULL,
+  `deliverable_id` int(8) NOT NULL,
+  `precede` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_proceed_task`
+--
+
+CREATE TABLE `tbl_proceed_task` (
+  `preced_id` int(8) NOT NULL,
+  `task_id` int(8) NOT NULL,
+  `preceding` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_project`
 --
 
@@ -234,26 +289,13 @@ INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_task`
---
-
-CREATE TABLE `tbl_task` (
-  `task_id` int(8) NOT NULL,
-  `task_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `hourly_rate` float NOT NULL,
-  `is_add_all` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_team_member`
 --
 
 CREATE TABLE `tbl_team_member` (
   `tm_id` int(8) NOT NULL,
   `team_id` int(8) NOT NULL,
-  `employee_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
   `role_id` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -261,7 +303,7 @@ CREATE TABLE `tbl_team_member` (
 -- Dumping data for table `tbl_team_member`
 --
 
-INSERT INTO `tbl_team_member` (`tm_id`, `team_id`, `employee_id`, `role_id`) VALUES
+INSERT INTO `tbl_team_member` (`tm_id`, `team_id`, `user_id`, `role_id`) VALUES
 (2, 5, 1, 2);
 
 -- --------------------------------------------------------
@@ -315,6 +357,18 @@ INSERT INTO `tbl_user_client` (`uc_id`, `user_id`, `client_id`, `is_active`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_user_company`
+--
+
+CREATE TABLE `tbl_user_company` (
+  `uc_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `company_id` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_work_setting`
 --
 
@@ -347,12 +401,6 @@ ALTER TABLE `mst_client`
   ADD PRIMARY KEY (`client_id`);
 
 --
--- Indexes for table `mst_company`
---
-ALTER TABLE `mst_company`
-  ADD PRIMARY KEY (`company_id`);
-
---
 -- Indexes for table `mst_role`
 --
 ALTER TABLE `mst_role`
@@ -366,6 +414,12 @@ ALTER TABLE `mst_team`
   ADD UNIQUE KEY `team_name` (`team_name`);
 
 --
+-- Indexes for table `tbl_company`
+--
+ALTER TABLE `tbl_company`
+  ADD PRIMARY KEY (`company_id`);
+
+--
 -- Indexes for table `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_date_time_currency`
@@ -373,11 +427,21 @@ ALTER TABLE `tbl_date_time_currency`
   ADD UNIQUE KEY `userId` (`user_id`);
 
 --
--- Indexes for table `tbl_employee`
+-- Indexes for table `tbl_deliverable`
 --
-ALTER TABLE `tbl_employee`
-  ADD PRIMARY KEY (`employee_id`),
-  ADD UNIQUE KEY `userId` (`user_id`);
+ALTER TABLE `tbl_deliverable`
+  ADD PRIMARY KEY (`deliverable_id`),
+  ADD KEY `task_id` (`task_id`);
+
+--
+-- Indexes for table `tbl_deliverable_assign`
+--
+ALTER TABLE `tbl_deliverable_assign`
+  ADD PRIMARY KEY (`assign_id`),
+  ADD KEY `task_id` (`deliverable_id`),
+  ADD KEY `role_id` (`role_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `deliverable_id` (`deliverable_id`);
 
 --
 -- Indexes for table `tbl_login`
@@ -395,6 +459,27 @@ ALTER TABLE `tbl_on_project`
   ADD KEY `client_id` (`client_id`);
 
 --
+-- Indexes for table `tbl_priority_task`
+--
+ALTER TABLE `tbl_priority_task`
+  ADD PRIMARY KEY (`task_id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `tbl_proceed_deliverable`
+--
+ALTER TABLE `tbl_proceed_deliverable`
+  ADD PRIMARY KEY (`pd_id`),
+  ADD KEY `deliverable_id` (`deliverable_id`);
+
+--
+-- Indexes for table `tbl_proceed_task`
+--
+ALTER TABLE `tbl_proceed_task`
+  ADD PRIMARY KEY (`preced_id`),
+  ADD KEY `task_id` (`task_id`);
+
+--
 -- Indexes for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
@@ -409,19 +494,14 @@ ALTER TABLE `tbl_project_manager`
   ADD KEY `project_id` (`project_id`);
 
 --
--- Indexes for table `tbl_task`
---
-ALTER TABLE `tbl_task`
-  ADD PRIMARY KEY (`task_id`);
-
---
 -- Indexes for table `tbl_team_member`
 --
 ALTER TABLE `tbl_team_member`
   ADD PRIMARY KEY (`tm_id`),
-  ADD KEY `employee_id` (`employee_id`),
+  ADD KEY `employee_id` (`user_id`),
   ADD KEY `team_id` (`team_id`),
-  ADD KEY `role_id` (`role_id`);
+  ADD KEY `role_id` (`role_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `tbl_user`
@@ -438,6 +518,14 @@ ALTER TABLE `tbl_user_client`
   ADD PRIMARY KEY (`uc_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `client_id` (`client_id`);
+
+--
+-- Indexes for table `tbl_user_company`
+--
+ALTER TABLE `tbl_user_company`
+  ADD PRIMARY KEY (`uc_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `company_id` (`company_id`);
 
 --
 -- Indexes for table `tbl_work_setting`
@@ -457,12 +545,6 @@ ALTER TABLE `mst_client`
   MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `mst_company`
---
-ALTER TABLE `mst_company`
-  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `mst_role`
 --
 ALTER TABLE `mst_role`
@@ -475,16 +557,28 @@ ALTER TABLE `mst_team`
   MODIFY `team_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `tbl_company`
+--
+ALTER TABLE `tbl_company`
+  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_date_time_currency`
   MODIFY `dtc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `tbl_employee`
+-- AUTO_INCREMENT for table `tbl_deliverable`
 --
-ALTER TABLE `tbl_employee`
-  MODIFY `employee_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `tbl_deliverable`
+  MODIFY `deliverable_id` int(8) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_deliverable_assign`
+--
+ALTER TABLE `tbl_deliverable_assign`
+  MODIFY `assign_id` int(8) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
@@ -499,6 +593,24 @@ ALTER TABLE `tbl_on_project`
   MODIFY `op_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tbl_priority_task`
+--
+ALTER TABLE `tbl_priority_task`
+  MODIFY `task_id` int(8) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_proceed_deliverable`
+--
+ALTER TABLE `tbl_proceed_deliverable`
+  MODIFY `pd_id` int(8) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_proceed_task`
+--
+ALTER TABLE `tbl_proceed_task`
+  MODIFY `preced_id` int(8) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
@@ -509,12 +621,6 @@ ALTER TABLE `tbl_project`
 --
 ALTER TABLE `tbl_project_manager`
   MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `tbl_task`
---
-ALTER TABLE `tbl_task`
-  MODIFY `task_id` int(8) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_team_member`
@@ -535,6 +641,12 @@ ALTER TABLE `tbl_user_client`
   MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `tbl_user_company`
+--
+ALTER TABLE `tbl_user_company`
+  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_work_setting`
 --
 ALTER TABLE `tbl_work_setting`
@@ -545,10 +657,24 @@ ALTER TABLE `tbl_work_setting`
 --
 
 --
--- Constraints for table `tbl_employee`
+-- Constraints for table `tbl_date_time_currency`
 --
-ALTER TABLE `tbl_employee`
-  ADD CONSTRAINT `tbl_employee_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `tbl_date_time_currency`
+  ADD CONSTRAINT `tbl_date_time_currency_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_deliverable`
+--
+ALTER TABLE `tbl_deliverable`
+  ADD CONSTRAINT `tbl_deliverable_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_deliverable_assign`
+--
+ALTER TABLE `tbl_deliverable_assign`
+  ADD CONSTRAINT `tbl_deliverable_assign_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_deliverable_assign_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_deliverable_assign_ibfk_5` FOREIGN KEY (`deliverable_id`) REFERENCES `tbl_deliverable` (`deliverable_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_login`
@@ -564,6 +690,24 @@ ALTER TABLE `tbl_on_project`
   ADD CONSTRAINT `tbl_on_project_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `tbl_priority_task`
+--
+ALTER TABLE `tbl_priority_task`
+  ADD CONSTRAINT `tbl_priority_task_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_proceed_deliverable`
+--
+ALTER TABLE `tbl_proceed_deliverable`
+  ADD CONSTRAINT `tbl_proceed_deliverable_ibfk_1` FOREIGN KEY (`deliverable_id`) REFERENCES `tbl_deliverable` (`deliverable_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_proceed_task`
+--
+ALTER TABLE `tbl_proceed_task`
+  ADD CONSTRAINT `tbl_proceed_task_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `tbl_project_manager`
 --
 ALTER TABLE `tbl_project_manager`
@@ -574,9 +718,9 @@ ALTER TABLE `tbl_project_manager`
 -- Constraints for table `tbl_team_member`
 --
 ALTER TABLE `tbl_team_member`
-  ADD CONSTRAINT `tbl_team_member_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `tbl_employee` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_team_member_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `mst_team` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_team_member_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_team_member_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_team_member_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_user_client`
@@ -584,6 +728,19 @@ ALTER TABLE `tbl_team_member`
 ALTER TABLE `tbl_user_client`
   ADD CONSTRAINT `tbl_user_client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_user_client_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_user_company`
+--
+ALTER TABLE `tbl_user_company`
+  ADD CONSTRAINT `tbl_user_company_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `tbl_company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_user_company_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_work_setting`
+--
+ALTER TABLE `tbl_work_setting`
+  ADD CONSTRAINT `tbl_work_setting_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
