@@ -182,7 +182,7 @@ exports.createEmployee = (req, res) => {
   
     // Create a WorkSetting
     const workSetting = new WorkSetting({
-      company_id : req.body.company_id,
+      user_id : req.body.user_id,
       first_day_of_week : req.body.first_day_of_week,
       work_on_week : req.body.work_on_week,
       start_work_time : req.body.start_work_time,
@@ -215,7 +215,7 @@ exports.createEmployee = (req, res) => {
   
     // Create a Date, Time, Currency Setting
     const dtc = new DTC({
-      company_id : req.body.company_id,
+      user_id : req.body.user_id,
       date_format : req.body.date_format,
       time_format : req.body.time_format,
       currency : req.body.currency,

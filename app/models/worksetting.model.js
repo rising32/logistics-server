@@ -1,7 +1,7 @@
 const sql = require("./db.js");
 
 const WorkSetting = function(work_setting) {
-  this.company_id = work_setting.company_id;
+  this.user_id = work_setting.user_id;
   this.first_day_of_week = work_setting.first_day_of_week;
   this.work_on_week = work_setting.work_on_week;
   this.start_work_time = work_setting.start_work_time;
@@ -24,8 +24,8 @@ WorkSetting.insertNewWorkSetting = (newWorkSetting, result) => {
 
 WorkSetting.updateByWorkSetting = (work_setting, result) => {
     sql.query(
-      "UPDATE tbl_work_setting SET company_id = ?, first_day_of_week = ?, work_on_week = ?, start_work_time = ?, end_work_time = ?, remainder = ? WHERE work_setting_id = ?",
-      [ work_setting.company_id,
+      "UPDATE tbl_work_setting SET user_id = ?, first_day_of_week = ?, work_on_week = ?, start_work_time = ?, end_work_time = ?, remainder = ? WHERE work_setting_id = ?",
+      [ work_setting.user_id,
         work_setting.first_day_of_week,
         work_setting.work_on_week,
         work_setting.start_work_time,

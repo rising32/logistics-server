@@ -1,7 +1,7 @@
 const sql = require("./db.js");
 
 const DTC = function(dtc) {
-  this.company_id = dtc.company_id;
+  this.user_id = dtc.user_id;
   this.date_format = dtc.date_format;
   this.time_format = dtc.time_format;
   this.currency = dtc.currency;
@@ -23,8 +23,8 @@ DTC.insertNewDTC = (newDTC, result) => {
 
 DTC.updateByDTC = (dtc, result) => {
     sql.query(
-      "UPDATE tbl_date_time_currency SET company_id = ?, date_format = ?, time_format = ?, currency = ?, decimal_seperator = ? WHERE dtc_id = ?",
-      [ dtc.company_id,
+      "UPDATE tbl_date_time_currency SET user_id = ?, date_format = ?, time_format = ?, currency = ?, decimal_seperator = ? WHERE dtc_id = ?",
+      [ dtc.user_id,
         dtc.date_format,
         dtc.time_format,
         dtc.currency,

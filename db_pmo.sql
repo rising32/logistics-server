@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2022 at 10:18 AM
--- Server version: 10.3.16-MariaDB
--- PHP Version: 7.1.30
+-- Generation Time: Mar 17, 2022 at 01:18 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -108,7 +107,7 @@ INSERT INTO `mst_team` (`team_id`, `team_name`) VALUES
 
 CREATE TABLE `tbl_date_time_currency` (
   `dtc_id` int(8) NOT NULL,
-  `company_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
   `date_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `time_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `currency` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -119,8 +118,9 @@ CREATE TABLE `tbl_date_time_currency` (
 -- Dumping data for table `tbl_date_time_currency`
 --
 
-INSERT INTO `tbl_date_time_currency` (`dtc_id`, `company_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
-(1, 1, 'YYYY-MM-DD', 'HH:mm:SS', '$', ',');
+INSERT INTO `tbl_date_time_currency` (`dtc_id`, `user_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
+(1, 1, 'YYYY-MM-DD', 'HH:mm:SS', '$', ','),
+(2, 3, 'YYYY-MM-DD', 'HH:mm:ss', '$', ',');
 
 -- --------------------------------------------------------
 
@@ -320,7 +320,7 @@ INSERT INTO `tbl_user_client` (`uc_id`, `user_id`, `client_id`, `is_active`) VAL
 
 CREATE TABLE `tbl_work_setting` (
   `ws_id` int(8) NOT NULL,
-  `company_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
   `first_day_of_week` int(1) DEFAULT NULL,
   `work_on_week` tinyint(1) DEFAULT NULL,
   `start_work_time` datetime DEFAULT NULL,
@@ -332,8 +332,9 @@ CREATE TABLE `tbl_work_setting` (
 -- Dumping data for table `tbl_work_setting`
 --
 
-INSERT INTO `tbl_work_setting` (`ws_id`, `company_id`, `first_day_of_week`, `work_on_week`, `start_work_time`, `end_work_time`, `remainder`) VALUES
-(1, 1, 1, 0, NULL, NULL, 'Amazon TM');
+INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `first_day_of_week`, `work_on_week`, `start_work_time`, `end_work_time`, `remainder`) VALUES
+(1, 1, 1, 0, NULL, NULL, 'Amazon TM'),
+(2, 3, 1, 1, NULL, NULL, 'wewdsdsdd');
 
 --
 -- Indexes for dumped tables
@@ -369,7 +370,7 @@ ALTER TABLE `mst_team`
 --
 ALTER TABLE `tbl_date_time_currency`
   ADD PRIMARY KEY (`dtc_id`),
-  ADD UNIQUE KEY `userId` (`company_id`);
+  ADD UNIQUE KEY `userId` (`user_id`);
 
 --
 -- Indexes for table `tbl_employee`
@@ -443,7 +444,7 @@ ALTER TABLE `tbl_user_client`
 --
 ALTER TABLE `tbl_work_setting`
   ADD PRIMARY KEY (`ws_id`),
-  ADD KEY `company_id` (`company_id`);
+  ADD KEY `company_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -477,7 +478,7 @@ ALTER TABLE `mst_team`
 -- AUTO_INCREMENT for table `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_date_time_currency`
-  MODIFY `dtc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `dtc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_employee`
@@ -537,7 +538,7 @@ ALTER TABLE `tbl_user_client`
 -- AUTO_INCREMENT for table `tbl_work_setting`
 --
 ALTER TABLE `tbl_work_setting`
-  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
