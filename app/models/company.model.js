@@ -5,6 +5,7 @@ const Company = function(company) {
   this.company_id = company.company_id;
   this.user_id = company.user_id;
   this.company_name = company.company_name;
+  this.is_manager = company.is_manager;
 };
 // Create and Save a new Company
 Company.insertNewCompany = (company_name, result) => {
@@ -45,7 +46,8 @@ Company.updateCompany = (company, result) => {
 
 //Create new User - Company Relation
 Company.insertNewUserCompanyRelation = (company, result) => {
-    sql.query("INSERT INTO tbl_user_company SET user_id=?, company_id=?", [company.user_id, company.company_id], (err, res) => {
+    sql.query("INSERT INTO tbl_user_company SET user_id=?, company_id=? ,is_manager=?", 
+      [company.user_id, company.company_id, company.is_manager], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -60,8 +62,8 @@ Company.insertNewUserCompanyRelation = (company, result) => {
 // Update a User - Company Relation
 Company.updateUserCompanyRelation = (company, result) => {
   sql.query(
-    "UPDATE tbl_user_company SET user_id=?, company_id = ? WHERE uc_id = ?",
-    [company.user_id, company.company_id, company.uc_id],
+    "UPDATE tbl_user_company SET user_id=?, company_id = ?, is_manager = ? WHERE uc_id = ?",
+    [company.user_id, company.company_id, company.is_manager, company.uc_id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -80,5 +82,20 @@ Company.updateUserCompanyRelation = (company, result) => {
     }
   );
 };
+
+Company.getMyCompany = (user_id, result) => {    
+  sql.query(
+      "select c.*, uc.user_id, uc.is_manager from mst_company c, (SELECT * FROM tbl_user_company WHERE user_id = ?) uc where c.company_id = uc.company_id", 
+      user_id, (err, res) => 
+      {
+          if (err) {
+              console.log("error: ", err);
+              result(err, null);
+              return;
+          }    
+          console.log("created my Client: ", {company:res});
+          result(null, {company:res });
+      });
+  };
 
 module.exports = Company;

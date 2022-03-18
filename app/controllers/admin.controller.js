@@ -1,5 +1,4 @@
 const Client = require("../models/client.model.js");
-const Employee = require("../models/employee.model.js");
 const Company = require("../models/company.model.js");
 const WorkSetting = require("../models/worksetting.model.js");
 const DTC = require("../models/dtc.model.js");
@@ -72,12 +71,13 @@ exports.registMyClient = (req, res) => {
   
     // Regist my Client
     const client = new Client({
+      user_id: req.body.user_id,
       client_id: req.body.client_id,
       is_active: req.body.is_active || false
     });
   
     // Save Client in the database
-    Client.registMyClient(req.body.user_id, client, (err, data) => {
+    Client.registMyClient(client, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -110,37 +110,6 @@ exports.getMyClients = (req, res) => {
       }
     });
   };
-
-
-  //============================================================ Employee ================================================================
-  // Create and Save a new employee
-exports.createEmployee = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
-
-  // Create a employee
-  const employee = new Employee({
-    user_id:req.body.user_id,
-    employee_code: req.body.employee_code,
-    employee_name: req.body.employee_name
-  });
-
-  // Save employee in the database
-  Employee.insertNewEmployee(employee, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Employee."
-      });
-    else {
-      res.send(data);      
-    }
-  });
-};
 
 //============================================================ Company ================================================================
   // Create and Save a new Company
@@ -244,39 +213,82 @@ exports.updateUserCompanyRelation = (req, res) => {
     }
   );
 };
-  //============================================================ Work Setting ================================================================
-  // Create and Save a new WorkSetting
-  exports.createWorkSetting = (req, res) => {
-    // Validate request
-    if (!req.body) {
-      res.status(400).send({
-        message: "Content can not be empty!"
-      });
-    }
-  
-    // Create a WorkSetting
-    const workSetting = new WorkSetting({
-      user_id : req.body.user_id,
-      first_day_of_week : req.body.first_day_of_week,
-      work_on_week : req.body.work_on_week,
-      start_work_time : req.body.start_work_time,
-      end_work_time : req.body.end_work_time,
-      remainder : req.body.remainder
-    });
-  
-    // Save WorkSetting in the database
-    WorkSetting.insertNewWorkSetting(workSetting, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Company."
-        });
-      else {
-        res.send(data);      
-      }
-    });
-  };
 
+// Get My Company
+exports.getMyCompany = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Save Client in the database
+  Company.getMyCompany(req.body.user_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Company."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+//============================================================ Work Setting ================================================================
+// Create and Save a new WorkSetting
+exports.createWorkSetting = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  // Create a WorkSetting
+  const workSetting = new WorkSetting({
+    user_id : req.body.user_id,
+    first_day_of_week : req.body.first_day_of_week,
+    work_on_week : req.body.work_on_week,
+    start_work_time : req.body.start_work_time,
+    end_work_time : req.body.end_work_time,
+    remainder : req.body.remainder
+  });
+
+  // Save WorkSetting in the database
+  WorkSetting.insertNewWorkSetting(workSetting, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Company."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Get My Work Settings
+exports.getWorkSettingByUserId = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Save WorkSetting in the database
+  WorkSetting.getWorkSettingByUserId(req.body.user_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the WorkSetting."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
   // Update a WorkSetting
 exports.updateByWorkSetting = (req, res) => {
   // Validate Request
@@ -338,7 +350,29 @@ exports.updateByWorkSetting = (req, res) => {
     });
   };
 
-  // Update a Date, Time, Currency Setting
+// Get My Date, Time, Currency Setting
+exports.getDTCByUserId = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Save WorkSetting in the database
+  DTC.getDTCByUserId(req.body.user_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the DTC."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+  // Update Date, Time, Currency Setting
 exports.updateByDateTimeCurrency = (req, res) => {
   // Validate Request
   if (!req.body) {

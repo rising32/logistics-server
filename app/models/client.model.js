@@ -8,21 +8,21 @@ const Client = function(client) {
 };
 
 Client.insertNewClient = (newClient, result) => {
-  sql.query("INSERT INTO tbl_client SET ?", newClient, (err, res) => {
+  sql.query("INSERT INTO mst_client SET client_name = ?, is_active=?", [newClient.client_name, newClient.is_active], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-
-    console.log("created new Client: ", { client_id: res.insertId, ...newClient });
-    result(null, { client_id: res.insertId, ...newClient });
+    newClient.client_id = res.insertId;
+    console.log("created new Client: ", { ...newClient });
+    result(null, { ...newClient });
   });
 };
 
 Client.updateByClient = (client, result) => {
     sql.query(
-      "UPDATE tbl_client SET client_name = ?, is_active = ? WHERE client_id = ?",
+      "UPDATE mst_client SET client_name = ?, is_active = ? WHERE client_id = ?",
       [client.client_name, client.is_active, client.client_id],
       (err, res) => {
         if (err) {
@@ -43,10 +43,10 @@ Client.updateByClient = (client, result) => {
     );
   };
 
-Client.registMyClient = (user_id, client, result) => {    
+Client.registMyClient = (client, result) => {    
     sql.query(
         "INSERT INTO tbl_user_client SET user_id = ?, client_id = ?, is_active = ?", 
-        [user_id, client.client_id, client.is_active], 
+        [client.user_id, client.client_id, client.is_active], 
         (err, res) => 
         {
             if (err) {
@@ -54,14 +54,14 @@ Client.registMyClient = (user_id, client, result) => {
                 result(err, null);
                 return;
             }    
-            console.log("created my Client: ", { uc_id: res.insertId, user_id : user_id, ...client});
-            result(null, { uc_id: res.insertId, user_id : user_id, ...client });
+            console.log("created my Client: ", { uc_id: res.insertId, ...client});
+            result(null, { uc_id: res.insertId, ...client });
         });
     };
 
 Client.getMyClients = (user_id, result) => {    
     sql.query(
-        "select c.* from tbl_client c, (SELECT * FROM tbl_user_client WHERE user_id = ?) uc where c.client_id = uc.client_id", 
+        "select c.* from mst_client c, (SELECT * FROM tbl_user_client WHERE user_id = ?) uc where c.client_id = uc.client_id", 
         user_id, (err, res) => 
         {
             if (err) {

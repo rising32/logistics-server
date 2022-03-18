@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2022 at 05:50 AM
+-- Generation Time: Mar 18, 2022 at 10:09 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.1.30
 
@@ -41,7 +41,9 @@ CREATE TABLE `mst_client` (
 --
 
 INSERT INTO `mst_client` (`client_id`, `client_name`, `client_address`, `client_detail`, `is_active`) VALUES
-(1, 'Apple', NULL, '', 1);
+(1, 'Apple', NULL, '', 1),
+(2, 'Amazon co', NULL, NULL, 0),
+(4, 'Amazon river', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -356,7 +358,8 @@ CREATE TABLE `tbl_user_client` (
 --
 
 INSERT INTO `tbl_user_client` (`uc_id`, `user_id`, `client_id`, `is_active`) VALUES
-(1, 3, 1, 1);
+(1, 3, 1, 1),
+(2, 3, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -367,15 +370,17 @@ INSERT INTO `tbl_user_client` (`uc_id`, `user_id`, `client_id`, `is_active`) VAL
 CREATE TABLE `tbl_user_company` (
   `uc_id` int(8) NOT NULL,
   `user_id` int(8) NOT NULL,
-  `company_id` int(8) NOT NULL
+  `company_id` int(8) NOT NULL,
+  `is_manager` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tbl_user_company`
 --
 
-INSERT INTO `tbl_user_company` (`uc_id`, `user_id`, `company_id`) VALUES
-(3, 4, 2);
+INSERT INTO `tbl_user_company` (`uc_id`, `user_id`, `company_id`, `is_manager`) VALUES
+(3, 4, 2, NULL),
+(4, 4, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -554,7 +559,7 @@ ALTER TABLE `tbl_work_setting`
 -- AUTO_INCREMENT for table `mst_client`
 --
 ALTER TABLE `mst_client`
-  MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `mst_company`
@@ -650,13 +655,13 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_user_client`
 --
 ALTER TABLE `tbl_user_client`
-  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
-  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_work_setting`

@@ -11,12 +11,8 @@ module.exports = app => {
     // Regist my Client
     app.post("/admin/regist_my_client", admin.registMyClient);
 
-    // Regist my Client
+    // Get my Client
     app.post("/admin/get_my_clients", admin.getMyClients);
-
-//==================================================== Employee =================================================================
-    // Create a new employee  
-    app.post("/admin/create_employee", admin.createEmployee);  
 
 //==================================================== Company =================================================================
     // Create a new Company  
@@ -26,20 +22,26 @@ module.exports = app => {
     // Create a new User-Company  
     app.post("/admin/relate_user_company", admin.createUserCompanyRelation);
     // Update User-Company Relation  
-    app.post("/admin/update_user_company", admin.updateUserCompanyRelation);   
+    app.post("/admin/update_user_company", admin.updateUserCompanyRelation);
+    // Get my Companies
+    app.post("/admin/get_my_company", admin.getMyCompany);  
   
 
 //==================================================== Work Settings =================================================================
     // Create a new Work Settings  
     app.post("/admin/create_work_setting", admin.createWorkSetting);
+    // Get Work Settings  
+    app.post("/admin/get_work_setting", admin.getWorkSettingByUserId);
     // Update Work Settings  
     app.post("/admin/update_work_setting", admin.updateByWorkSetting);
 
 //==================================================== Date, Time, Currency =================================================================
-    // Create a new DateTimeCurrency  
+    // Create a new Date,Time,Currency  
     app.post("/admin/create_date_time_currency", admin.createDateTimeCurrency);
-    // Update Work Settings  
-    app.post("/admin/update_date_time_currency", admin.updateByDateTimeCurrency);   
+    // Update Date, Time, Currency 
+    app.post("/admin/update_date_time_currency", admin.updateByDateTimeCurrency);
+    // Get Date, Time, Currency  
+    app.post("/admin/get_date_time_currency", admin.getDTCByUserId);   
   
   
   

@@ -23,6 +23,20 @@ WorkSetting.insertNewWorkSetting = (newWorkSetting, result) => {
   });
 };
 
+WorkSetting.getWorkSettingByUserId = (user_id, result) => {    
+  sql.query(
+      "SELECT * FROM `tbl_work_setting` WHERE user_id = ?", user_id, (err, res) => 
+      {
+          if (err) {
+              console.log("error: ", err);
+              result(err, null);
+              return;
+          }    
+          console.log("Your Work Settings: ", res[0]);
+          result(null, res[0]);
+      });
+  };
+
 WorkSetting.updateByWorkSetting = (work_setting, result) => {
     sql.query(
       "UPDATE tbl_work_setting SET user_id = ?, first_day_of_week = ?, work_on_week = ?, start_work_time = ?, end_work_time = ?, remainder = ? WHERE ws_id = ?",
