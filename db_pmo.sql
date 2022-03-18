@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2022 at 04:30 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Generation Time: Mar 18, 2022 at 05:50 AM
+-- Server version: 10.3.16-MariaDB
+-- PHP Version: 7.1.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -41,6 +42,25 @@ CREATE TABLE `mst_client` (
 
 INSERT INTO `mst_client` (`client_id`, `client_name`, `client_address`, `client_detail`, `is_active`) VALUES
 (1, 'Apple', NULL, '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mst_company`
+--
+
+CREATE TABLE `mst_company` (
+  `company_id` int(8) NOT NULL,
+  `company_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `mst_company`
+--
+
+INSERT INTO `mst_company` (`company_id`, `company_name`) VALUES
+(1, 'Amazon TM'),
+(2, 'Facebook');
 
 -- --------------------------------------------------------
 
@@ -84,24 +104,6 @@ INSERT INTO `mst_team` (`team_id`, `team_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_company`
---
-
-CREATE TABLE `tbl_company` (
-  `company_id` int(8) NOT NULL,
-  `company_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_company`
---
-
-INSERT INTO `tbl_company` (`company_id`, `company_name`) VALUES
-(1, 'Amazon TM');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_date_time_currency`
 --
 
@@ -119,8 +121,7 @@ CREATE TABLE `tbl_date_time_currency` (
 --
 
 INSERT INTO `tbl_date_time_currency` (`dtc_id`, `user_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
-(1, 1, 'YYYY-MM-DD', 'HH:mm:SS', '$', ','),
-(2, 3, 'YYYY-MM-DD', 'HH:mm:ss', '$', ',');
+(5, 3, 'YY-MM-DD', 'HH:mm:SS', '$', ',');
 
 -- --------------------------------------------------------
 
@@ -183,7 +184,8 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (15, 3, '2022-03-16 16:06:38', NULL, '2022-03-16 16:08:37'),
 (16, 3, '2022-03-16 16:09:22', NULL, '2022-03-16 16:33:05'),
 (17, 4, '2022-03-16 16:45:22', NULL, '2022-03-16 16:45:42'),
-(19, 7, '2022-03-17 12:38:10', NULL, NULL);
+(25, 7, '2022-03-18 12:47:53', NULL, NULL),
+(26, 4, '2022-03-18 12:48:11', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -265,7 +267,8 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`project_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(1, 0, NULL, NULL, NULL, NULL, NULL);
+(1, 0, NULL, NULL, NULL, NULL, NULL),
+(2, 0, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -332,7 +335,8 @@ INSERT INTO `tbl_user` (`user_id`, `email`, `phone_number`, `password`, `display
 (1, 'tul@fg.com', '12523568954', '123456', NULL, NULL, '', 0, '2022-03-17 10:42:49'),
 (3, 'a@a.com', '56345896541', '123456', 'Jim', NULL, 'dsfasdfljakfdjkaldfjakljfdaljfdkadfklaj', 0, '2022-03-17 10:42:49'),
 (4, 'b@b.com', '56894336584', '123456', NULL, NULL, NULL, 0, '2022-03-17 10:42:49'),
-(7, 'c@c.com', '1235648542', '123456', NULL, NULL, NULL, 0, '2022-03-17 12:38:10');
+(7, 'c@c.com', '1235648542', '123456', NULL, NULL, NULL, 0, '2022-03-17 12:38:10'),
+(8, 'd@d.com', '5264235512', '123456', NULL, NULL, NULL, 0, '2022-03-18 09:03:43');
 
 -- --------------------------------------------------------
 
@@ -366,6 +370,13 @@ CREATE TABLE `tbl_user_company` (
   `company_id` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `tbl_user_company`
+--
+
+INSERT INTO `tbl_user_company` (`uc_id`, `user_id`, `company_id`) VALUES
+(3, 4, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -388,7 +399,8 @@ CREATE TABLE `tbl_work_setting` (
 
 INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `first_day_of_week`, `work_on_week`, `start_work_time`, `end_work_time`, `remainder`) VALUES
 (1, 1, 1, 0, NULL, NULL, 'Amazon TM'),
-(2, 3, 1, 1, NULL, NULL, 'wewdsdsdd');
+(2, 3, 1, 1, NULL, NULL, 'wewdsdsdd'),
+(4, 4, 0, 1, NULL, NULL, '777777');
 
 --
 -- Indexes for dumped tables
@@ -399,6 +411,12 @@ INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `first_day_of_week`, `work_o
 --
 ALTER TABLE `mst_client`
   ADD PRIMARY KEY (`client_id`);
+
+--
+-- Indexes for table `mst_company`
+--
+ALTER TABLE `mst_company`
+  ADD PRIMARY KEY (`company_id`);
 
 --
 -- Indexes for table `mst_role`
@@ -412,12 +430,6 @@ ALTER TABLE `mst_role`
 ALTER TABLE `mst_team`
   ADD PRIMARY KEY (`team_id`),
   ADD UNIQUE KEY `team_name` (`team_name`);
-
---
--- Indexes for table `tbl_company`
---
-ALTER TABLE `tbl_company`
-  ADD PRIMARY KEY (`company_id`);
 
 --
 -- Indexes for table `tbl_date_time_currency`
@@ -545,6 +557,12 @@ ALTER TABLE `mst_client`
   MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `mst_company`
+--
+ALTER TABLE `mst_company`
+  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `mst_role`
 --
 ALTER TABLE `mst_role`
@@ -557,16 +575,10 @@ ALTER TABLE `mst_team`
   MODIFY `team_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `tbl_company`
---
-ALTER TABLE `tbl_company`
-  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_date_time_currency`
-  MODIFY `dtc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `dtc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_deliverable`
@@ -584,7 +596,7 @@ ALTER TABLE `tbl_deliverable_assign`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_on_project`
@@ -614,7 +626,7 @@ ALTER TABLE `tbl_proceed_task`
 -- AUTO_INCREMENT for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_project_manager`
@@ -632,7 +644,7 @@ ALTER TABLE `tbl_team_member`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_client`
@@ -644,13 +656,13 @@ ALTER TABLE `tbl_user_client`
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
-  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_work_setting`
 --
 ALTER TABLE `tbl_work_setting`
-  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -733,7 +745,7 @@ ALTER TABLE `tbl_user_client`
 -- Constraints for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
-  ADD CONSTRAINT `tbl_user_company_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `tbl_company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_user_company_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `mst_company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_user_company_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
