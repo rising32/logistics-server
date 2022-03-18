@@ -168,10 +168,10 @@ User.userLogin = (loginUser, result) => {
     });
 };
 
-User.userLogout = (user, result) => {
+User.userLogout = (user_id, result) => {
   sql.query(
     "UPDATE tbl_login SET out_time = ? WHERE login_time = (select MAX(login_time) from tbl_login where user_id = ?)",
-    [new Date(), user.user_id],
+    [new Date(), user_id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -185,8 +185,8 @@ User.userLogout = (user, result) => {
         return;
       }
 
-      console.log("logout user: ", {...user });
-      result(null, {...user });
+      console.log("logout user: ", {user_id:user_id });
+      result(null, {user_id:user_id });
     }
   );
 };

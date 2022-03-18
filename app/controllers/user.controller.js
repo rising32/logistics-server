@@ -198,17 +198,15 @@ exports.userLogout = (req, res) => {
 
   console.log(req.body);
   const logoutUser = new User(req.body);
-  User.userLogout(
-    logoutUser,
-    (err, data) => {
+  User.userLogout(req.body.user_id, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found User with id ${logoutUser.user_id}.`
+            message: `Not found User with id ${req.body.user_id}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating User with id " + logoutUser.user_id
+            message: "Error updating User with id " + req.body.user_id
           });
         }
       } else res.send(data);
