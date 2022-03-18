@@ -170,9 +170,7 @@ exports.userLogin = (req, res) => {
 
   User.findOnlineUserByEmail(loginUser, (err, data) => {
     if (!err)
-      res.status(200).send({
-        message: "User already logged in."
-      });
+      res.status(200).send(data);
     else 
     {
       // Save User login in the database

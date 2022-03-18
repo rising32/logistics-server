@@ -6,12 +6,6 @@ module.exports = app => {
   // Create a new User  
   app.post("/user/signUp", user.signup);
 
-  // Retrieve all Users
-  //app.get("/", Users.findAll);
-
-  // Retrieve all published Users
-  //app.get("/published", Users.findAllPublished);
-
   // Retrieve a single User with id
   app.get("/user/:id", user.findOne);
 

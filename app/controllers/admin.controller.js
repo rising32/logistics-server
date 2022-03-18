@@ -152,13 +152,8 @@ exports.createEmployee = (req, res) => {
       });
     }
   
-    // Create a company
-    const company = new Company({
-      company_name: req.body.company_name
-    });
-  
     // Save company in the database
-    Company.insertNewCompany(company, (err, data) => {
+    Company.insertNewCompany(req.body.company_name, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -170,6 +165,85 @@ exports.createEmployee = (req, res) => {
     });
   };
 
+  // Update a Company
+exports.updateCompany = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  console.log(req.body);
+  const company = new Company(req.body);
+  Company.updateCompany(
+    company,
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Company with id ${company.company_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating Company with id " + company.company_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
+// Create new User-Company Relation
+exports.createUserCompanyRelation = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  
+  // Save company in the database
+  const company = new Company(req.body);
+  Company.insertNewUserCompanyRelation(company, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Company."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Update a User-Company Relation
+exports.updateUserCompanyRelation = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  
+  const company = new Company(req.body);
+  Company.updateUserCompanyRelation(
+    company,
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Company with id ${company.company_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating Company with id " + company.company_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
   //============================================================ Work Setting ================================================================
   // Create and Save a new WorkSetting
   exports.createWorkSetting = (req, res) => {
@@ -203,6 +277,35 @@ exports.createEmployee = (req, res) => {
     });
   };
 
+  // Update a WorkSetting
+exports.updateByWorkSetting = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  console.log(req.body);
+  const ws = new WorkSetting(req.body);
+  WorkSetting.updateByWorkSetting(
+      ws,
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found WorkSetting with id ${ws.ws_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating WorkSetting with id " + ws.ws_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
   //============================================================ Date, Time, Currency Setting ================================================================
   // Create and Save a new Date, Time, Currency Setting
   exports.createDateTimeCurrency = (req, res) => {
@@ -234,5 +337,34 @@ exports.createEmployee = (req, res) => {
       }
     });
   };
+
+  // Update a Date, Time, Currency Setting
+exports.updateByDateTimeCurrency = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  console.log(req.body);
+  const dtc = new DTC(req.body);
+  DTC.updateByDTC(
+    dtc,
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found DTC with id ${dtc.dtc_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating DTC with id " + dtc.dtc_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
 
   

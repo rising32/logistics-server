@@ -20,16 +20,26 @@ module.exports = app => {
 
 //==================================================== Company =================================================================
     // Create a new Company  
-    app.post("/admin/create_company", admin.createCompany);    
+    app.post("/admin/create_company", admin.createCompany);  
+    // Update Company  
+    app.post("/admin/update_company", admin.updateCompany);  
+    // Create a new User-Company  
+    app.post("/admin/relate_user_company", admin.createUserCompanyRelation);
+    // Update User-Company Relation  
+    app.post("/admin/update_user_company", admin.updateUserCompanyRelation);   
   
 
 //==================================================== Work Settings =================================================================
     // Create a new Work Settings  
     app.post("/admin/create_work_setting", admin.createWorkSetting);
+    // Update Work Settings  
+    app.post("/admin/update_work_setting", admin.updateByWorkSetting);
 
 //==================================================== Date, Time, Currency =================================================================
     // Create a new DateTimeCurrency  
-    app.post("/admin/create_date_time_currency", admin.createDateTimeCurrency);   
+    app.post("/admin/create_date_time_currency", admin.createDateTimeCurrency);
+    // Update Work Settings  
+    app.post("/admin/update_date_time_currency", admin.updateByDateTimeCurrency);   
   
   
   

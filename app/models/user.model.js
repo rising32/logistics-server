@@ -65,7 +65,7 @@ User.findUserByEmail = (email, result) => {
 
 User.findOnlineUserByEmail = (user, result) => {
   sql.query(
-    "select * from tbl_login where user_id = (SELECT user_id FROM `tbl_user` WHERE email = ? and password = ?) and out_time is null", 
+    "select l.login_id, u.* from tbl_login l, (SELECT * FROM `tbl_user` WHERE email = ? and password = ?) u where l.user_id = u.user_id and out_time is null", 
     [user.email, user.password],
     (err, res) => {
     if (err) {
@@ -75,8 +75,9 @@ User.findOnlineUserByEmail = (user, result) => {
     }
 
     if (res.length) {
-      console.log("found user: ", res[0]);
-      result(null, res[0]);
+      console.log("found user: ", {login_id:res[0].login_id, user:res});
+      result(null, {login_id:res[0].login_id, user:res});
+      
       return;
     }
 
@@ -160,7 +161,7 @@ User.userLogin = (loginUser, result) => {
             console.log("error: ", err);
             result(err, null);
             return;
-          } 
+          }
           console.log("login user: ", {login_id:res.insertId, user:resUser });
           result(null, { login_id:res.insertId, user:resUser});
         });

@@ -1,7 +1,8 @@
 const sql = require("./db.js");
 
 const Client = function(client) {
-    this.client_id = client.client_id,
+    this.user_id = client.user_id;
+    this.client_id = client.client_id;
     this.client_name = client.client_name;
     this.is_active = client.is_active;
 };

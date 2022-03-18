@@ -1,6 +1,7 @@
 const sql = require("./db.js");
 
 const DTC = function(dtc) {
+  this.dtc_id = dtc.dtc_id;
   this.user_id = dtc.user_id;
   this.date_format = dtc.date_format;
   this.time_format = dtc.time_format;
