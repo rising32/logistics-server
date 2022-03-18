@@ -1,16 +1,16 @@
-const Team = require("../models/team.model.js");
+const TeamMember = require("../models/team.model.js");
 
-// Create and Save a new Team
-exports.create = (req, res) => {
+//Add new Team Member
+exports.addTeamMember = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   }
-
-  // Save Team in the database
-  Team.insertNewTeam(req.body.team_name, (err, data) => {
+  const newTeamMember = new TeamMember(req.body);
+  // Save Team member in the database
+  TeamMember.addTeamMember(newTeamMember, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -22,15 +22,16 @@ exports.create = (req, res) => {
   });
 };
 
-exports.addTeamMember = (req, res) => {
+//Get All Team Members
+exports.getTeamMembers = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
-  }
+  }  
   // Save Team member in the database
-  Team.addTeamMember(req.body.team_id, req.body.employee_id, req.body.role_id, (err, data) => {
+  TeamMember.getTeamMembers(req.body.owner_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:

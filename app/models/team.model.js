@@ -1,34 +1,38 @@
 const sql = require("./db.js");
 
-const Team = function(team) {
-  this.team_id = team.team_id,
-  this.team_name = team.team_name;
+const TeamMember = function(teamMember) {  
+  this.owner_id = teamMember.owner_id;
+  this.member_id = teamMember.member_id;
+  this.role_id = teamMember.role_id;
 };
 
-Team.insertNewTeam = (team_name, result) => {
-  sql.query("INSERT INTO mst_team SET team_name =?", team_name, (err, res) => {
+//Add new Team Member
+TeamMember.addTeamMember = (newTeamMember, result) => {
+  sql.query("INSERT INTO tbl_team_member SET ?", newTeamMember, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created new Team: ", { team_id: res.insertId, team_name:team_name });
-    result(null, { team_id: res.insertId, team_name:team_name });
+    console.log("created new Team: ", newTeamMember);
+    result(null, newTeamMember);
   });
 };
 
-Team.addTeamMember = (team_id, employee_id, role_id, result) => {
-  sql.query("INSERT INTO tbl_team_member SET team_id=?, employee_id=?, role_id=?", [team_id, employee_id, role_id], (err, res) => {
+//Get All Team Members
+TeamMember.getTeamMembers = (owner_id, result) => {
+  sql.query("select o.owner_id, u.* from tbl_user u, (SELECT * FROM `tbl_team_member` WHERE owner_id = ?) o where u.user_id = o.member_id", 
+    owner_id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created new Team: ", { tm_id:res.insertId, team_id:team_id, employee_id:employee_id, role_id:role_id });
-    result(null, { tm_id:res.insertId, team_id:team_id, employee_id:employee_id, role_id:role_id });
+    console.log("created new Team: ", {owner_id:owner_id, member:res});
+    result(null, {owner_id:owner_id, member:res});
   });
 };
 
-module.exports = Team;
+module.exports = TeamMember;

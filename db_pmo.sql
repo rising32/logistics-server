@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2022 at 10:09 AM
--- Server version: 10.3.16-MariaDB
--- PHP Version: 7.1.30
+-- Generation Time: Mar 18, 2022 at 01:00 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -84,24 +83,6 @@ INSERT INTO `mst_role` (`role_id`, `role_name`) VALUES
 (2, 'Project Manager'),
 (3, 'Project User'),
 (4, 'Guest');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `mst_team`
---
-
-CREATE TABLE `mst_team` (
-  `team_id` int(8) NOT NULL,
-  `team_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `mst_team`
---
-
-INSERT INTO `mst_team` (`team_id`, `team_name`) VALUES
-(5, 'Android team 2');
 
 -- --------------------------------------------------------
 
@@ -299,8 +280,8 @@ INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
 
 CREATE TABLE `tbl_team_member` (
   `tm_id` int(8) NOT NULL,
-  `team_id` int(8) NOT NULL,
-  `user_id` int(8) NOT NULL,
+  `owner_id` int(8) NOT NULL,
+  `member_id` int(8) NOT NULL,
   `role_id` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -308,8 +289,9 @@ CREATE TABLE `tbl_team_member` (
 -- Dumping data for table `tbl_team_member`
 --
 
-INSERT INTO `tbl_team_member` (`tm_id`, `team_id`, `user_id`, `role_id`) VALUES
-(2, 5, 1, 2);
+INSERT INTO `tbl_team_member` (`tm_id`, `owner_id`, `member_id`, `role_id`) VALUES
+(5, 3, 1, 1),
+(8, 3, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -430,13 +412,6 @@ ALTER TABLE `mst_role`
   ADD PRIMARY KEY (`role_id`);
 
 --
--- Indexes for table `mst_team`
---
-ALTER TABLE `mst_team`
-  ADD PRIMARY KEY (`team_id`),
-  ADD UNIQUE KEY `team_name` (`team_name`);
-
---
 -- Indexes for table `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_date_time_currency`
@@ -515,10 +490,10 @@ ALTER TABLE `tbl_project_manager`
 --
 ALTER TABLE `tbl_team_member`
   ADD PRIMARY KEY (`tm_id`),
-  ADD KEY `employee_id` (`user_id`),
-  ADD KEY `team_id` (`team_id`),
+  ADD UNIQUE KEY `owner_id_2` (`owner_id`,`member_id`),
   ADD KEY `role_id` (`role_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `owner_id` (`owner_id`),
+  ADD KEY `member_id` (`member_id`);
 
 --
 -- Indexes for table `tbl_user`
@@ -572,12 +547,6 @@ ALTER TABLE `mst_company`
 --
 ALTER TABLE `mst_role`
   MODIFY `role_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `mst_team`
---
-ALTER TABLE `mst_team`
-  MODIFY `team_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_date_time_currency`
@@ -643,7 +612,7 @@ ALTER TABLE `tbl_project_manager`
 -- AUTO_INCREMENT for table `tbl_team_member`
 --
 ALTER TABLE `tbl_team_member`
-  MODIFY `tm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `tm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`
@@ -735,9 +704,9 @@ ALTER TABLE `tbl_project_manager`
 -- Constraints for table `tbl_team_member`
 --
 ALTER TABLE `tbl_team_member`
-  ADD CONSTRAINT `tbl_team_member_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `mst_team` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_team_member_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_team_member_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_team_member_ibfk_4` FOREIGN KEY (`member_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_team_member_ibfk_5` FOREIGN KEY (`owner_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_user_client`
