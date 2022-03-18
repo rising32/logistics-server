@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2022 at 01:00 PM
+-- Generation Time: Mar 18, 2022 at 03:20 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -168,7 +168,12 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (16, 3, '2022-03-16 16:09:22', NULL, '2022-03-16 16:33:05'),
 (17, 4, '2022-03-16 16:45:22', NULL, '2022-03-16 16:45:42'),
 (25, 7, '2022-03-18 12:47:53', NULL, NULL),
-(26, 4, '2022-03-18 12:48:11', NULL, NULL);
+(26, 4, '2022-03-18 12:48:11', NULL, NULL),
+(27, 3, '2022-03-18 21:50:32', NULL, '2022-03-18 21:50:55'),
+(28, 9, '2022-03-18 21:54:10', NULL, '2022-03-18 21:54:56'),
+(29, 9, '2022-03-18 21:55:14', NULL, '2022-03-18 21:55:31'),
+(30, 9, '2022-03-18 22:00:14', NULL, '2022-03-18 22:00:26'),
+(31, 9, '2022-03-18 22:00:40', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -237,7 +242,8 @@ CREATE TABLE `tbl_proceed_task` (
 
 CREATE TABLE `tbl_project` (
   `project_id` int(8) NOT NULL,
-  `project_name` int(11) NOT NULL,
+  `creator_id` int(8) NOT NULL,
+  `project_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `planned_start_date` datetime DEFAULT NULL,
   `planned_end_date` datetime DEFAULT NULL,
   `actual_start_date` datetime DEFAULT NULL,
@@ -249,9 +255,9 @@ CREATE TABLE `tbl_project` (
 -- Dumping data for table `tbl_project`
 --
 
-INSERT INTO `tbl_project` (`project_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(1, 0, NULL, NULL, NULL, NULL, NULL),
-(2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
+(4, 3, 'Android app', NULL, NULL, NULL, NULL, 'This is my app.'),
+(5, 3, 'IOS app', NULL, NULL, NULL, NULL, 'This is IOS app.');
 
 -- --------------------------------------------------------
 
@@ -270,7 +276,7 @@ CREATE TABLE `tbl_project_manager` (
 --
 
 INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
-(2, 1, 1);
+(4, 4, 8);
 
 -- --------------------------------------------------------
 
@@ -320,7 +326,8 @@ INSERT INTO `tbl_user` (`user_id`, `email`, `phone_number`, `password`, `display
 (3, 'a@a.com', '56345896541', '123456', 'Jim', NULL, 'dsfasdfljakfdjkaldfjakljfdaljfdkadfklaj', 0, '2022-03-17 10:42:49'),
 (4, 'b@b.com', '56894336584', '123456', NULL, NULL, NULL, 0, '2022-03-17 10:42:49'),
 (7, 'c@c.com', '1235648542', '123456', NULL, NULL, NULL, 0, '2022-03-17 12:38:10'),
-(8, 'd@d.com', '5264235512', '123456', NULL, NULL, NULL, 0, '2022-03-18 09:03:43');
+(8, 'd@d.com', '5264235512', '123456', NULL, NULL, NULL, 0, '2022-03-18 09:03:43'),
+(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', NULL, NULL, NULL, 0, '2022-03-18 21:54:10');
 
 -- --------------------------------------------------------
 
@@ -475,7 +482,8 @@ ALTER TABLE `tbl_proceed_task`
 -- Indexes for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  ADD PRIMARY KEY (`project_id`);
+  ADD PRIMARY KEY (`project_id`),
+  ADD KEY `creator_id` (`creator_id`);
 
 --
 -- Indexes for table `tbl_project_manager`
@@ -570,7 +578,7 @@ ALTER TABLE `tbl_deliverable_assign`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `tbl_on_project`
@@ -600,13 +608,13 @@ ALTER TABLE `tbl_proceed_task`
 -- AUTO_INCREMENT for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_project_manager`
 --
 ALTER TABLE `tbl_project_manager`
-  MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_team_member`
@@ -618,7 +626,7 @@ ALTER TABLE `tbl_team_member`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_client`
@@ -692,6 +700,12 @@ ALTER TABLE `tbl_proceed_deliverable`
 --
 ALTER TABLE `tbl_proceed_task`
   ADD CONSTRAINT `tbl_proceed_task_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_project`
+--
+ALTER TABLE `tbl_project`
+  ADD CONSTRAINT `tbl_project_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_project_manager`

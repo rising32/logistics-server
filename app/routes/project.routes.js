@@ -3,7 +3,10 @@ module.exports = app => {
   
     // Create a new team  
     app.post("/project/create", project.create);
-//==================================================== Project Manager =================================================================
+
+    //Get My Project
+    app.post("/project/get_user_projects", project.getUserProjects);
+
     //Regist Project Manager
     app.post("/project/regist_manager", project.registManager);
   };

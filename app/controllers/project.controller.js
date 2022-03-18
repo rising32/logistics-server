@@ -33,6 +33,28 @@ exports.create = (req, res) => {
   });
 };
 
+//Get All User Projects
+exports.getUserProjects = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  // Save Team member in the database
+  Project.getUserProjects(req.body.creator_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+
 //============================================================ Project Manager ================================================================
   // Create and Save a new Project Manager
   exports.registManager = (req, res) => {

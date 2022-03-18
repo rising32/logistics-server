@@ -23,6 +23,20 @@ Project.insertNewProject = (newProject, result) => {
   });
 };
 
+//Get All Projects
+Project.getUserProjects = (creator_id, result) => {
+  sql.query("select * from tbl_project where creator_id = ?", creator_id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("created new Team: ", {res});
+    result(null, {res});
+  });
+};
+
 Project.updateByProject = (p, result) => {
     sql.query(
       "UPDATE tbl_project SET creator_id = ?,project_name = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ? WHERE project_id = ?",
