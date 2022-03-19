@@ -135,7 +135,7 @@ exports.createTask = (req, res) => {
   });
 
   // Save Project in the database
-  Project.insertNewProject(project, (err, data) => {
+  Task.insertNewTask(task, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -145,4 +145,52 @@ exports.createTask = (req, res) => {
       res.send(data);      
     }
   });
+};
+
+//Get All User Projects
+exports.getProjectTasks = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  // Save Team member in the database
+  Task.getProjectTasks(req.body.project_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the Project's tasks."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Update a Project identified by the id in the request
+exports.updateByTask = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  console.log(req.body);
+  const task = new Task(req.body);
+  Task.updateByTask(task, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found task with id ${task.task_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating task with id " + task.task_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
 };

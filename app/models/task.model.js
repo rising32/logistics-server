@@ -29,7 +29,7 @@ Task.insertNewTask = (newTask, result) => {
 
 //Get All Tasks
 Task.getProjectTasks = (project_id, result) => {
-  sql.query("select * from tbl_priority_task where creator_id = ?", project_id, (err, res) => {
+  sql.query("select * from tbl_priority_task where project_id = ?", project_id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

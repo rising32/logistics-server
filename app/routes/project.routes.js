@@ -14,10 +14,15 @@ module.exports = app => {
     app.post("/project/regist_manager", project.registManager);
 
   //==================================================== Task =================================================================
+  
   // Create a new Task  
   app.post("/project/task/create", project.createTask);
 
+  // Update Task  
+  app.post("/project/task/update", project.updateByTask);
 
+  //Get Project's tasks
+  app.post("/project/task/get_all", project.getProjectTasks);
 
 
   };
