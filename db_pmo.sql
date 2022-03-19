@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2022 at 03:20 PM
+-- Generation Time: Mar 19, 2022 at 05:54 AM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- PHP Version: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,8 +95,8 @@ CREATE TABLE `tbl_date_time_currency` (
   `user_id` int(8) NOT NULL,
   `date_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `time_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `currency` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `decimal_seperator` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL
+  `currency` int(1) DEFAULT NULL,
+  `decimal_seperator` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `tbl_date_time_currency` (
 --
 
 INSERT INTO `tbl_date_time_currency` (`dtc_id`, `user_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
-(5, 3, 'YY-MM-DD', 'HH:mm:SS', '$', ',');
+(5, 3, 'YY-MM-DD', 'HH:mm:SS', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -257,7 +257,8 @@ CREATE TABLE `tbl_project` (
 
 INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
 (4, 3, 'Android app', NULL, NULL, NULL, NULL, 'This is my app.'),
-(5, 3, 'IOS app', NULL, NULL, NULL, NULL, 'This is IOS app.');
+(5, 3, 'IOS app', NULL, NULL, NULL, NULL, 'This is IOS app.'),
+(6, 1, 'blue sky - version', NULL, NULL, NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
 
@@ -608,7 +609,7 @@ ALTER TABLE `tbl_proceed_task`
 -- AUTO_INCREMENT for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_project_manager`

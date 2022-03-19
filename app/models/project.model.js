@@ -1,6 +1,7 @@
 const sql = require("./db.js");
 
 const Project = function(project) {
+  this.project_id = project.project_id;
   this.creator_id = project.creator_id;
   this.project_name = project.project_name;
   this.planned_start_date = project.planned_start_date;
