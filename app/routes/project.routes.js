@@ -22,7 +22,20 @@ module.exports = app => {
   app.post("/project/task/update", project.updateByTask);
 
   //Get Project's tasks
-  app.post("/project/task/get_all", project.getProjectTasks);
+  app.post("/project/task/get_project_tasks", project.getProjectTasks);
+
+  //Get User's tasks
+  app.post("/project/task/get_user_tasks", project.getUserTasks);
+
+  // Create a new Task Proceed 
+  app.post("/project/task/create_precede", project.createTaskPrecede);
+
+  //Get Task Proceed 
+  app.post("/project/task/get_precedes", project.getTaskPrecedes);
+
+  // Update Task Proceed
+  app.post("/project/task/update_precede", project.updateByPrecede);
+
 
 
   };

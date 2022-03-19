@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2022 at 05:54 AM
+-- Generation Time: Mar 19, 2022 at 09:42 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -193,13 +193,34 @@ CREATE TABLE `tbl_on_project` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_precede_task`
+--
+
+CREATE TABLE `tbl_precede_task` (
+  `precede_id` int(8) NOT NULL,
+  `task_id` int(8) NOT NULL,
+  `preceding` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_precede_task`
+--
+
+INSERT INTO `tbl_precede_task` (`precede_id`, `task_id`, `preceding`) VALUES
+(1, 12, 1),
+(2, 13, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_priority_task`
 --
 
 CREATE TABLE `tbl_priority_task` (
   `task_id` int(8) NOT NULL,
+  `creator_id` int(8) NOT NULL,
   `task_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `project_id` int(8) NOT NULL,
+  `project_id` int(8) DEFAULT NULL,
   `priority` int(2) DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `planned_start_date` datetime DEFAULT NULL,
@@ -207,8 +228,20 @@ CREATE TABLE `tbl_priority_task` (
   `actual_start_date` datetime DEFAULT NULL,
   `actual_end_date` datetime DEFAULT NULL,
   `hourly_rate` float NOT NULL,
-  `is_add_all` tinyint(1) NOT NULL DEFAULT 0
+  `is_add_all` tinyint(1) NOT NULL DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_priority_task`
+--
+
+INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_id`, `priority`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
+(12, 3, 'blue sky - task - 1', 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(13, 4, 'blue sky - task - 1', 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(14, 3, 'blue sky - task - 1', 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(15, 3, 'blue sky - task - 1', 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(17, 9, 'red', 6, 1, 'this is red color.', NULL, NULL, NULL, NULL, 15, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -220,18 +253,6 @@ CREATE TABLE `tbl_proceed_deliverable` (
   `pd_id` int(8) NOT NULL,
   `deliverable_id` int(8) NOT NULL,
   `precede` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_proceed_task`
---
-
-CREATE TABLE `tbl_proceed_task` (
-  `preced_id` int(8) NOT NULL,
-  `task_id` int(8) NOT NULL,
-  `preceding` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -459,11 +480,18 @@ ALTER TABLE `tbl_on_project`
   ADD KEY `client_id` (`client_id`);
 
 --
+-- Indexes for table `tbl_precede_task`
+--
+ALTER TABLE `tbl_precede_task`
+  ADD PRIMARY KEY (`precede_id`),
+  ADD KEY `task_id` (`task_id`);
+
+--
 -- Indexes for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
   ADD PRIMARY KEY (`task_id`),
-  ADD KEY `project_id` (`project_id`);
+  ADD KEY `creator_id` (`creator_id`);
 
 --
 -- Indexes for table `tbl_proceed_deliverable`
@@ -471,13 +499,6 @@ ALTER TABLE `tbl_priority_task`
 ALTER TABLE `tbl_proceed_deliverable`
   ADD PRIMARY KEY (`pd_id`),
   ADD KEY `deliverable_id` (`deliverable_id`);
-
---
--- Indexes for table `tbl_proceed_task`
---
-ALTER TABLE `tbl_proceed_task`
-  ADD PRIMARY KEY (`preced_id`),
-  ADD KEY `task_id` (`task_id`);
 
 --
 -- Indexes for table `tbl_project`
@@ -588,22 +609,22 @@ ALTER TABLE `tbl_on_project`
   MODIFY `op_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tbl_precede_task`
+--
+ALTER TABLE `tbl_precede_task`
+  MODIFY `precede_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
-  MODIFY `task_id` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `task_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_proceed_deliverable`
 --
 ALTER TABLE `tbl_proceed_deliverable`
   MODIFY `pd_id` int(8) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tbl_proceed_task`
---
-ALTER TABLE `tbl_proceed_task`
-  MODIFY `preced_id` int(8) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_project`
@@ -685,22 +706,22 @@ ALTER TABLE `tbl_on_project`
   ADD CONSTRAINT `tbl_on_project_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `tbl_precede_task`
+--
+ALTER TABLE `tbl_precede_task`
+  ADD CONSTRAINT `tbl_precede_task_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
-  ADD CONSTRAINT `tbl_priority_task_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_priority_task_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_proceed_deliverable`
 --
 ALTER TABLE `tbl_proceed_deliverable`
   ADD CONSTRAINT `tbl_proceed_deliverable_ibfk_1` FOREIGN KEY (`deliverable_id`) REFERENCES `tbl_deliverable` (`deliverable_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_proceed_task`
---
-ALTER TABLE `tbl_proceed_task`
-  ADD CONSTRAINT `tbl_proceed_task_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_project`
