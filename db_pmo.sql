@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2022 at 09:42 AM
+-- Generation Time: Mar 19, 2022 at 10:22 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -213,6 +213,22 @@ INSERT INTO `tbl_precede_task` (`precede_id`, `task_id`, `preceding`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_priority_agenda`
+--
+
+CREATE TABLE `tbl_priority_agenda` (
+  `pa_id` int(10) NOT NULL,
+  `wp_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `planned_date` date DEFAULT NULL,
+  `planned_time` timestamp NULL DEFAULT NULL,
+  `content` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `level` int(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_priority_task`
 --
 
@@ -396,6 +412,21 @@ INSERT INTO `tbl_user_company` (`uc_id`, `user_id`, `company_id`, `is_manager`) 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_week_priority`
+--
+
+CREATE TABLE `tbl_week_priority` (
+  `wp_id` int(10) NOT NULL,
+  `week` int(2) NOT NULL,
+  `priority_num` int(8) NOT NULL,
+  `priority` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `goal` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `detail` text COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_work_setting`
 --
 
@@ -487,6 +518,12 @@ ALTER TABLE `tbl_precede_task`
   ADD KEY `task_id` (`task_id`);
 
 --
+-- Indexes for table `tbl_priority_agenda`
+--
+ALTER TABLE `tbl_priority_agenda`
+  ADD PRIMARY KEY (`pa_id`);
+
+--
 -- Indexes for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
@@ -548,6 +585,12 @@ ALTER TABLE `tbl_user_company`
   ADD PRIMARY KEY (`uc_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `company_id` (`company_id`);
+
+--
+-- Indexes for table `tbl_week_priority`
+--
+ALTER TABLE `tbl_week_priority`
+  ADD PRIMARY KEY (`wp_id`);
 
 --
 -- Indexes for table `tbl_work_setting`
@@ -615,6 +658,12 @@ ALTER TABLE `tbl_precede_task`
   MODIFY `precede_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `tbl_priority_agenda`
+--
+ALTER TABLE `tbl_priority_agenda`
+  MODIFY `pa_id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
@@ -661,6 +710,12 @@ ALTER TABLE `tbl_user_client`
 --
 ALTER TABLE `tbl_user_company`
   MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tbl_week_priority`
+--
+ALTER TABLE `tbl_week_priority`
+  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_work_setting`
