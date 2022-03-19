@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2022 at 10:22 AM
+-- Generation Time: Mar 19, 2022 at 03:16 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -83,6 +83,28 @@ INSERT INTO `mst_role` (`role_id`, `role_name`) VALUES
 (2, 'Project Manager'),
 (3, 'Project User'),
 (4, 'Guest');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_client_project`
+--
+
+CREATE TABLE `tbl_client_project` (
+  `cp_id` int(10) NOT NULL,
+  `project_id` int(8) NOT NULL,
+  `client_id` int(8) NOT NULL,
+  `date_start` datetime DEFAULT NULL,
+  `date_end` datetime DEFAULT NULL,
+  `description` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_client_project`
+--
+
+INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_start`, `date_end`, `description`) VALUES
+(2, 5, 4, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -174,21 +196,6 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (29, 9, '2022-03-18 21:55:14', NULL, '2022-03-18 21:55:31'),
 (30, 9, '2022-03-18 22:00:14', NULL, '2022-03-18 22:00:26'),
 (31, 9, '2022-03-18 22:00:40', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_on_project`
---
-
-CREATE TABLE `tbl_on_project` (
-  `op_id` int(10) NOT NULL,
-  `project_id` int(8) NOT NULL,
-  `client_id` int(8) NOT NULL,
-  `date_start` datetime DEFAULT NULL,
-  `date_end` datetime DEFAULT NULL,
-  `description` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -435,8 +442,8 @@ CREATE TABLE `tbl_work_setting` (
   `user_id` int(8) NOT NULL,
   `first_day_of_week` int(1) DEFAULT NULL,
   `work_on_week` tinyint(1) DEFAULT NULL,
-  `start_work_time` datetime DEFAULT NULL,
-  `end_work_time` datetime DEFAULT NULL,
+  `start_work_time` int(2) DEFAULT NULL,
+  `end_work_time` int(2) DEFAULT NULL,
   `remainder` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -472,6 +479,14 @@ ALTER TABLE `mst_role`
   ADD PRIMARY KEY (`role_id`);
 
 --
+-- Indexes for table `tbl_client_project`
+--
+ALTER TABLE `tbl_client_project`
+  ADD PRIMARY KEY (`cp_id`),
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `client_id` (`client_id`);
+
+--
 -- Indexes for table `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_date_time_currency`
@@ -501,14 +516,6 @@ ALTER TABLE `tbl_deliverable_assign`
 ALTER TABLE `tbl_login`
   ADD PRIMARY KEY (`login_id`),
   ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `tbl_on_project`
---
-ALTER TABLE `tbl_on_project`
-  ADD PRIMARY KEY (`op_id`),
-  ADD KEY `project_id` (`project_id`),
-  ADD KEY `client_id` (`client_id`);
 
 --
 -- Indexes for table `tbl_precede_task`
@@ -622,6 +629,12 @@ ALTER TABLE `mst_role`
   MODIFY `role_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `tbl_client_project`
+--
+ALTER TABLE `tbl_client_project`
+  MODIFY `cp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_date_time_currency`
@@ -644,12 +657,6 @@ ALTER TABLE `tbl_deliverable_assign`
 --
 ALTER TABLE `tbl_login`
   MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
-
---
--- AUTO_INCREMENT for table `tbl_on_project`
---
-ALTER TABLE `tbl_on_project`
-  MODIFY `op_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_precede_task`
@@ -728,6 +735,13 @@ ALTER TABLE `tbl_work_setting`
 --
 
 --
+-- Constraints for table `tbl_client_project`
+--
+ALTER TABLE `tbl_client_project`
+  ADD CONSTRAINT `tbl_client_project_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_client_project_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_date_time_currency`
@@ -752,13 +766,6 @@ ALTER TABLE `tbl_deliverable_assign`
 --
 ALTER TABLE `tbl_login`
   ADD CONSTRAINT `tbl_login_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_on_project`
---
-ALTER TABLE `tbl_on_project`
-  ADD CONSTRAINT `tbl_on_project_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_on_project_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_precede_task`

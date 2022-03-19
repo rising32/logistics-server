@@ -13,6 +13,16 @@ module.exports = app => {
     //Regist Project Manager
     app.post("/project/regist_manager", project.registManager);
 
+  //==================================================== Client Project relation ===============================================
+    // Create a new On Project  
+    app.post("/project/set_Client", project.setClient);
+
+    //Get Client Projects
+    app.post("/project/get_client_projects", project.getClientProjects);//doesn't
+
+    // Update a client Project relation with cp_id
+    app.post("/project/update_client_project", project.updateByClientProject);
+
   //==================================================== Task =================================================================
   
   // Create a new Task  
@@ -35,7 +45,5 @@ module.exports = app => {
 
   // Update Task Proceed
   app.post("/project/task/update_precede", project.updateByPrecede);
-
-
 
   };
