@@ -75,6 +75,7 @@ User.findOnlineUserByEmail = (user, result) => {
     }
 
     if (res.length) {
+      user.user_id = res[0].user_id;
       user.phone_number = res[0].phone_number;
       user.password = res[0].password;
       user.display_name = res[0].display_name;
