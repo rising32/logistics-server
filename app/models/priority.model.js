@@ -26,23 +26,22 @@ Priority.addPriority = (newPriority, result) => {
 
 //Get All Priority by user id
 Priority.getPriorityByUserId = (user_id, result) => {
-  sql.query("SELECT * FROM `tbl_week_priority` WHERE user_id = ?", 
-  user_id, (err, res) => {
+  sql.query("SELECT * FROM tbl_week_priority WHERE user_id = ?", user_id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created new Team: ", {user_id:user_id, priority:res});
+    console.log("found Priority: ", {user_id:user_id, priority:res});
     result(null, {user_id:user_id, priority:res});
   });
 };
 
 //Get All Priority by user id, week
-Priority.getPriorityByUserId = (user_id, week, result) => {
+Priority.getPriorityByWeek = (user_id, week, result) => {
   sql.query("SELECT * FROM `tbl_week_priority` WHERE user_id = ? and week = ?", 
-  user_id, week, (err, res) => {
+  [user_id, week], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

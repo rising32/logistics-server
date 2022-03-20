@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2022 at 03:16 PM
+-- Generation Time: Mar 20, 2022 at 03:28 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -170,7 +170,7 @@ CREATE TABLE `tbl_login` (
   `login_id` int(10) NOT NULL,
   `user_id` int(8) NOT NULL,
   `login_time` datetime NOT NULL DEFAULT current_timestamp(),
-  `token` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `token` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   `out_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -195,7 +195,10 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (28, 9, '2022-03-18 21:54:10', NULL, '2022-03-18 21:54:56'),
 (29, 9, '2022-03-18 21:55:14', NULL, '2022-03-18 21:55:31'),
 (30, 9, '2022-03-18 22:00:14', NULL, '2022-03-18 22:00:26'),
-(31, 9, '2022-03-18 22:00:40', NULL, NULL);
+(31, 9, '2022-03-18 22:00:40', NULL, NULL),
+(32, 3, '2022-03-20 15:31:52', NULL, NULL),
+(33, 10, '2022-03-20 15:33:43', NULL, NULL),
+(38, 18, '2022-03-20 20:09:01', 'FmZ2zwT0V2hXVzK9lS9smw==$0uK4GyWJn+bzBPl0QyoAHLv5BJHBxb8QSgGP0mvoKGYQv9kP3pVNU531tpPp3g+h6mkQJ4xzElMmxjMnmfQGUQ==', NULL);
 
 -- --------------------------------------------------------
 
@@ -372,7 +375,9 @@ INSERT INTO `tbl_user` (`user_id`, `email`, `phone_number`, `password`, `display
 (4, 'b@b.com', '56894336584', '123456', NULL, NULL, NULL, 0, '2022-03-17 10:42:49'),
 (7, 'c@c.com', '1235648542', '123456', NULL, NULL, NULL, 0, '2022-03-17 12:38:10'),
 (8, 'd@d.com', '5264235512', '123456', NULL, NULL, NULL, 0, '2022-03-18 09:03:43'),
-(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', NULL, NULL, NULL, 0, '2022-03-18 21:54:10');
+(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', NULL, NULL, NULL, 0, '2022-03-18 21:54:10'),
+(10, 'abd@a.com', '5264855214522', '123456', NULL, NULL, NULL, 0, '2022-03-20 15:33:43'),
+(18, 'tulip31518@outlook.com', '5264855214', '123456', NULL, NULL, NULL, 0, '2022-03-20 20:09:01');
 
 -- --------------------------------------------------------
 
@@ -424,9 +429,10 @@ INSERT INTO `tbl_user_company` (`uc_id`, `user_id`, `company_id`, `is_manager`) 
 
 CREATE TABLE `tbl_week_priority` (
   `wp_id` int(10) NOT NULL,
+  `user_id` int(8) NOT NULL,
   `week` int(2) NOT NULL,
   `priority_num` int(8) NOT NULL,
-  `priority` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `goal` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -597,7 +603,8 @@ ALTER TABLE `tbl_user_company`
 -- Indexes for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  ADD PRIMARY KEY (`wp_id`);
+  ADD PRIMARY KEY (`wp_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `tbl_work_setting`
@@ -656,7 +663,7 @@ ALTER TABLE `tbl_deliverable_assign`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `tbl_precede_task`
@@ -704,7 +711,7 @@ ALTER TABLE `tbl_team_member`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_client`
@@ -722,7 +729,7 @@ ALTER TABLE `tbl_user_company`
 -- AUTO_INCREMENT for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_work_setting`
@@ -819,6 +826,12 @@ ALTER TABLE `tbl_user_client`
 ALTER TABLE `tbl_user_company`
   ADD CONSTRAINT `tbl_user_company_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `mst_company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_user_company_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_week_priority`
+--
+ALTER TABLE `tbl_week_priority`
+  ADD CONSTRAINT `tbl_week_priority_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_work_setting`
