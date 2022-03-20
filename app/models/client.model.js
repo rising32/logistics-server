@@ -15,6 +15,8 @@ Client.insertNewClient = (newClient, result) => {
       return;
     }
     newClient.client_id = res.insertId;
+    newClient.client_address = null;
+    newClient.client_detail = null;
     console.log("created new Client: ", { ...newClient });
     result(null, { ...newClient });
   });

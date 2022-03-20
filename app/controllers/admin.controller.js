@@ -15,7 +15,7 @@ exports.createClient = (req, res) => {
   // Create a Client
   const client = new Client({
     client_name: req.body.client_name,
-    is_active: req.body.is_active || false
+    is_active: req.body.is_active || true
   });
 
   // Save Client in the database

@@ -1,4 +1,8 @@
 const User = require("../models/user.model.js");
+const mailgun = require("mailgun-js");
+const request = require('request');
+const DOMAIN = 'sandboxdedcd2e35d334e85be47f70bdbba2691.mailgun.org';
+const mg = mailgun({apiKey: '8d149746cc1740e4a4b2c2eaef510ac8-1b237f8b-1a64a321', domain: DOMAIN});
 
 // Create and Save a new User
 exports.signup = (req, res) => {
@@ -9,38 +13,69 @@ exports.signup = (req, res) => {
     });
   }
 
-  // Create a Tutorial
-  const user = new User({
-    email: req.body.email,
-    phone_number: req.body.phone_number,
-    password: req.body.password,
-    display_name: req.body.display_name || null,
-    birthday:req.body.birthday || null,
-    is_project_manager:req.body.is_project_manager || 0,
-    registration_time:new Date()
-  });
-
-  // Save Tutorial in the database
-  User.insertNewUser(user, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the User."
-      });
-    else {
-      //res.send(data);
-      // Save User login in the database
-      User.userLogin(data, (err, data) => 
+  const data = {
+    members:[
       {
-        if (err)
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while logging in the User."
-          });
-        else 
-          res.send(data);
-      });
-    }
+        email_address: req.body.email,
+        status:'subscribed',
+        // merge_fields:
+        // {
+        //   FNAME:req.body.display_name
+        // }
+      }
+    ]
+  }
+  const postData = JSON.stringify(data);
+  const options = {
+    url: 'https://us14.api.mailchimp.com/3.0/lists/37fca1e237/',
+    method: 'POST',
+    headers: {
+      Authorization:'auth 84b3ab1df9dba1f48cbac489dc35d111-us14'
+    },
+    body: postData
+  }
+  request(options, (err, response, body) =>{      
+      const items = JSON.parse(response.body);      
+      // if (items.errors.length > 0){
+      //   console.log(items.errors);
+      //   res.send({error:items.errors[0].error});
+      // }
+      // else
+      {
+        // Create a Tutorial
+        const user = new User({
+          email: req.body.email,
+          phone_number: req.body.phone_number,
+          password: req.body.password,
+          display_name: req.body.display_name || null,
+          birthday:req.body.birthday || null,
+          is_project_manager:req.body.is_project_manager || 0,
+          registration_time:new Date()
+        });
+
+        // Save Tutorial in the database
+        User.insertNewUser(user, (err, data) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while creating the User."
+            });
+          else {
+            //res.send(data);
+            // Save User login in the database
+            User.userLogin(data, (err, data) => 
+            {
+              if (err)
+                res.status(500).send({
+                  message:
+                    err.message || "Some error occurred while logging in the User."
+                });
+              else 
+                res.send(data);
+            });
+          }
+        });
+      }
   });
 };
 
