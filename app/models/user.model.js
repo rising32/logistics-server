@@ -75,8 +75,16 @@ User.findOnlineUserByEmail = (user, result) => {
     }
 
     if (res.length) {
-      console.log("found user: ", {user:res});
-      result(null, {user:res});
+      user.phone_number = res[0].phone_number;
+      user.password = res[0].password;
+      user.display_name = res[0].display_name;
+      user.birthday = res[0].birthday;
+      user.avatar = res[0].avatar;
+      user.is_project_manager = res[0].is_project_manager;
+      user.registration_time = res[0].registration_time;
+      
+      console.log("found user: ", {login_id: res[0].login_id,user:user});
+      result(null, {login_id: res[0].login_id,user:user});
       
       return;
     }
