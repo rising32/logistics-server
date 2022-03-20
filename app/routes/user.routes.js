@@ -6,8 +6,13 @@ module.exports = app => {
   // Create a new User  
   app.post("/user/signUp", user.signup);
 
+  //app.get('/user/verify-email', user.verifyemail);
+
   // Retrieve a single User with id
-  app.get("/user/:id", user.findOne);
+  app.get("/user/id", user.findOne);
+
+  // Retrieve all Users
+  app.get("/user/all", user.findAll);
 
   // Update a User with id
   app.post("/user/update", user.updateByUser);
@@ -23,6 +28,9 @@ module.exports = app => {
   app.post("/user/logout", user.userLogout);
   // User Login
   app.post("/user/login", user.userLogin);  
+
+  // User Login by token
+  app.post("/user/login/token", user.userLoginByToken); 
 
   // find User
   app.post("/user/findByEmail", user.findUserByEmail);

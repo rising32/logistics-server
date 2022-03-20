@@ -1,4 +1,5 @@
 const sql = require("./db.js");
+const crypto = require('crypto');
 
 const User = function(user) {
   this.user_id = user.user_id,
@@ -39,13 +40,32 @@ User.findById = (id, result) => {
       return;
     }
 
-    // not found Tutorial with the id
+    // not found User with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+User.findAll = (result) => {
+  sql.query(`SELECT * FROM tbl_user`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found user: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found User with the id
     result({ kind: "not_found" }, null);
   });
 };
 
 User.findUserByEmail = (email, result) => {
-  sql.query(`SELECT * FROM tbl_user WHERE email = ${email}`, (err, res) => {
+  sql.query("SELECT * FROM tbl_user WHERE email = ?", email, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -58,14 +78,14 @@ User.findUserByEmail = (email, result) => {
       return;
     }
 
-    // not found Tutorial with the id
+    // not found Email with the id
     result({ kind: "not_found" }, null);
   });
 };
 
 User.findOnlineUserByEmail = (user, result) => {
   sql.query(
-    "select l.login_id, u.* from tbl_login l, (SELECT * FROM `tbl_user` WHERE email = ? and password = ?) u where l.user_id = u.user_id and out_time is null", 
+    "select l.login_id, l.token, u.* from tbl_login l, (SELECT * FROM `tbl_user` WHERE email = ? and password = ?) u where l.user_id = u.user_id and out_time is null", 
     [user.email, user.password],
     (err, res) => {
     if (err) {
@@ -75,17 +95,9 @@ User.findOnlineUserByEmail = (user, result) => {
     }
 
     if (res.length) {
-      user.user_id = res[0].user_id;
-      user.phone_number = res[0].phone_number;
-      user.password = res[0].password;
-      user.display_name = res[0].display_name;
-      user.birthday = res[0].birthday;
-      user.avatar = res[0].avatar;
-      user.is_project_manager = res[0].is_project_manager;
-      user.registration_time = res[0].registration_time;
-      
-      console.log("found user: ", {login_id: res[0].login_id,user:user});
-      result(null, {login_id: res[0].login_id,user:user});
+      user = new User(res[0]);      
+      console.log("found user: ", {login_id: res[0].login_id, token: res[0].token,user:user});
+      result(null, {login_id: res[0].login_id, token: res[0].token, user:user});
       
       return;
     }
@@ -150,9 +162,14 @@ User.removeAll = result => {
 };
 
 User.userLogin = (loginUser, result) => {
+  let salt = crypto.randomBytes(16).toString('base64');
+  let hash = crypto.createHmac('sha512',salt)
+                                  .update(loginUser.email)
+                                  .digest("base64");
+  var token = salt + "$" + hash;
   sql.query(
-    "insert into tbl_login set user_id = (SELECT user_id FROM `tbl_user` WHERE email = ? and password = ?)",
-    [loginUser.email, loginUser.password],
+    "insert into tbl_login set user_id = (SELECT user_id FROM `tbl_user` WHERE email = ? and password = ?), token = ?",
+    [loginUser.email, loginUser.password, token],
     (err, res) => 
     {
       if (err) {
@@ -171,9 +188,24 @@ User.userLogin = (loginUser, result) => {
             result(err, null);
             return;
           }
-          console.log("login user: ", {login_id:res.insertId, user:resUser });
-          result(null, { login_id:res.insertId, user:resUser});
+          console.log("login user: ", {login_id:res.insertId, token:token, user:resUser });
+          result(null, { login_id:res.insertId,token:token, user:resUser});
         });
+    });
+};
+
+User.findOnlineUserByToken = (token, result) => {  
+  sql.query(
+    "select l.login_id, l.token, u.* from tbl_user u, (SELECT * FROM `tbl_login` WHERE token = ?) l where u.user_id = l.user_id", token, (err, res) => 
+    {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      var loginUser = new User(res[0]);  
+      console.log("login user: ", {login_id:res[0].login_id, token:token, user:loginUser});
+      result(null, {login_id:res[0].login_id, token:token, user:loginUser});
     });
 };
 

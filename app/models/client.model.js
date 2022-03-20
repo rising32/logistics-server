@@ -24,8 +24,8 @@ Client.insertNewClient = (newClient, result) => {
 
 Client.updateByClient = (client, result) => {
     sql.query(
-      "UPDATE mst_client SET client_name = ?, is_active = ? WHERE client_id = ?",
-      [client.client_name, client.is_active, client.client_id],
+      "UPDATE mst_client SET client_name = ?,client_address = ?, client_detail = ?,is_active = ? WHERE client_id = ?",
+      [client.client_name, client.client_address, client.client_detail, client.is_active, client.client_id],
       (err, res) => {
         if (err) {
           console.log("error: ", err);
