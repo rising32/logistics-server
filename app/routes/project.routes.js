@@ -32,10 +32,16 @@ module.exports = app => {
   app.post("/project/task/update", project.updateByTask);
 
   //Get Project's tasks
-  app.post("/project/task/get_project_tasks", project.getProjectTasks);
+  app.post("/project/task/get_project_tasks", project.getProjectTasks);  
 
   //Get User's tasks
   app.post("/project/task/get_user_tasks", project.getUserTasks);
+
+  // Create a new Task assign by user_id, task_id 
+  app.post("/project/task/assign", project.assignTaskToDeveloper);
+  
+  //Get tasks by user_id, client_id, project_id, planned_end_date
+  app.post("/project/task/get_ucpt", project.getUCPT);
 
   // Create a new Task Proceed 
   app.post("/project/task/create_precede", project.createTaskPrecede);
@@ -45,5 +51,13 @@ module.exports = app => {
 
   // Update Task Proceed
   app.post("/project/task/update_precede", project.updateByPrecede);
+
+
+  //==================================================== Deliverable =================================================================
+  // Create a new Task  
+  // app.post("/project/deliverable/create", project.createDeliverable);
+
+  //Get Project's tasks
+  // app.post("/project/deliverable/get_by_id", project.getDeliverableById);
 
   };

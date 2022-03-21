@@ -1,8 +1,10 @@
 const Project = require("../models/project.model.js");
 const ProjectManager = require("../models/projectManager.model.js");
 const Task = require("../models/task.model.js");
+const TaskAssign = require("../models/task.assign.model.js");
 const Precede = require("../models/precede.model.js");
 const ClientProject = require("../models/client.project.model.js");
+// const Deliverable = require("../models/deliverable.model.js");
 
 
 // Create and Save a new Project
@@ -194,23 +196,7 @@ exports.createTask = (req, res) => {
       message: "Content can not be empty!"
     });
   }
-
-  const task = new Task({
-    task_id:req.body.task_id,
-    creator_id: req.body.creator_id,
-    project_id:req.body.project_id,
-    task_name : req.body.task_name,
-    priority : req.body.priority,
-    description : req.body.description,
-    planned_start_date : req.body.planned_start_date,
-    planned_end_date : req.body.planned_end_date,
-    actual_start_date : req.body.actual_start_date,
-    actual_end_date : req.body.actual_end_date,
-    hourly_rate : req.body.hourly_rate,
-    is_add_all : req.body.is_add_all,
-    is_active : req.body.is_active
-  });
-
+  const task = new Task(req.body);
   // Save new Task in the database
   Task.insertNewTask(task, (err, data) => {
     if (err)
@@ -233,6 +219,48 @@ exports.getProjectTasks = (req, res) => {
     });
   }
   Task.getProjectTasks(req.body.project_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the Project's tasks."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+//assign Task to Developer
+exports.assignTaskToDeveloper = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  const taskAssign = new TaskAssign(req.body);
+  // Save new Task assign in the database
+  TaskAssign.assignTaskToDeveloper(taskAssign, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Project."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+//Get tasks by user_id, client_id, project_id, planned_end_date
+exports.getUCPT = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  TaskAssign.getUCPT(req.body.user_id,req.body.client_id,req.body.project_id,req.body.planned_end_date, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -366,3 +394,45 @@ exports.updateByPrecede = (req, res) => {
   );
 };
 
+//==================================================== Deliverable =================================================================
+// exports.createDeliverable = (req, res) => {
+//   // Validate request
+//   if (!req.body) {
+//     res.status(400).send({
+//       message: "Content can not be empty!"
+//     });
+//   }
+
+//   const deliverable = new Deliverable(req.body);
+//   // Save new Deliverable in the database
+//   Deliverable.addDeliverable(deliverable, (err, data) => {
+//     if (err)
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while creating the Project."
+//       });
+//     else {
+//       res.send(data);      
+//     }
+//   });
+// };
+
+// //Get Deliverable by Id
+// exports.getDeliverableById = (req, res) => {
+//   // Validate request
+//   if (!req.body) {
+//     res.status(400).send({
+//       message: "Content can not be empty!"
+//     });
+//   }
+//   Deliverable.getDeliverableById(req.body.deliverable_id, (err, data) => {
+//     if (err)
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while getting the Deliverable."
+//       });
+//     else {
+//       res.send(data);      
+//     }
+//   });
+// };

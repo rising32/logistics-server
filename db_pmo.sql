@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2022 at 03:28 PM
+-- Generation Time: Mar 21, 2022 at 11:44 AM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- PHP Version: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -150,19 +150,6 @@ CREATE TABLE `tbl_deliverable` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_deliverable_assign`
---
-
-CREATE TABLE `tbl_deliverable_assign` (
-  `assign_id` int(8) NOT NULL,
-  `deliverable_id` int(8) NOT NULL,
-  `user_id` int(8) NOT NULL,
-  `role_id` int(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_login`
 --
 
@@ -229,12 +216,19 @@ INSERT INTO `tbl_precede_task` (`precede_id`, `task_id`, `preceding`) VALUES
 CREATE TABLE `tbl_priority_agenda` (
   `pa_id` int(10) NOT NULL,
   `wp_id` int(8) NOT NULL,
-  `user_id` int(8) NOT NULL,
   `planned_date` date DEFAULT NULL,
   `planned_time` timestamp NULL DEFAULT NULL,
   `content` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `level` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_priority_agenda`
+--
+
+INSERT INTO `tbl_priority_agenda` (`pa_id`, `wp_id`, `planned_date`, `planned_time`, `content`, `level`) VALUES
+(5, 3, NULL, NULL, 'adfsdfsdfsdfsf', 1),
+(6, 3, NULL, NULL, 'dsdsdfsdfdsfsdfsfsf', 2);
 
 -- --------------------------------------------------------
 
@@ -246,6 +240,7 @@ CREATE TABLE `tbl_priority_task` (
   `task_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
   `task_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `project_id` int(8) DEFAULT NULL,
   `priority` int(2) DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -262,12 +257,12 @@ CREATE TABLE `tbl_priority_task` (
 -- Dumping data for table `tbl_priority_task`
 --
 
-INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_id`, `priority`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
-(12, 3, 'blue sky - task - 1', 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
-(13, 4, 'blue sky - task - 1', 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
-(14, 3, 'blue sky - task - 1', 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
-(15, 3, 'blue sky - task - 1', 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
-(17, 9, 'red', 6, 1, 'this is red color.', NULL, NULL, NULL, NULL, 15, 0, NULL);
+INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `deliverable`, `project_id`, `priority`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
+(12, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(13, 4, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(14, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(15, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(17, 9, 'red', NULL, 6, 1, 'this is red color.', NULL, NULL, NULL, NULL, 15, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -325,6 +320,27 @@ CREATE TABLE `tbl_project_manager` (
 
 INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
 (4, 4, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_task_assign`
+--
+
+CREATE TABLE `tbl_task_assign` (
+  `assign_id` int(8) NOT NULL,
+  `task_id` int(8) NOT NULL,
+  `developer_id` int(8) NOT NULL,
+  `role_id` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_task_assign`
+--
+
+INSERT INTO `tbl_task_assign` (`assign_id`, `task_id`, `developer_id`, `role_id`) VALUES
+(1, 12, 3, 1),
+(2, 13, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -437,6 +453,14 @@ CREATE TABLE `tbl_week_priority` (
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `tbl_week_priority`
+--
+
+INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `description`, `goal`, `detail`) VALUES
+(3, 1, 1, 1, 'adfsdfsdfsdfsf', 'sdfdsfsf', 'dfdfdfdfdfdfdfdfdfdfdfdfddddddddddddddddddddddddddddddddddd'),
+(4, 1, 1, 2, 'bbbbbbbbbbbbbbbb', 'aaaaaaaaaaaa', 'dddddddddddddddddddddddddddddddddd');
+
 -- --------------------------------------------------------
 
 --
@@ -507,16 +531,6 @@ ALTER TABLE `tbl_deliverable`
   ADD KEY `task_id` (`task_id`);
 
 --
--- Indexes for table `tbl_deliverable_assign`
---
-ALTER TABLE `tbl_deliverable_assign`
-  ADD PRIMARY KEY (`assign_id`),
-  ADD KEY `task_id` (`deliverable_id`),
-  ADD KEY `role_id` (`role_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `deliverable_id` (`deliverable_id`);
-
---
 -- Indexes for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
@@ -534,7 +548,8 @@ ALTER TABLE `tbl_precede_task`
 -- Indexes for table `tbl_priority_agenda`
 --
 ALTER TABLE `tbl_priority_agenda`
-  ADD PRIMARY KEY (`pa_id`);
+  ADD PRIMARY KEY (`pa_id`),
+  ADD KEY `wp_id` (`wp_id`);
 
 --
 -- Indexes for table `tbl_priority_task`
@@ -564,6 +579,15 @@ ALTER TABLE `tbl_project_manager`
   ADD PRIMARY KEY (`pm_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `tbl_task_assign`
+--
+ALTER TABLE `tbl_task_assign`
+  ADD PRIMARY KEY (`assign_id`),
+  ADD KEY `task_id` (`task_id`),
+  ADD KEY `role_id` (`role_id`),
+  ADD KEY `developer_id` (`developer_id`);
 
 --
 -- Indexes for table `tbl_team_member`
@@ -654,12 +678,6 @@ ALTER TABLE `tbl_deliverable`
   MODIFY `deliverable_id` int(8) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_deliverable_assign`
---
-ALTER TABLE `tbl_deliverable_assign`
-  MODIFY `assign_id` int(8) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
@@ -675,7 +693,7 @@ ALTER TABLE `tbl_precede_task`
 -- AUTO_INCREMENT for table `tbl_priority_agenda`
 --
 ALTER TABLE `tbl_priority_agenda`
-  MODIFY `pa_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `pa_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_priority_task`
@@ -700,6 +718,12 @@ ALTER TABLE `tbl_project`
 --
 ALTER TABLE `tbl_project_manager`
   MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tbl_task_assign`
+--
+ALTER TABLE `tbl_task_assign`
+  MODIFY `assign_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_team_member`
@@ -729,7 +753,7 @@ ALTER TABLE `tbl_user_company`
 -- AUTO_INCREMENT for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_work_setting`
@@ -755,20 +779,6 @@ ALTER TABLE `tbl_date_time_currency`
   ADD CONSTRAINT `tbl_date_time_currency_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tbl_deliverable`
---
-ALTER TABLE `tbl_deliverable`
-  ADD CONSTRAINT `tbl_deliverable_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_deliverable_assign`
---
-ALTER TABLE `tbl_deliverable_assign`
-  ADD CONSTRAINT `tbl_deliverable_assign_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_deliverable_assign_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_deliverable_assign_ibfk_5` FOREIGN KEY (`deliverable_id`) REFERENCES `tbl_deliverable` (`deliverable_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
@@ -779,6 +789,12 @@ ALTER TABLE `tbl_login`
 --
 ALTER TABLE `tbl_precede_task`
   ADD CONSTRAINT `tbl_precede_task_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_priority_agenda`
+--
+ALTER TABLE `tbl_priority_agenda`
+  ADD CONSTRAINT `tbl_priority_agenda_ibfk_2` FOREIGN KEY (`wp_id`) REFERENCES `tbl_week_priority` (`wp_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_priority_task`
@@ -804,6 +820,14 @@ ALTER TABLE `tbl_project`
 ALTER TABLE `tbl_project_manager`
   ADD CONSTRAINT `tbl_project_manager_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_project_manager_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_task_assign`
+--
+ALTER TABLE `tbl_task_assign`
+  ADD CONSTRAINT `tbl_task_assign_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_task_assign_ibfk_4` FOREIGN KEY (`developer_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_task_assign_ibfk_5` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_team_member`
