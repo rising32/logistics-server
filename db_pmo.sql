@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2022 at 11:44 AM
+-- Generation Time: Mar 21, 2022 at 04:13 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -104,7 +104,8 @@ CREATE TABLE `tbl_client_project` (
 --
 
 INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_start`, `date_end`, `description`) VALUES
-(2, 5, 4, NULL, NULL, NULL);
+(2, 6, 4, NULL, NULL, NULL),
+(3, 5, 2, '2022-03-21 14:11:56', '2022-03-31 21:11:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -258,9 +259,9 @@ CREATE TABLE `tbl_priority_task` (
 --
 
 INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `deliverable`, `project_id`, `priority`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
-(12, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(12, 3, 'twetwtewet', 'asfdasfafa', 6, 2, 'asdfasdfsadfadfa', '2022-03-09 00:00:00', '2022-03-29 00:00:00', NULL, NULL, 0, 0, NULL),
 (13, 4, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
-(14, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
+(14, 3, 'blue sky - task - 1', 'jygjgyjgjgjygj', 5, 3, 'this is blue sky task.', '2022-03-09 00:00:00', '2022-03-30 20:49:37', NULL, NULL, 35.5, 0, NULL),
 (15, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
 (17, 9, 'red', NULL, 6, 1, 'this is red color.', NULL, NULL, NULL, NULL, 15, 0, NULL);
 
@@ -330,7 +331,7 @@ INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
 CREATE TABLE `tbl_task_assign` (
   `assign_id` int(8) NOT NULL,
   `task_id` int(8) NOT NULL,
-  `developer_id` int(8) NOT NULL,
+  `member_id` int(8) NOT NULL,
   `role_id` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -338,9 +339,9 @@ CREATE TABLE `tbl_task_assign` (
 -- Dumping data for table `tbl_task_assign`
 --
 
-INSERT INTO `tbl_task_assign` (`assign_id`, `task_id`, `developer_id`, `role_id`) VALUES
+INSERT INTO `tbl_task_assign` (`assign_id`, `task_id`, `member_id`, `role_id`) VALUES
 (1, 12, 3, 1),
-(2, 13, 3, 3);
+(2, 14, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -556,7 +557,8 @@ ALTER TABLE `tbl_priority_agenda`
 --
 ALTER TABLE `tbl_priority_task`
   ADD PRIMARY KEY (`task_id`),
-  ADD KEY `creator_id` (`creator_id`);
+  ADD KEY `creator_id` (`creator_id`),
+  ADD KEY `project_id` (`project_id`);
 
 --
 -- Indexes for table `tbl_proceed_deliverable`
@@ -587,7 +589,7 @@ ALTER TABLE `tbl_task_assign`
   ADD PRIMARY KEY (`assign_id`),
   ADD KEY `task_id` (`task_id`),
   ADD KEY `role_id` (`role_id`),
-  ADD KEY `developer_id` (`developer_id`);
+  ADD KEY `member_id` (`member_id`);
 
 --
 -- Indexes for table `tbl_team_member`
@@ -663,7 +665,7 @@ ALTER TABLE `mst_role`
 -- AUTO_INCREMENT for table `tbl_client_project`
 --
 ALTER TABLE `tbl_client_project`
-  MODIFY `cp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_date_time_currency`
@@ -800,7 +802,8 @@ ALTER TABLE `tbl_priority_agenda`
 -- Constraints for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
-  ADD CONSTRAINT `tbl_priority_task_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_priority_task_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_priority_task_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_proceed_deliverable`
@@ -826,7 +829,7 @@ ALTER TABLE `tbl_project_manager`
 --
 ALTER TABLE `tbl_task_assign`
   ADD CONSTRAINT `tbl_task_assign_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_task_assign_ibfk_4` FOREIGN KEY (`developer_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_task_assign_ibfk_4` FOREIGN KEY (`member_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_task_assign_ibfk_5` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
