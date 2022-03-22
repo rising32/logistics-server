@@ -1,4 +1,6 @@
 const sql = require("./db.js");
+const Util = require("../common/common.util.js");
+const res = require("express/lib/response");
 
 const WorkSetting = function(work_setting) {
   this.ws_id = work_setting.ws_id;
@@ -33,8 +35,8 @@ WorkSetting.getWorkSettingByUserId = (user_id, result) => {
               result(err, null);
               return;
           }    
-          console.log("Your Work Settings: ", res[0]);
-          result(null, res[0]);
+          console.log("Your Work Settings: ", res);
+          result(null, res);
       });
   };
 
@@ -69,8 +71,37 @@ WorkSetting.updateByWorkSetting = (work_setting, result) => {
     );
   };
 
-function getRealWorkDays(start_date, end_date)
+WorkSetting.getWorkDaysPerWeek = (client_id, user_id,result) => {    
+  sql.query(
+      "SELECT * FROM `tbl_client_project` WHERE client_id = ?", client_id, (err, res) => 
+      {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }    
+        var date_start = res[0].date_start;
+        var date_end = res[0].date_end;
+        sql.query(
+          "SELECT * FROM `tbl_work_setting` WHERE user_id = ?", user_id, (err, resWS) => 
+          {
+            if (err) {
+              console.log("error: ", err);
+              result(err, null);
+              return;
+            } 
+            var realWorkdays = Util.getWorkDaysPerWeek(date_start, date_end, resWS);
+            console.log(realWorkdays);
+            result(null, {realWorkdays:realWorkdays});
+          });  
+        
+      });
+  };
+  
+
+function getWorkDaysPerWeek(start_date, end_date, user_id)
 {
+  var ws = null;
   sql.query(
     "SELECT * FROM `tbl_work_setting` WHERE user_id = ?", user_id, (err, res) => 
     {
@@ -78,10 +109,35 @@ function getRealWorkDays(start_date, end_date)
             console.log("error: ", err);
             result(err, null);
             return;
-        }    
-        console.log("Your Work Settings: ", res);
-        result(null, res);
-    });
+        } 
+        ws = res;        
+        var weekFirst = Util.getWeekNumber(new Date(start_date));
+        var weekEnd = Util.getWeekNumber(new Date(end_date));
+        var weekdayFirst = new Date(start_date).getDay();
+        var weekdayEnd = new Date(end_date).getDay();
+        var weekWorkday = [];
+        
+        for(var i = 0; i < ws.length; i++)    
+        {          
+          if(ws[i].week >= weekFirst && ws[i].week <= weekEnd)
+          {            
+            if(ws[i].week == weekFirst)
+            {              
+                var remindWorkdays = ws[i].work_on_week - weekdayFirst + 1;                
+                weekWorkday.push({week:weekFirst, workdays:remindWorkdays});
+            }
+            else if(ws[i].week > weekFirst && ws[i].week < weekEnd)
+                weekWorkday.push({week:ws[i].week, workdays:ws[i].work_on_week});
+            else
+            {              
+              weekWorkday.push({week:weekEnd, workdays:weekdayEnd});
+              break;
+            }
+          }      
+        }
+        console.log(weekWorkday);
+        result(null, weekWorkday);        
+    });    
 }
 
 module.exports = WorkSetting;

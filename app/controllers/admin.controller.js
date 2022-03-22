@@ -289,6 +289,28 @@ exports.getWorkSettingByUserId = (req, res) => {
     }
   });
 };
+
+// Get My Work Settings
+exports.getWorkDaysPerWeek = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Save WorkSetting in the database
+  WorkSetting.getWorkDaysPerWeek(req.body.client_id, req.body.user_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the WorkSetting."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
   // Update a WorkSetting
 exports.updateByWorkSetting = (req, res) => {
   // Validate Request

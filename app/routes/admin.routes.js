@@ -38,6 +38,9 @@ module.exports = app => {
     // Get Work Settings  
     app.post("/user/get_work_setting", admin.getWorkSettingByUserId);
 
+    // Get real Work day list 
+    app.post("/user/work_setting/get_real_workdays", admin.getWorkDaysPerWeek);
+
     // Update Work Settings  
     app.post("/user/update_work_setting", admin.updateByWorkSetting);
 
