@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2022 at 10:51 AM
+-- Generation Time: Mar 22, 2022 at 04:49 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -104,8 +104,8 @@ CREATE TABLE `tbl_client_project` (
 --
 
 INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_start`, `date_end`, `description`) VALUES
-(2, 6, 4, '2022-01-12 16:37:08', '2022-01-20 16:37:08', 'UI design'),
-(3, 5, 2, '2022-03-21 14:11:56', '2022-03-31 21:11:56', NULL);
+(2, 6, 4, '2022-01-12 16:37:08', '2022-02-10 16:37:08', 'UI design'),
+(3, 5, 2, '2022-03-02 14:11:56', '2022-03-30 21:11:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -491,7 +491,7 @@ INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `week`, `first_day_of_week`,
 (3, 3, 3, 17, 5, NULL, NULL, 1),
 (4, 3, 4, 24, 5, NULL, NULL, 1),
 (5, 3, 5, 31, 5, NULL, NULL, 0),
-(6, 3, 6, 7, 5, NULL, NULL, 1),
+(6, 3, 6, 7, 0, NULL, NULL, 1),
 (7, 3, 7, 14, 5, NULL, NULL, 1),
 (8, 3, 8, 21, 5, NULL, NULL, 1),
 (9, 3, 9, 28, 5, NULL, NULL, 0),
