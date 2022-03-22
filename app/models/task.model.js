@@ -44,20 +44,6 @@ Task.getProjectTasks = (project_id, result) => {
   });
 };
 
-//Get tasks by user_id, client_id, project_id, planned_end_date
-Task.getUCPT = (user_id, client_id, project_id, planned_end_date, result) => {
-  sql.query("select * from tbl_priority_task where project_id = ?", project_id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created new Team: ", {task:res});
-    result(null, {task:res});
-  });
-};
-
 //Get All User's Tasks
 Task.getUserTasks = (creator_id, result) => {
   sql.query("select * from tbl_priority_task where creator_id = ?", creator_id, (err, res) => {

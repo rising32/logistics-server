@@ -20,6 +20,9 @@ module.exports = app => {
     //Get Client Projects
     app.post("/project/get_client_projects", project.getClientProjects);//doesn't
 
+    //Get Client Project by client_id, project_id 
+    app.post("/project/get_by_cid_pid", project.getClientProjectByCid_Pid);//doesn't
+
     // Update a client Project relation with cp_id
     app.post("/project/update_client_project", project.updateByClientProject);
 
@@ -42,7 +45,11 @@ module.exports = app => {
   
   //Get tasks by user_id, client_id, project_id, planned_end_date
   app.post("/project/task/get_ucpt", project.getUCPT);
+  
+  //Set tasks by user_id, client_id, project_id, planned_end_date, task, deliverable
+  //app.post("/project/task/set_ucpt", project.setUCPT);
 
+  //===================================================== Task Precede =============================================================
   // Create a new Task Proceed 
   app.post("/project/task/create_precede", project.createTaskPrecede);
 

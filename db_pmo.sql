@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2022 at 04:13 PM
+-- Generation Time: Mar 22, 2022 at 10:51 AM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- PHP Version: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -104,7 +104,7 @@ CREATE TABLE `tbl_client_project` (
 --
 
 INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_start`, `date_end`, `description`) VALUES
-(2, 6, 4, NULL, NULL, NULL),
+(2, 6, 4, '2022-01-12 16:37:08', '2022-01-20 16:37:08', 'UI design'),
 (3, 5, 2, '2022-03-21 14:11:56', '2022-03-31 21:11:56', NULL);
 
 -- --------------------------------------------------------
@@ -450,17 +450,19 @@ CREATE TABLE `tbl_week_priority` (
   `week` int(2) NOT NULL,
   `priority_num` int(8) NOT NULL,
   `description` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `goal` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `detail` text COLLATE utf8_unicode_ci DEFAULT NULL
+  `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `detail` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_completed` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tbl_week_priority`
 --
 
-INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `description`, `goal`, `detail`) VALUES
-(3, 1, 1, 1, 'adfsdfsdfsdfsf', 'sdfdsfsf', 'dfdfdfdfdfdfdfdfdfdfdfdfddddddddddddddddddddddddddddddddddd'),
-(4, 1, 1, 2, 'bbbbbbbbbbbbbbbb', 'aaaaaaaaaaaa', 'dddddddddddddddddddddddddddddddddd');
+INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `description`, `deliverable`, `detail`, `is_completed`) VALUES
+(3, 1, 13, 1, 'make ui design', 'login interface', 'complete sign up ', NULL),
+(4, 1, 13, 2, 'make log in animation', 'user click button animation', 'Animation must be beautiful.', 1),
+(5, 1, 12, 1, 'login service', 'install php and mysql', 'php version 7.47', 1);
 
 -- --------------------------------------------------------
 
@@ -471,21 +473,32 @@ INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `de
 CREATE TABLE `tbl_work_setting` (
   `ws_id` int(8) NOT NULL,
   `user_id` int(8) NOT NULL,
-  `first_day_of_week` int(1) DEFAULT NULL,
-  `work_on_week` tinyint(1) DEFAULT NULL,
+  `week` int(2) DEFAULT NULL,
+  `first_day_of_week` int(2) DEFAULT NULL,
+  `work_on_week` int(1) DEFAULT NULL,
   `start_work_time` int(2) DEFAULT NULL,
   `end_work_time` int(2) DEFAULT NULL,
-  `remainder` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
+  `remainder` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tbl_work_setting`
 --
 
-INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `first_day_of_week`, `work_on_week`, `start_work_time`, `end_work_time`, `remainder`) VALUES
-(1, 1, 1, 0, NULL, NULL, 'Amazon TM'),
-(2, 3, 1, 1, NULL, NULL, 'wewdsdsdd'),
-(4, 4, 0, 1, NULL, NULL, '777777');
+INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `week`, `first_day_of_week`, `work_on_week`, `start_work_time`, `end_work_time`, `remainder`) VALUES
+(1, 3, 1, 3, 5, NULL, NULL, 0),
+(2, 3, 2, 10, 5, NULL, NULL, 0),
+(3, 3, 3, 17, 5, NULL, NULL, 1),
+(4, 3, 4, 24, 5, NULL, NULL, 1),
+(5, 3, 5, 31, 5, NULL, NULL, 0),
+(6, 3, 6, 7, 5, NULL, NULL, 1),
+(7, 3, 7, 14, 5, NULL, NULL, 1),
+(8, 3, 8, 21, 5, NULL, NULL, 1),
+(9, 3, 9, 28, 5, NULL, NULL, 0),
+(10, 3, 10, 7, 5, NULL, NULL, 1),
+(11, 3, 11, 14, 5, NULL, NULL, 0),
+(12, 3, 12, 21, 5, NULL, NULL, 1),
+(13, 3, 13, 28, 5, NULL, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -755,13 +768,13 @@ ALTER TABLE `tbl_user_company`
 -- AUTO_INCREMENT for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_work_setting`
 --
 ALTER TABLE `tbl_work_setting`
-  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

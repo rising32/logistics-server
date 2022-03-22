@@ -60,4 +60,18 @@ ClientProject.getClientProjects = (client_id, result) => {
         });
     };
 
+ClientProject.getClientProjectByCid_Pid = (client_id, project_id, result) => {    
+  sql.query(
+    "SELECT * FROM tbl_client_project WHERE client_id = ? AND project_id = ?", [client_id, project_id], (err, res) => 
+    {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }    
+        console.log("Client's Project: ", {project:res});
+        result(null, {project:res });
+    });
+};
+
 module.exports = ClientProject;

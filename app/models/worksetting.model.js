@@ -3,6 +3,7 @@ const sql = require("./db.js");
 const WorkSetting = function(work_setting) {
   this.ws_id = work_setting.ws_id;
   this.user_id = work_setting.user_id;
+  this.week = work_setting.week;
   this.first_day_of_week = work_setting.first_day_of_week;
   this.work_on_week = work_setting.work_on_week;
   this.start_work_time = work_setting.start_work_time;
@@ -39,8 +40,9 @@ WorkSetting.getWorkSettingByUserId = (user_id, result) => {
 
 WorkSetting.updateByWorkSetting = (work_setting, result) => {
     sql.query(
-      "UPDATE tbl_work_setting SET user_id = ?, first_day_of_week = ?, work_on_week = ?, start_work_time = ?, end_work_time = ?, remainder = ? WHERE ws_id = ?",
+      "UPDATE tbl_work_setting SET user_id = ?, week = ?, first_day_of_week = ?, work_on_week = ?, start_work_time = ?, end_work_time = ?, remainder = ? WHERE ws_id = ?",
       [ work_setting.user_id,
+        work_setting.week,
         work_setting.first_day_of_week,
         work_setting.work_on_week,
         work_setting.start_work_time,
@@ -66,5 +68,20 @@ WorkSetting.updateByWorkSetting = (work_setting, result) => {
       }
     );
   };
+
+function getRealWorkDays(start_date, end_date)
+{
+  sql.query(
+    "SELECT * FROM `tbl_work_setting` WHERE user_id = ?", user_id, (err, res) => 
+    {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }    
+        console.log("Your Work Settings: ", res);
+        result(null, res);
+    });
+}
 
 module.exports = WorkSetting;

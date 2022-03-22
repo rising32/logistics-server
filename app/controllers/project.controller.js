@@ -6,7 +6,6 @@ const Precede = require("../models/precede.model.js");
 const ClientProject = require("../models/client.project.model.js");
 // const Deliverable = require("../models/deliverable.model.js");
 
-
 // Create and Save a new Project
 exports.create = (req, res) => {
   // Validate request
@@ -188,6 +187,27 @@ exports.getClientProjects = (req, res) => {
   });
 };
 
+//Get All User Projects
+exports.getClientProjectByCid_Pid = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  // Save Team member in the database
+  ClientProject.getClientProjectByCid_Pid(req.body.client_id, req.body.project_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 //==================================================== Task =================================================================
 exports.createTask = (req, res) => {
   // Validate request
@@ -260,7 +280,7 @@ exports.getUCPT = (req, res) => {
       message: "Content can not be empty!"
     });
   }
-  TaskAssign.getUCPT(req.body.user_id,req.body.client_id,req.body.project_id,req.body.planned_end_date, (err, data) => {
+  TaskAssign.getUCPT(req.body.member_id,req.body.client_id,req.body.project_id,req.body.planned_end_date, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -270,6 +290,88 @@ exports.getUCPT = (req, res) => {
       res.send(data);      
     }
   });
+};
+
+//Get tasks by user_id, client_id, project_id, planned_end_date
+exports.setUCPT = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  var ucpt = {
+    client_id:req.body.client_id,
+    project_id:req.body.project_id,
+    task_id : req.body.task_id,
+    task_name:req.body.task_name,
+    deliverable:req.body.deliverable,
+    member_id:req.body.member_id,
+    planned_end_date:req.body.planned_end_date,
+    cp_id : req.body.cp_id || null,
+    cp_id : req.body.cp_id || null
+  };
+ 
+  if(ucpt.client_id != null)
+  {
+    if(ucpt.project_id != null)
+    {
+      //if there is no client_project relation, insert new one.
+      ClientProject.getClientProjectByCid_Pid(ucpt.client_id, ucpt.project_id, (err, data) => {
+        if (!err && data.project.length == 0)
+        {          
+          const cp = new ClientProject(req.body);
+          ClientProject.insertNewClientProject(cp, (err, dataCP) => {
+            if (!err)
+            ucpt.cp_id = dataCP[0].cp_id;
+          });
+        }        
+      });
+
+      //if there is no project - task relation, insert new one.      
+      Task.getProjectTasks(req.body.project_id, (err, data) => {
+        if (!err)
+        {
+          var b_exist_projectid = false;
+          var b_exist_taskid = false;
+          //res.send(data); 
+          if(data.task.length > 0)     
+          {
+            for(var i = 0; i < data.task.length; i++)
+              if(data.task[i].task_id == ucpt.task_id) 
+              {
+                b_exist_taskid = true;
+                if(data.task[i].project_id == ucpt.project_id) 
+                {
+                  b_exist_projectid = true;
+                  break;                
+                }
+              }              
+          }
+          //if not exist current task_id 
+          if(!b_exist_taskid)
+          {            
+            const task = new Task(req.body);
+            Task.insertNewTask(task, (err, data) => {
+              if (!err)
+              {
+                ucpt.task_id = data.task.task_id;
+              }
+            });            
+          }
+          else if(!b_exist_projectid)
+          {
+            console.log("At first, you must link task with project.");
+          }
+        }
+      });      
+    }
+  }
+  else
+  {
+
+  }  
+  res.send(ucpt);
 };
 
 // Get User's all tasks

@@ -65,6 +65,27 @@ exports.getPriorityByWeek = (req, res) => {
   });
 };
 
+//Get All Priority by User Id, week num
+exports.getPriorityByBeforeWeek = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  // Save Priority in the database
+  Priority.getPriorityByBeforeWeek(req.body.user_id, req.body.week, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 // Update a Project identified by the id in the request
 exports.updateByPriority = (req, res) => {
   // Validate Request

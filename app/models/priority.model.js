@@ -6,8 +6,9 @@ const Priority = function(priority) {
   this.week = priority.week;
   this.priority_num = priority.priority_num;
   this.description = priority.description;
-  this.goal = priority.goal;
+  this.deliverable = priority.deliverable;
   this.detail = priority.detail;
+  this.is_completed = priority.is_completed;
 };
 
 //Add new Priority
@@ -53,10 +54,25 @@ Priority.getPriorityByWeek = (user_id, week, result) => {
   });
 };
 
+//Get All Priority by user id, before week
+Priority.getPriorityByBeforeWeek = (user_id, week, result) => {
+  sql.query("SELECT * FROM `tbl_week_priority` WHERE user_id = ? and week < ?", 
+  [user_id, week], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("created new Team: ", {user_id:user_id, priority:res});
+    result(null, {user_id:user_id, priority:res});
+  });
+};
+
 Priority.updateByPriority = (p, result) => {
   sql.query(
-    "UPDATE tbl_week_priority SET user_id = ?,week = ?, priority_num = ?,description = ?,goal = ?,detail = ? WHERE wp_id = ?",
-    [ p.user_id, p.week, p.priority_num, p.description,p.goal,p.detail, p.wp_id], (err, res) => {
+    "UPDATE tbl_week_priority SET user_id = ?,week = ?, priority_num = ?,description = ?,deliverable = ?,detail = ?,is_completed = ? WHERE wp_id = ?",
+    [ p.user_id, p.week, p.priority_num, p.description,p.deliverable,p.detail,p.is_completed, p.wp_id], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
