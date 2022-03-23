@@ -300,7 +300,7 @@ exports.getWorkDaysPerWeek = (req, res) => {
   }    
 
   // Save WorkSetting in the database
-  WorkSetting.getWorkDaysPerWeek(req.body.client_id, req.body.user_id, (err, data) => {
+  WorkSetting.getWorkDaysPerWeek(req.body.user_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:

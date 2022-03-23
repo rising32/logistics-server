@@ -3,20 +3,21 @@ module.exports.getWeekNumber = function  getWeekNumber(date) {
   return getWN(date);
 };
 
-function getWN(date){
-  var oneJan = new Date(date.getFullYear(),0,1);
-  var numberOfDays = Math.floor((date - oneJan) / (24 * 60 * 60 * 1000));
-  week = Math.ceil(( date.getDay() + 1 + numberOfDays) / 7);
-  return week;
+function getWN(date){  
+  var d = new Date(+date);
+  d.setHours(0,0,0);
+  d.setDate(d.getDate()+4-(d.getDay()||7));
+  return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
 }
 
-module.exports.getWorkDaysPerWeek = function getWorkDaysPerWeek(start_date, end_date, res)
+module.exports.getWorkDaysPerWeek = function getWorkDaysPerWeek(start_date, end_date, res, weekData)
 {
-  var weekWorkday = [];  
   var weekFirst = getWN(new Date(start_date));
   var weekEnd = getWN(new Date(end_date));
   var weekdayFirst = new Date(start_date).getDay();
-  var weekdayEnd = new Date(end_date).getDay();        
+  var weekdayEnd = new Date(end_date).getDay();  
+  // console.log(weekFirst);
+  // console.log(start_date);
   
   for(var i = 0; i < res.length; i++)
   {          
@@ -24,20 +25,23 @@ module.exports.getWorkDaysPerWeek = function getWorkDaysPerWeek(start_date, end_
     {            
       if(res[i].week == weekFirst)
       {              
-          var remindWorkdays = res[i].work_on_week - weekdayFirst + 1;                
-          weekWorkday.push({week:weekFirst, workdays:remindWorkdays});
+          var remindWorkdays = res[i].work_on_week - weekdayFirst + 1;
+          weekData[i].work_days = remindWorkdays;    
       }
       else if(res[i].week > weekFirst && res[i].week < weekEnd)
       {
-        weekWorkday.push({week:res[i].week, workdays:res[i].work_on_week});
-        console.log(res[i].work_on_week);
+        weekData[i].work_days = res[i].work_on_week;  
       }    
       else
-      {              
-        weekWorkday.push({week:weekEnd, workdays:weekdayEnd});
+      {  
+        if(weekdayEnd <= res[i].work_on_week)
+          weekData[i].work_days = weekdayEnd;
+        else
+          weekData[i].work_days = res[i].work_on_week;
         break;
       }
     }      
   }
-  return weekWorkday;  
+  // console.log(weekData);
+  return weekData;  
 }
