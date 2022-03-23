@@ -311,6 +311,29 @@ exports.getWorkDaysPerWeek = (req, res) => {
     }
   });
 };
+
+// Get All client work propose work days per month in this year
+exports.getWorkDaysPerMonth = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Save WorkSetting in the database
+  WorkSetting.getWorkDaysPerMonth(req.body.user_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the WorkSetting."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
   // Update a WorkSetting
 exports.updateByWorkSetting = (req, res) => {
   // Validate Request

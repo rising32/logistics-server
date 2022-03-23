@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2022 at 04:49 PM
+-- Generation Time: Mar 23, 2022 at 10:02 AM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- PHP Version: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -104,8 +104,9 @@ CREATE TABLE `tbl_client_project` (
 --
 
 INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_start`, `date_end`, `description`) VALUES
+(1, 4, 4, '2022-01-03 09:59:01', '2022-02-15 09:59:01', 'Google Advice App'),
 (2, 6, 4, '2022-01-12 16:37:08', '2022-02-10 16:37:08', 'UI design'),
-(3, 5, 2, '2022-03-02 14:11:56', '2022-03-30 21:11:56', NULL);
+(3, 5, 2, '2022-03-02 14:11:56', '2022-03-28 21:11:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -474,6 +475,7 @@ CREATE TABLE `tbl_work_setting` (
   `ws_id` int(8) NOT NULL,
   `user_id` int(8) NOT NULL,
   `week` int(2) DEFAULT NULL,
+  `year` int(5) NOT NULL,
   `first_day_of_week` int(2) DEFAULT NULL,
   `work_on_week` int(1) DEFAULT NULL,
   `start_work_time` int(2) DEFAULT NULL,
@@ -485,20 +487,20 @@ CREATE TABLE `tbl_work_setting` (
 -- Dumping data for table `tbl_work_setting`
 --
 
-INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `week`, `first_day_of_week`, `work_on_week`, `start_work_time`, `end_work_time`, `remainder`) VALUES
-(1, 3, 1, 3, 5, NULL, NULL, 0),
-(2, 3, 2, 10, 5, NULL, NULL, 0),
-(3, 3, 3, 17, 5, NULL, NULL, 1),
-(4, 3, 4, 24, 5, NULL, NULL, 1),
-(5, 3, 5, 31, 5, NULL, NULL, 0),
-(6, 3, 6, 7, 0, NULL, NULL, 1),
-(7, 3, 7, 14, 5, NULL, NULL, 1),
-(8, 3, 8, 21, 5, NULL, NULL, 1),
-(9, 3, 9, 28, 5, NULL, NULL, 0),
-(10, 3, 10, 7, 5, NULL, NULL, 1),
-(11, 3, 11, 14, 5, NULL, NULL, 0),
-(12, 3, 12, 21, 5, NULL, NULL, 1),
-(13, 3, 13, 28, 5, NULL, NULL, 0);
+INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `week`, `year`, `first_day_of_week`, `work_on_week`, `start_work_time`, `end_work_time`, `remainder`) VALUES
+(1, 3, 1, 2022, 3, 5, NULL, NULL, 0),
+(2, 3, 2, 2022, 10, 5, NULL, NULL, 0),
+(3, 3, 3, 2022, 17, 5, NULL, NULL, 1),
+(4, 3, 4, 2022, 24, 5, NULL, NULL, 1),
+(5, 3, 5, 2022, 31, 5, NULL, NULL, 0),
+(6, 3, 6, 2022, 7, 0, NULL, NULL, 1),
+(7, 3, 7, 2022, 14, 5, NULL, NULL, 1),
+(8, 3, 8, 2022, 21, 5, NULL, NULL, 1),
+(9, 3, 9, 2022, 28, 5, NULL, NULL, 0),
+(10, 3, 10, 2022, 7, 5, NULL, NULL, 1),
+(11, 3, 11, 2022, 14, 5, NULL, NULL, 0),
+(12, 3, 12, 2022, 21, 5, NULL, NULL, 1),
+(13, 3, 13, 2022, 28, 5, NULL, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -774,7 +776,7 @@ ALTER TABLE `tbl_week_priority`
 -- AUTO_INCREMENT for table `tbl_work_setting`
 --
 ALTER TABLE `tbl_work_setting`
-  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

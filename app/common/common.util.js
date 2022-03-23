@@ -45,3 +45,46 @@ module.exports.getWorkDaysPerWeek = function getWorkDaysPerWeek(start_date, end_
   // console.log(weekData);
   return weekData;  
 }
+
+function getDateList(startDate, endDate)
+{
+  var start_date = new Date(startDate);
+  var end_date = new Date(endDate);
+  var dates = [start_date];
+  var date = new Date(startDate);
+  while(date < end_date)
+  {
+      // Add a day
+      var dt = new Date(date.setDate(date.getDate() + 1));
+      dates.push(dt);
+  }  
+  return dates;
+}
+
+module.exports.splitRangeDate = function splitRangeDate(startDate, endDate)
+{ 
+  var dts = getDateList(startDate, endDate);
+  var month = new Date(dts[0]).getMonth();
+  var monthArray = [];
+  var id = 0;
+  monthArray.push({month:month, days:id});
+  for(var i = 0; i < dts.length; i++)
+  {    
+    var dt = new Date(dts[i]);
+    if(dt.getMonth() > month)
+    {
+      if(id > 0 && monthArray.length > 0)
+        monthArray[monthArray.length - 1].days = id;
+      month = dt.getMonth();
+      id = 0;      
+      monthArray.push({month:month, days:id});
+    }  
+    if(dt.getMonth() == month)
+    {
+      id++;console.log(id);
+    }
+  }
+  monthArray[monthArray.length - 1].days = id;
+  console.log(monthArray);
+  return dts;
+}
