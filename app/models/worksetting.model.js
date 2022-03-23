@@ -73,8 +73,6 @@ WorkSetting.updateByWorkSetting = (work_setting, result) => {
 
 WorkSetting.getWorkDaysPerWeek = (user_id,result) => {  
   var data = [];
-  
-  // var sumDays = 0;
   sql.query(
       "SELECT m.client_name, c.* FROM `tbl_client_project` c, mst_client m where m.client_id = c.client_id", [], (err, res) => 
       {
@@ -90,9 +88,7 @@ WorkSetting.getWorkDaysPerWeek = (user_id,result) => {
               console.log("error: ", err);
               result(err, null);
               return;
-            } 
-            // for(var j = 0; j < resWS.length; j++)
-            //   sumDays += resWS[j].work_on_week;      
+            }    
             for(var i = 0; i < res.length; i++) 
             {
               var weekData = [];
@@ -119,8 +115,6 @@ WorkSetting.getWorkDaysPerWeek = (user_id,result) => {
                 for(var k = 0; k < removeIndexes.length; k++)
                   data.pop(data[k]);
             }
-            // data.splice(0, 0, {sum:sumDays})
-            console.log(data);
             result(null, {data:data});
           });  
         
@@ -128,8 +122,9 @@ WorkSetting.getWorkDaysPerWeek = (user_id,result) => {
   };  
 WorkSetting.getWorkDaysPerMonth = (user_id,result) => {         
 var data = [];
+var per_month_dates = [];
 sql.query(
-    "SELECT m.client_name, c.* FROM `tbl_client_project` c, mst_client m where m.client_id = c.client_id", [], (err, res) => 
+    "SELECT m.client_name, c.* FROM `tbl_client_project` c, mst_client m where m.client_id = c.client_id and c.client_id = 4", [], (err, res) => 
     {
       if (err) {
           console.log("error: ", err);
@@ -143,38 +138,65 @@ sql.query(
             console.log("error: ", err);
             result(err, null);
             return;
-          }    
-        //   for(var i = 0; i < res.length; i++) 
-        //   {
-        //     var weekData = [];
-        //     for(var j = 0; j < resWS.length; j++)       
-        //       weekData.push({week:resWS[j].week, work_days : 0});
+          }
+          
+          //get monthly work days from work settings
+          // var cur_date = new Date();
+          // var first_day_this_year = new Date(cur_date.getFullYear()+"-01-01");
+          // var end_day_this_year = new Date(cur_date.getFullYear()+"-03-27");
+          // console.log(first_day_this_year);
+          // console.log(end_day_this_year);
+          //   pmd = Util.splitRangeDate(first_day_this_year, end_day_this_year);
+          //   var mwd = [];
+          //   for(var j = 0; j < pmd.length; j++)
+          //   {
+          //     //Calculate sum of monthly work days from day range
+          //     var realWorkdays = Util.getSumWorkDaysPerMonth(pmd[j].start_date, pmd[j].end_date, resWS, weekData);              
+          //     mwd.push(realWorkdays);
+          //   }
+          //   data.push({client_id:-1, client_name:"Available", realWorkdays : mwd});
+          
+          for(var i = 0; i < res.length; i++) 
+          {
+            var weekData = [];
+            for(var j = 0; j < resWS.length; j++)       
+              weekData.push({week:resWS[j].week, work_days : 0});
 
-        //     var date_start = res[i].date_start;
-        //     var date_end = res[i].date_end;
-        //     var realWorkdays = Util.getWorkDaysPerWeek(date_start, date_end, resWS, weekData);
-        //     data.push({client_id:res[i].client_id, client_name:res[i].client_name, realWorkdays:realWorkdays});                  
-        //   } 
-        //   var removeIndexes = [];
-        //   for(var i = 0; i < data.length; i++) 
-        //   {
-        //     for(var j = i + 1; j < data.length; j++)
-        //     {
-        //       //if client is same one, plus the work_days with work_days
-        //       if(data[i].client_id != data[j].client_id) continue;   
-        //       removeIndexes.push(j);             
-        //       for(var k = 0 + 1; k < data[j].realWorkdays.length; k++)
-        //         data[i].realWorkdays[k].work_days += data[j].realWorkdays[k].work_days;                
-        //     }
-        //     if(removeIndexes.length > 0)
-        //       for(var k = 0; k < removeIndexes.length; k++)
-        //         data.pop(data[k]);
-        //   }
-        //   console.log(data);
-        //   result(null, {data:data});
-        });  
-        var dates = Util.splitRangeDate("2022-01-03", "2022-01-06");
-        result(null, {data:res});
+            var date_start = res[i].date_start;
+            var date_end = res[i].date_end;
+
+            //Split day range to days per month;
+            per_month_dates = Util.splitRangeDate(date_start, date_end);
+            var month_work_days = [];
+            for(var j = 0; j < per_month_dates.length; j++)
+            {
+              date_start = per_month_dates[j].start_date;
+              date_end = per_month_dates[j].end_date;
+
+              //Calculate sum of monthly work days from day range
+              var realWorkdays = Util.getSumWorkDaysPerMonth(date_start, date_end, resWS, weekData);              
+              month_work_days.push(realWorkdays);
+            }
+            data.push({client_id:res[i].client_id, client_name:res[i].client_name, realWorkdays : month_work_days});                              
+          }     
+
+          // var removeIndexes = [];
+          // for(var i = 0; i < data.length; i++) 
+          // {
+          //   for(var j = i + 1; j < data.length; j++)
+          //   {
+          //     //if client is same one, plus the work_days with work_days
+          //     if(data[i].client_id != data[j].client_id) continue;   
+          //     removeIndexes.push(j);             
+          //     for(var k = 0 + 1; k < data[j].realWorkdays.length; k++)
+          //       data[i].realWorkdays[k].work_days += data[j].realWorkdays[k].work_days;                
+          //   }
+          //   if(removeIndexes.length > 0)
+          //     for(var k = 0; k < removeIndexes.length; k++)
+          //       data.pop(data[k]);
+          // }
+          result(null, {data:data});
+        });        
     });
 };  
 
