@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2022 at 09:59 AM
+-- Generation Time: Mar 24, 2022 at 10:40 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -244,7 +244,7 @@ CREATE TABLE `tbl_priority_task` (
   `task_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `project_id` int(8) DEFAULT NULL,
-  `priority` int(2) DEFAULT NULL,
+  `priority_id` int(8) DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `planned_start_date` datetime DEFAULT NULL,
   `planned_end_date` datetime DEFAULT NULL,
@@ -259,12 +259,12 @@ CREATE TABLE `tbl_priority_task` (
 -- Dumping data for table `tbl_priority_task`
 --
 
-INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `deliverable`, `project_id`, `priority`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
-(12, 3, 'twetwtewet', 'asfdasfafa', 6, 2, 'asdfasdfsadfadfa', '2022-03-09 00:00:00', '2022-03-29 00:00:00', NULL, NULL, 0, 0, NULL),
+INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `deliverable`, `project_id`, `priority_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
+(12, 3, 'twetwtewet', 'asfdasfafa', 6, 5, 'asdfasdfsadfadfa', '2022-03-09 00:00:00', '2022-03-29 00:00:00', NULL, NULL, 0, 0, NULL),
 (13, 4, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
 (14, 3, 'blue sky - task - 1', 'jygjgyjgjgjygj', 5, 3, 'this is blue sky task.', '2022-03-09 00:00:00', '2022-03-30 20:49:37', NULL, NULL, 35.5, 0, NULL),
 (15, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
-(17, 9, 'red', NULL, 6, 1, 'this is red color.', NULL, NULL, NULL, NULL, 15, 0, NULL);
+(17, 9, 'red', NULL, 6, 4, 'this is red color.', NULL, NULL, NULL, NULL, 15, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -453,7 +453,7 @@ CREATE TABLE `tbl_week_priority` (
   `description` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `is_completed` tinyint(1) DEFAULT NULL
+  `is_completed` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -462,7 +462,7 @@ CREATE TABLE `tbl_week_priority` (
 
 INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `description`, `deliverable`, `detail`, `is_completed`) VALUES
 (3, 1, 13, 1, 'make ui design', 'login interface', 'complete sign up ', NULL),
-(4, 1, 13, 2, 'make log in animation', 'user click button animation', 'Animation must be beautiful.', 1),
+(4, 1, 13, 2, 'make log in animation', 'user click button animation', 'Animation must be beautiful.', 0.5),
 (5, 1, 12, 1, 'login service', 'install php and mysql', 'php version 7.47', 1);
 
 -- --------------------------------------------------------
@@ -612,7 +612,8 @@ ALTER TABLE `tbl_priority_agenda`
 ALTER TABLE `tbl_priority_task`
   ADD PRIMARY KEY (`task_id`),
   ADD KEY `creator_id` (`creator_id`),
-  ADD KEY `project_id` (`project_id`);
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `priority_id` (`priority_id`);
 
 --
 -- Indexes for table `tbl_proceed_deliverable`
@@ -912,7 +913,8 @@ ALTER TABLE `tbl_user_company`
 -- Constraints for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  ADD CONSTRAINT `tbl_week_priority_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_week_priority_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_week_priority_ibfk_2` FOREIGN KEY (`wp_id`) REFERENCES `tbl_priority_task` (`priority_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_work_setting`
