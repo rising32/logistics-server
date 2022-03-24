@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2022 at 10:40 AM
+-- Generation Time: Mar 24, 2022 at 01:38 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -184,7 +184,7 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (28, 9, '2022-03-18 21:54:10', NULL, '2022-03-18 21:54:56'),
 (29, 9, '2022-03-18 21:55:14', NULL, '2022-03-18 21:55:31'),
 (30, 9, '2022-03-18 22:00:14', NULL, '2022-03-18 22:00:26'),
-(31, 9, '2022-03-18 22:00:40', NULL, NULL),
+(31, 9, '2022-03-18 22:00:40', NULL, '2022-03-24 20:11:11'),
 (32, 3, '2022-03-20 15:31:52', NULL, NULL),
 (33, 10, '2022-03-20 15:33:43', NULL, NULL),
 (38, 18, '2022-03-20 20:09:01', 'FmZ2zwT0V2hXVzK9lS9smw==$0uK4GyWJn+bzBPl0QyoAHLv5BJHBxb8QSgGP0mvoKGYQv9kP3pVNU531tpPp3g+h6mkQJ4xzElMmxjMnmfQGUQ==', NULL);
@@ -388,14 +388,14 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`user_id`, `email`, `phone_number`, `password`, `display_name`, `birthday`, `avatar`, `is_project_manager`, `registration_time`) VALUES
-(1, 'tul@fg.com', '12523568954', '123456', NULL, NULL, '', 0, '2022-03-17 10:42:49'),
+(1, 'tul@fg.com', '12523568954', '123456', 'Jonshn Deli', NULL, '', 0, '2022-03-17 10:42:49'),
 (3, 'a@a.com', '56345896541', '123456', 'Jim', NULL, 'dsfasdfljakfdjkaldfjakljfdaljfdkadfklaj', 0, '2022-03-17 10:42:49'),
-(4, 'b@b.com', '56894336584', '123456', NULL, NULL, NULL, 0, '2022-03-17 10:42:49'),
-(7, 'c@c.com', '1235648542', '123456', NULL, NULL, NULL, 0, '2022-03-17 12:38:10'),
-(8, 'd@d.com', '5264235512', '123456', NULL, NULL, NULL, 0, '2022-03-18 09:03:43'),
-(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', NULL, NULL, NULL, 0, '2022-03-18 21:54:10'),
-(10, 'abd@a.com', '5264855214522', '123456', NULL, NULL, NULL, 0, '2022-03-20 15:33:43'),
-(18, 'tulip31518@outlook.com', '5264855214', '123456', NULL, NULL, NULL, 0, '2022-03-20 20:09:01');
+(4, 'b@b.com', '56894336584', '123456', 'Herdson', NULL, NULL, 0, '2022-03-17 10:42:49'),
+(7, 'c@c.com', '1235648542', '123456', 'Dorneld Trump', NULL, NULL, 0, '2022-03-17 12:38:10'),
+(8, 'd@d.com', '5264235512', '123456', 'Joe Biden', NULL, NULL, 0, '2022-03-18 09:03:43'),
+(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', 'Joji Worsington', NULL, NULL, 0, '2022-03-18 21:54:10'),
+(10, 'abd@a.com', '5264855214522', '123456', 'Bonapard Napoleon', NULL, NULL, 0, '2022-03-20 15:33:43'),
+(18, 'tulip31518@outlook.com', '5264855214', '123456', 'C Ronaldo', NULL, NULL, 0, '2022-03-20 20:09:01');
 
 -- --------------------------------------------------------
 

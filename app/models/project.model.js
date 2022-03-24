@@ -68,7 +68,7 @@ Project.updateByProject = (p, result) => {
 Project.getWorkDaysPerWeek = (user_id,result) => {  
   var data = [];
   sql.query(
-      "SELECT m.client_name, c.* FROM `tbl_client_project` c, mst_client m where m.client_id = c.client_id", [], (err, res) => 
+      "SELECT m.client_name, c.* FROM `tbl_client_project` c, mst_client m where m.client_id = c.client_id", (err, res) => 
       {
         if (err) {
             console.log("error: ", err);
@@ -120,7 +120,7 @@ Project.getWorkDaysPerMonth = (user_id,result) => {
 var data = [];
 var per_month_dates = [];
 sql.query(
-    "SELECT m.client_name, c.* FROM `tbl_client_project` c, mst_client m where m.client_id = c.client_id", [], (err, res) => 
+    "SELECT m.client_name, c.* FROM `tbl_client_project` c, mst_client m where m.client_id = c.client_id", (err, res) => 
     {
       if (err) {
           console.log("error: ", err);
