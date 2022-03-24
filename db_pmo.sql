@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2022 at 10:02 AM
+-- Generation Time: Mar 24, 2022 at 09:59 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -104,9 +104,9 @@ CREATE TABLE `tbl_client_project` (
 --
 
 INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_start`, `date_end`, `description`) VALUES
-(1, 4, 4, '2022-01-03 09:59:01', '2022-02-15 09:59:01', 'Google Advice App'),
+(1, 4, 4, '2022-01-03 09:59:01', '2022-01-31 09:59:01', 'Google Advice App'),
 (2, 6, 4, '2022-01-12 16:37:08', '2022-02-10 16:37:08', 'UI design'),
-(3, 5, 2, '2022-03-02 14:11:56', '2022-03-28 21:11:56', NULL);
+(3, 5, 2, '2022-01-18 14:11:56', '2022-03-28 21:11:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -497,10 +497,49 @@ INSERT INTO `tbl_work_setting` (`ws_id`, `user_id`, `week`, `year`, `first_day_o
 (7, 3, 7, 2022, 14, 5, NULL, NULL, 1),
 (8, 3, 8, 2022, 21, 5, NULL, NULL, 1),
 (9, 3, 9, 2022, 28, 5, NULL, NULL, 0),
-(10, 3, 10, 2022, 7, 5, NULL, NULL, 1),
+(10, 3, 10, 2022, 4, 5, NULL, NULL, 1),
 (11, 3, 11, 2022, 14, 5, NULL, NULL, 0),
 (12, 3, 12, 2022, 21, 5, NULL, NULL, 1),
-(13, 3, 13, 2022, 28, 5, NULL, NULL, 0);
+(13, 3, 13, 2022, 28, 5, NULL, NULL, 0),
+(14, 3, 14, 2022, 4, 5, NULL, NULL, 0),
+(15, 3, 15, 2022, 11, 5, NULL, NULL, 1),
+(16, 3, 16, 2022, 18, 5, NULL, NULL, 0),
+(17, 3, 17, 2022, 25, 5, NULL, NULL, 0),
+(18, 3, 18, 2022, 2, 5, NULL, NULL, 1),
+(19, 3, 19, 2022, 9, 5, NULL, NULL, 1),
+(20, 3, 20, 2022, 16, 5, NULL, NULL, 0),
+(21, 3, 21, 2022, 23, 5, NULL, NULL, 1),
+(22, 3, 22, 2022, 30, 5, NULL, NULL, 1),
+(23, 3, 23, 2022, 6, 5, NULL, NULL, 1),
+(24, 3, 24, 2022, 13, 5, NULL, NULL, 0),
+(25, 3, 25, 2022, 20, 5, NULL, NULL, 1),
+(26, 3, 26, 2022, 27, 5, NULL, NULL, 0),
+(27, 3, 27, 2022, 4, 5, NULL, NULL, 1),
+(28, 3, 28, 2022, 11, 5, NULL, NULL, 0),
+(29, 3, 29, 2022, 18, 5, NULL, NULL, 0),
+(30, 3, 30, 2022, 25, 5, NULL, NULL, 0),
+(31, 3, 31, 2022, 1, 0, NULL, NULL, 1),
+(32, 3, 32, 2022, 8, 0, NULL, NULL, 1),
+(33, 3, 33, 2022, 15, 0, NULL, NULL, 0),
+(34, 3, 34, 2022, 22, 5, NULL, NULL, 1),
+(35, 3, 35, 2022, 29, 5, NULL, NULL, 1),
+(36, 3, 36, 2022, 5, 5, NULL, NULL, 1),
+(37, 3, 37, 2022, 12, 5, NULL, NULL, 0),
+(38, 3, 38, 2022, 19, 5, NULL, NULL, 1),
+(39, 3, 39, 2022, 26, 5, NULL, NULL, 0),
+(40, 3, 40, 2022, 3, 5, NULL, NULL, 1),
+(41, 3, 41, 2022, 10, 5, NULL, NULL, 0),
+(42, 3, 42, 2022, 17, 5, NULL, NULL, 0),
+(43, 3, 43, 2022, 24, 5, NULL, NULL, 0),
+(44, 3, 44, 2022, 31, 5, NULL, NULL, 1),
+(45, 3, 45, 2022, 7, 5, NULL, NULL, 1),
+(46, 3, 46, 2022, 14, 5, NULL, NULL, 0),
+(47, 3, 47, 2022, 21, 5, NULL, NULL, 1),
+(48, 3, 48, 2022, 28, 5, NULL, NULL, 1),
+(49, 3, 49, 2022, 5, 5, NULL, NULL, 1),
+(50, 3, 50, 2022, 12, 5, NULL, NULL, 0),
+(51, 3, 51, 2022, 19, 0, NULL, NULL, 0),
+(52, 3, 52, 2022, 26, 0, NULL, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -776,7 +815,7 @@ ALTER TABLE `tbl_week_priority`
 -- AUTO_INCREMENT for table `tbl_work_setting`
 --
 ALTER TABLE `tbl_work_setting`
-  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- Constraints for dumped tables

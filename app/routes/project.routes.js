@@ -67,7 +67,10 @@ module.exports = app => {
   //Get tasks by user_id, client_id, project_id, planned_end_date
   app.post("/project/task/get_ucpt", project.getUCPT);
 
-  //Get client - project plan dates
-  //app.post("/project/get_weekly_status", project.getWeeklyStatus);
+  // Get real Work day list per client, week
+  app.post("/project/get_real_workdays/week", project.getWorkDaysPerWeek);
+
+  // Get real Work day list per client monthly
+  app.post("/project/get_real_workdays/month", project.getWorkDaysPerMonth);
 
   };
