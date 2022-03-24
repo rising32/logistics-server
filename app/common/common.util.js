@@ -10,24 +10,23 @@ function getWN(date){
   return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
 }
 
-function getWorkDaysWeek(start_date, end_date, resData, weekData)
+function getWorkDaysWeek(start_date, end_date, res, wd)
 {
-  var wd = [...weekData];
-  var res = [...resData];
-  console.log(res);
   var weekFirst = getWN(new Date(start_date));
   var weekEnd = getWN(new Date(end_date));
   var weekdayFirst = new Date(start_date).getDay();
   var weekdayEnd = new Date(end_date).getDay();
-  
+  // console.log(res);
   for(var i = 0; i < res.length; i++)
   {          
     if(res[i].week >= weekFirst && res[i].week <= weekEnd)
     {            
       if(res[i].week == weekFirst)
-      {              
-          var remindWorkdays = res[i].work_on_week - weekdayFirst + 1;
-          wd[i].work_days = remindWorkdays;    
+      { 
+        if(weekdayFirst == 0)
+          wd[i].work_days = res[i].work_on_week;
+        else 
+          wd[i].work_days = res[i].work_on_week - weekdayFirst + 1;
       }
       else if(res[i].week > weekFirst && res[i].week < weekEnd)
       {
@@ -35,10 +34,10 @@ function getWorkDaysWeek(start_date, end_date, resData, weekData)
       }    
       else
       {  
-        if(weekdayEnd <= res[i].work_on_week)
-        wd[i].work_days = weekdayEnd;
+        if(weekdayEnd <= res[i].work_on_week && weekdayEnd != 0)
+          wd[i].work_days = weekdayEnd;
         else
-        wd[i].work_days = res[i].work_on_week;
+          wd[i].work_days = res[i].work_on_week;
         break;
       }
     }      
@@ -60,12 +59,13 @@ module.exports.getSumWorkDaysPerMonth = function getSumWorkDaysPerMonth(start_da
   work_days_list.forEach(week_work => {    
     work_sum += week_work.work_days;
   });
-
+  
   return {month: month, work_days:work_sum};
 }
 
 function getDateList(startDate, endDate)
 {
+  // console.log({startDate, endDate});
   var start_date = new Date(startDate);
   var end_date = new Date(endDate);
   var dates = [start_date];
@@ -107,6 +107,5 @@ module.exports.splitRangeDate = function splitRangeDate(startDate, endDate)
   }
   monthArray[monthArray.length - 1].days = id;
   monthArray[monthArray.length - 1].end_date = new Date(endDate);
-  console.log(monthArray);
   return monthArray;
 }
