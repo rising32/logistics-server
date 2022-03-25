@@ -111,6 +111,10 @@ function getWorkDaysPerWeek(res, resWS, option)
         realWorkdays = Util.getWorkDaysPerWeek(res[i].planned_start_date, res[i].planned_end_date, resWS, weekData);
         data.push({project_id:res[i].project_id, project_name:res[i].project_name, realWorkdays:realWorkdays});
         break;  
+      case "member":
+        realWorkdays = Util.getWorkDaysPerWeek(res[i].planned_start_date, res[i].planned_end_date, resWS, weekData);
+        data.push({member_id:res[i].member_id, member_name:res[i].member_name, realWorkdays:realWorkdays});
+        break;  
     }        
   } 
   var removeIndexes = [];
@@ -134,13 +138,21 @@ function getWorkDaysPerWeek(res, resWS, option)
             removeIndexes.push(j);
         for(var k = 0; k < data[j].realWorkdays.length; k++)
           data[i].realWorkdays[k].work_days += data[j].realWorkdays[k].work_days;
-      }                      
-    }
-    if(removeIndexes.length > 0)
-      for(var k = 0; k < removeIndexes.length; k++)
-        data.pop(data[k]);
+      }   
+      else if(option == "member")
+      {
+        if(data[i].member_id != data[j].member_id) continue;
+        if(removeIndexes.indexOf(j) == -1)
+            removeIndexes.push(j);
+        for(var k = 0; k < data[j].realWorkdays.length; k++)
+          data[i].realWorkdays[k].work_days += data[j].realWorkdays[k].work_days;
+      }                     
+    }    
   }
-  //Add planned work days into data
+  var tmp_data = [...data];
+  for(var k = 0; k < removeIndexes.length; k++)
+    data.splice(data.indexOf(tmp_data[removeIndexes[k]]), 1);
+  // //Add planned work days into data
   var plan_work_days = [];
   for(var j = 0; j < resWS.length; j++)       
       plan_work_days.push({week:resWS[j].week, work_days : resWS[j].work_on_week});
@@ -152,6 +164,9 @@ function getWorkDaysPerWeek(res, resWS, option)
       break;
     case "project":
       data.splice(0, 0,{project_id:-1, project_name:"Avaailable", realWorkdays:plan_work_days});
+      break; 
+    case "member":
+      data.splice(0, 0,{member_id:-1, member_name:"Avaailable", realWorkdays:plan_work_days});
       break;  
   }
   return data;
@@ -209,6 +224,8 @@ function getWorkDaysPerMonth(res, resWS, year, option)
     result_data.splice(0, 0, {client_id:-1, client_name:"Available", realWorkdays : mwd});
   else if(option == "project")
     result_data.splice(0, 0, {project_id:-1, project_name:"Available", realWorkdays : mwd});
+  else if(option == "member")
+    result_data.splice(0, 0, {member_id:-1, member_name:"Available", realWorkdays : mwd});
 
   //===================================================== Statistic Client - Project data ====================
   for(var i = 0; i < res.length; i++) 
@@ -222,6 +239,11 @@ function getWorkDaysPerMonth(res, resWS, year, option)
         date_end = res[i].date_end;
     }
     else if(option == "project")
+    {
+        date_start = res[i].planned_start_date;
+        date_end = res[i].planned_end_date;
+    }
+    else if(option == "member")
     {
         date_start = res[i].planned_start_date;
         date_end = res[i].planned_end_date;
@@ -242,6 +264,8 @@ function getWorkDaysPerMonth(res, resWS, year, option)
         data.push({client_id:res[i].client_id, client_name:res[i].client_name, realWorkdays : realWorkdays}); 
       else if(option == "project")
         data.push({project_id:res[i].project_id, project_name:res[i].project_name, realWorkdays : realWorkdays});
+      else if(option == "member")
+        data.push({member_id:res[i].member_id, member_name:res[i].member_name, realWorkdays : realWorkdays});
     }                   
   }     
   // console.log(data);
@@ -270,7 +294,17 @@ function getWorkDaysPerMonth(res, resWS, year, option)
             removeIndexes.push(j); 
           data[i].realWorkdays.work_days += data[j].realWorkdays.work_days;
         }   
-      }      
+      }
+      else if(option == "member")
+      {
+        if(data[i].member_id != data[j].member_id) continue;
+        if(data[i].realWorkdays.month == data[j].realWorkdays.month)
+        {
+          if(removeIndexes.indexOf(j) == -1)
+            removeIndexes.push(j); 
+          data[i].realWorkdays.work_days += data[j].realWorkdays.work_days;
+        }   
+      }   
     }            
   }
   // //remove item with same client_id and month
@@ -324,6 +358,29 @@ function getWorkDaysPerMonth(res, resWS, year, option)
       }  
     }
   }
+  else if(option == "member")
+  {
+    for(var i = 0; i < data.length; i++) 
+    {         
+      var is_new = true;        
+      result_data.forEach(element => {
+        if(element.member_id == data[i].member_id)
+        {
+          is_new = false;
+          element.realWorkdays[data[i].realWorkdays.month - 1].work_days = data[i].realWorkdays.work_days;
+        } 
+      });
+      if(is_new)
+      {
+        var data_default = [];  
+        for(var j = 1; j <= 12; j++ )
+          data_default.push({month:j, work_days:0});
+
+        data_default[data[i].realWorkdays.month - 1].work_days = data[i].realWorkdays.work_days;
+        result_data.push({member_id: data[i].member_id, member_name:data[i].member_name, realWorkdays:data_default});
+      }  
+    }
+  }
   console.log(result_data);
   return result_data;
 }
@@ -333,7 +390,7 @@ function getWorkDaysPerMonth(res, resWS, year, option)
 Project.getWorkDaysPerWeek = (user_id,result) => {  
   var data = [];
   sql.query(
-      "SELECT * FROM `tbl_project`", (err, res) => 
+      "SELECT * FROM `tbl_project` where creator_id = ?", (err, res) => 
       {
         if (err) {
             console.log("error: ", err);
@@ -375,6 +432,57 @@ sql.query(
             return;
           }
           var result_data = getWorkDaysPerMonth(res, resWS, year,"project");          
+          result(null, {data:result_data});
+        });        
+    });
+};
+
+Project.getWorkDaysPerWeek_Member = (creator_id, member_id,result) => {  
+  var data = [];
+  sql.query(
+      "SELECT t.planned_start_date, t.planned_end_date, a.*, u.display_name member_name FROM (SELECT * FROM `tbl_priority_task` WHERE is_active = 1 and creator_id = ?) t, tbl_task_assign a, tbl_user u where t.task_id = a.task_id and u.user_id = a.member_id;",
+      creator_id, (err, res) => 
+      {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }        
+        sql.query(
+          "SELECT week, work_on_week, IF(work_on_week IS NULL, '', '') work_days FROM `tbl_work_setting` WHERE user_id = ?", creator_id, (err, resWS) => 
+          {
+            if (err) {
+              console.log("error: ", err);
+              result(err, null);
+              return;
+            }            
+            data = getWorkDaysPerWeek(res, resWS, "member");
+            result(null, {data:data});
+          });  
+        
+      });
+  }; 
+
+// Get real Work day list per Project monthly
+Project.getWorkDaysPerMonth_Member = (creator_id, member_id,result) => {  
+sql.query(
+    "SELECT t.planned_start_date, t.planned_end_date, a.*, u.display_name member_name FROM (SELECT * FROM `tbl_priority_task` WHERE is_active = 1 and creator_id = ?) t, tbl_task_assign a, tbl_user u where t.task_id = a.task_id and u.user_id = a.member_id;", creator_id, (err, res) => 
+    {
+      if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+      } 
+      var year = new Date().getFullYear();       
+      sql.query(
+        "SELECT week, work_on_week, IF(work_on_week IS NULL, '', '') work_days, first_day_of_week	FROM `tbl_work_setting` WHERE user_id = ? and year = ?", [creator_id, year], (err, resWS) => 
+        {
+          if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+          var result_data = getWorkDaysPerMonth(res, resWS, year,"member");          
           result(null, {data:result_data});
         });        
     });

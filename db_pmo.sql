@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2022 at 01:38 PM
+-- Generation Time: Mar 25, 2022 at 03:08 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -246,8 +246,8 @@ CREATE TABLE `tbl_priority_task` (
   `project_id` int(8) DEFAULT NULL,
   `priority_id` int(8) DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `planned_start_date` datetime DEFAULT NULL,
-  `planned_end_date` datetime DEFAULT NULL,
+  `planned_start_date` date DEFAULT NULL,
+  `planned_end_date` date DEFAULT NULL,
   `actual_start_date` datetime DEFAULT NULL,
   `actual_end_date` datetime DEFAULT NULL,
   `hourly_rate` float NOT NULL,
@@ -260,11 +260,11 @@ CREATE TABLE `tbl_priority_task` (
 --
 
 INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `deliverable`, `project_id`, `priority_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
-(12, 3, 'twetwtewet', 'asfdasfafa', 6, 5, 'asdfasdfsadfadfa', '2022-03-09 00:00:00', '2022-03-29 00:00:00', NULL, NULL, 0, 0, NULL),
-(13, 4, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
-(14, 3, 'blue sky - task - 1', 'jygjgyjgjgjygj', 5, 3, 'this is blue sky task.', '2022-03-09 00:00:00', '2022-03-30 20:49:37', NULL, NULL, 35.5, 0, NULL),
-(15, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', NULL, NULL, NULL, NULL, 35.5, 0, NULL),
-(17, 9, 'red', NULL, 6, 4, 'this is red color.', NULL, NULL, NULL, NULL, 15, 0, NULL);
+(12, 3, 'twetwtewet', 'asfdasfafa', 6, 5, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1),
+(13, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1),
+(14, 3, 'blue sky - task - 1', 'jygjgyjgjgjygj', 5, 3, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1),
+(15, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1),
+(17, 3, 'red', NULL, 6, 4, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -300,9 +300,9 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(4, 3, 'Android app', NULL, NULL, NULL, NULL, 'This is my app.'),
-(5, 3, 'IOS app', NULL, NULL, NULL, NULL, 'This is IOS app.'),
-(6, 1, 'blue sky - version', NULL, NULL, NULL, NULL, 'this is version.');
+(4, 3, 'Android app', '2022-03-08 22:06:47', '2022-03-17 22:06:52', NULL, NULL, 'This is my app.'),
+(5, 3, 'IOS app', '2022-03-14 22:06:56', '2022-04-13 22:07:01', NULL, NULL, 'This is IOS app.'),
+(6, 1, 'blue sky - version', '2022-03-27 22:07:07', '2022-03-31 22:07:10', NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
 
@@ -341,8 +341,10 @@ CREATE TABLE `tbl_task_assign` (
 --
 
 INSERT INTO `tbl_task_assign` (`assign_id`, `task_id`, `member_id`, `role_id`) VALUES
-(1, 12, 3, 1),
-(2, 14, 3, 3);
+(1, 12, 4, 1),
+(2, 14, 4, 3),
+(3, 13, 7, 3),
+(4, 15, 8, 3);
 
 -- --------------------------------------------------------
 
@@ -780,7 +782,7 @@ ALTER TABLE `tbl_project_manager`
 -- AUTO_INCREMENT for table `tbl_task_assign`
 --
 ALTER TABLE `tbl_task_assign`
-  MODIFY `assign_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `assign_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_team_member`

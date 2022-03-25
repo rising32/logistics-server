@@ -79,4 +79,10 @@ module.exports = app => {
   // Get real Work day list per project monthly
   app.post("/project/get_real_workdays/month", project.getWorkDaysPerMonth);
 
+  // Get real Work day list per member, week
+  app.post("/project/get_real_workdays/week/member", project.getWorkDaysPerWeek_Member);
+
+  // Get real Work day list per member monthly
+  app.post("/project/get_real_workdays/month/member", project.getWorkDaysPerMonth_Member);
+
   };

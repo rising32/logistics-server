@@ -626,3 +626,47 @@ exports.getWorkDaysPerMonth = (req, res) => {
     }
   });
 };
+
+// Get real Work day list per client, week
+exports.getWorkDaysPerWeek_Member = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Get real Work day list per client, week
+  Project.getWorkDaysPerWeek_Member(req.body.creator_id, req.body.member_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the WorkSetting."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Get real Work day list per client monthly
+exports.getWorkDaysPerMonth_Member = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Get real Work day list per client monthly
+  Project.getWorkDaysPerMonth_Member(req.body.creator_id, req.body.member_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the WorkSetting."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
