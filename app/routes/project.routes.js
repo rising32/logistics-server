@@ -68,9 +68,15 @@ module.exports = app => {
   app.post("/project/task/get_ucpt", project.getUCPT);
 
   // Get real Work day list per client, week
-  app.post("/project/get_real_workdays/week", project.getWorkDaysPerWeek);
+  app.post("/project/get_real_workdays/week/client", project.getWorkDaysPerWeek_Client);
 
   // Get real Work day list per client monthly
+  app.post("/project/get_real_workdays/month/client", project.getWorkDaysPerMonth_Client);
+
+  // Get real Work day list per project, week
+  app.post("/project/get_real_workdays/week", project.getWorkDaysPerWeek);
+
+  // Get real Work day list per project monthly
   app.post("/project/get_real_workdays/month", project.getWorkDaysPerMonth);
 
   };

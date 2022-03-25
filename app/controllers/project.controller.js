@@ -540,7 +540,7 @@ exports.updateByPrecede = (req, res) => {
 // };
 
 // Get real Work day list per client, week
-exports.getWorkDaysPerWeek = (req, res) => {
+exports.getWorkDaysPerWeek_Client = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
@@ -549,7 +549,7 @@ exports.getWorkDaysPerWeek = (req, res) => {
   }    
 
   // Get real Work day list per client, week
-  Project.getWorkDaysPerWeek(req.body.user_id, (err, data) => {
+  Project.getWorkDaysPerWeek_Client(req.body.user_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -562,7 +562,7 @@ exports.getWorkDaysPerWeek = (req, res) => {
 };
 
 // Get real Work day list per client monthly
-exports.getWorkDaysPerMonth = (req, res) => {
+exports.getWorkDaysPerMonth_Client = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
@@ -571,6 +571,50 @@ exports.getWorkDaysPerMonth = (req, res) => {
   }    
 
   // Get real Work day list per client monthly
+  Project.getWorkDaysPerMonth_Client(req.body.user_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the WorkSetting."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Get real Work day list per project, week
+exports.getWorkDaysPerWeek = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Get real Work day list per project, week
+  Project.getWorkDaysPerWeek(req.body.user_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the WorkSetting."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Get real Work day list per project monthly
+exports.getWorkDaysPerMonth = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Get real Work day list per project monthly
   Project.getWorkDaysPerMonth(req.body.user_id, (err, data) => {
     if (err)
       res.status(500).send({
