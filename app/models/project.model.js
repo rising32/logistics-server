@@ -19,9 +19,9 @@ Project.insertNewProject = (newProject, result) => {
       result(err, null);
       return;
     }
-
-    console.log("created new Project: ", { project_id: res.insertId, ...newProject });
-    result(null, { project_id: res.insertId, ...newProject });
+    newProject.project_id = res.insertId;
+    console.log("created new Project: ", { ...newProject });
+    result(null, {...newProject });
   });
 };
 
