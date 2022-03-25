@@ -277,39 +277,52 @@ function getWorkDaysPerMonth(res, resWS, year, option)
   var tmp_data = [...data];
   for(var k = 0; k < removeIndexes.length; k++)
     data.splice(data.indexOf(tmp_data[removeIndexes[k]]), 1);
-
-  // //combine real work days by client_id  
+  
   if(option == "client")
   {
     for(var i = 0; i < data.length; i++) 
       {         
-        var is_new = true;   
+        var is_new = true;        
         result_data.forEach(element => {
           if(element.client_id == data[i].client_id)
           {
             is_new = false;
-            element.realWorkdays.push(data[i].realWorkdays);
+            element.realWorkdays[data[i].realWorkdays.month - 1].work_days = data[i].realWorkdays.work_days;
           } 
         });
         if(is_new)
-          result_data.push({client_id: data[i].client_id, client_name:data[i].client_name, realWorkdays:[data[i].realWorkdays]});
+        {
+          var data_default = [];  
+          for(var j = 1; j <= 12; j++ )
+            data_default.push({month:j, work_days:0});
+
+          data_default[data[i].realWorkdays.month - 1].work_days = data[i].realWorkdays.work_days;
+          result_data.push({client_id: data[i].client_id, client_name:data[i].client_name, realWorkdays:data_default});
+        }  
       }
   }
   else if(option == "project")
   {
     for(var i = 0; i < data.length; i++) 
-      {         
-        var is_new = true;   
-        result_data.forEach(element => {
-          if(element.project_id == data[i].project_id)
-          {
-            is_new = false;
-            element.realWorkdays.push(data[i].realWorkdays);
-          } 
-        });
-        if(is_new)
-          result_data.push({project_id: data[i].project_id, project_name:data[i].project_name, realWorkdays:[data[i].realWorkdays]});
-      }
+    {         
+      var is_new = true;        
+      result_data.forEach(element => {
+        if(element.project_id == data[i].project_id)
+        {
+          is_new = false;
+          element.realWorkdays[data[i].realWorkdays.month - 1].work_days = data[i].realWorkdays.work_days;
+        } 
+      });
+      if(is_new)
+      {
+        var data_default = [];  
+        for(var j = 1; j <= 12; j++ )
+          data_default.push({month:j, work_days:0});
+
+        data_default[data[i].realWorkdays.month - 1].work_days = data[i].realWorkdays.work_days;
+        result_data.push({project_id: data[i].project_id, project_name:data[i].project_name, realWorkdays:data_default});
+      }  
+    }
   }
   console.log(result_data);
   return result_data;
@@ -345,7 +358,7 @@ Project.getWorkDaysPerWeek = (user_id,result) => {
 // Get real Work day list per Project monthly
 Project.getWorkDaysPerMonth = (user_id,result) => {  
 sql.query(
-    "SELECT * FROM `tbl_project`", (err, res) => 
+    "SELECT * FROM `tbl_project` where creator_id = ?", user_id, (err, res) => 
     {
       if (err) {
           console.log("error: ", err);
