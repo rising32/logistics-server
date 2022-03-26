@@ -160,13 +160,13 @@ function getWorkDaysPerWeek(res, resWS, option)
   switch(option)
   {
     case "client":
-      data.splice(0, 0,{client_id:-1, client_name:"Avaailable", realWorkdays:plan_work_days});
+      data.splice(0, 0,{client_id:-1, client_name:"Available", realWorkdays:plan_work_days});
       break;
     case "project":
-      data.splice(0, 0,{project_id:-1, project_name:"Avaailable", realWorkdays:plan_work_days});
+      data.splice(0, 0,{project_id:-1, project_name:"Available", realWorkdays:plan_work_days});
       break; 
     case "member":
-      data.splice(0, 0,{member_id:-1, member_name:"Avaailable", realWorkdays:plan_work_days});
+      data.splice(0, 0,{member_id:-1, member_name:"Available", realWorkdays:plan_work_days});
       break;  
   }
   return data;
@@ -390,7 +390,7 @@ function getWorkDaysPerMonth(res, resWS, year, option)
 Project.getWorkDaysPerWeek = (user_id,result) => {  
   var data = [];
   sql.query(
-      "SELECT * FROM `tbl_project` where creator_id = ?", (err, res) => 
+      "SELECT * FROM `tbl_project` where creator_id = ?", user_id, (err, res) => 
       {
         if (err) {
             console.log("error: ", err);

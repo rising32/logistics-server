@@ -23,8 +23,8 @@ function getWorkDaysWeek(start_date, end_date, res, wd)
     {            
       if(res[i].week == weekFirst)
       { 
-        if(weekdayFirst == 0)
-          wd[i].work_days = res[i].work_on_week;
+        if(weekdayFirst == 0 || weekdayFirst == 6)
+          wd[i].work_days = 0;
         else 
           wd[i].work_days = res[i].work_on_week - weekdayFirst + 1;
       }
