@@ -30,9 +30,28 @@ exports.getPriorityByUserId = (req, res) => {
     res.status(400).send({
       message: "Content can not be empty!"
     });
-  }  
-  // Save Priority in the database
+  }
   Priority.getPriorityByUserId(req.body.user_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+//Get completed Priority by End date
+exports.getPriorityByEndDate = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  Priority.getPriorityByEndDate(req.body.user_id, req.body.end_date, (err, data) => {
     if (err)
       res.status(500).send({
         message:

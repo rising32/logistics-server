@@ -7,6 +7,9 @@ module.exports = app => {
   // Get user's priority
   app.post("/priority/get/userid", priority.getPriorityByUserId);
 
+  // Get user's ended priority by date
+  app.post("/priority/get/end_date", priority.getPriorityByEndDate);
+
   // Get user's priority by week
   app.post("/priority/get/userid/week", priority.getPriorityByWeek);
 

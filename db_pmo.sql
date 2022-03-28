@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2022 at 09:38 AM
+-- Generation Time: Mar 28, 2022 at 02:08 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -456,17 +456,18 @@ CREATE TABLE `tbl_week_priority` (
   `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_completed` float DEFAULT NULL,
-  `is_weekly` tinyint(1) DEFAULT NULL
+  `is_weekly` tinyint(1) DEFAULT NULL,
+  `end_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tbl_week_priority`
 --
 
-INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `goal`, `deliverable`, `detail`, `is_completed`, `is_weekly`) VALUES
-(3, 3, 13, NULL, 'make ui design', 'login interface', 'complete sign up ', NULL, NULL),
-(4, 3, 13, NULL, 'make log in animation', 'user click button animation', 'Animation must be beautiful.', NULL, NULL),
-(5, 3, 12, NULL, 'login service', 'install php and mysql', 'php version 7.47', 1, NULL);
+INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `goal`, `deliverable`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
+(3, 3, 13, NULL, 'make ui design', 'login interface', 'complete sign up ', NULL, 1, NULL),
+(4, 3, 13, NULL, 'make log in animation', 'user click button animation', 'Animation must be beautiful.', 1, 1, '2022-03-24'),
+(5, 3, 12, NULL, 'login service', 'install php and mysql', 'php version 7.47', 1, 1, '2022-03-24');
 
 -- --------------------------------------------------------
 
