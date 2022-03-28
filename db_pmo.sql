@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2022 at 03:51 AM
+-- Generation Time: Mar 28, 2022 at 09:38 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -451,7 +451,7 @@ CREATE TABLE `tbl_week_priority` (
   `wp_id` int(10) NOT NULL,
   `user_id` int(8) NOT NULL,
   `week` int(2) NOT NULL,
-  `priority_num` int(8) NOT NULL,
+  `priority_num` int(8) DEFAULT NULL,
   `goal` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -464,9 +464,9 @@ CREATE TABLE `tbl_week_priority` (
 --
 
 INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `goal`, `deliverable`, `detail`, `is_completed`, `is_weekly`) VALUES
-(3, 3, 13, 1, 'make ui design', 'login interface', 'complete sign up ', NULL, NULL),
-(4, 3, 13, 2, 'make log in animation', 'user click button animation', 'Animation must be beautiful.', 0.5, NULL),
-(5, 3, 12, 1, 'login service', 'install php and mysql', 'php version 7.47', 1, NULL);
+(3, 3, 13, NULL, 'make ui design', 'login interface', 'complete sign up ', NULL, NULL),
+(4, 3, 13, NULL, 'make log in animation', 'user click button animation', 'Animation must be beautiful.', NULL, NULL),
+(5, 3, 12, NULL, 'login service', 'install php and mysql', 'php version 7.47', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -615,8 +615,7 @@ ALTER TABLE `tbl_priority_agenda`
 ALTER TABLE `tbl_priority_task`
   ADD PRIMARY KEY (`task_id`),
   ADD KEY `creator_id` (`creator_id`),
-  ADD KEY `project_id` (`project_id`),
-  ADD KEY `priority_id` (`priority_id`);
+  ADD KEY `project_id` (`project_id`);
 
 --
 -- Indexes for table `tbl_proceed_deliverable`
@@ -916,8 +915,7 @@ ALTER TABLE `tbl_user_company`
 -- Constraints for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  ADD CONSTRAINT `tbl_week_priority_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_week_priority_ibfk_2` FOREIGN KEY (`wp_id`) REFERENCES `tbl_priority_task` (`priority_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_week_priority_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_work_setting`
