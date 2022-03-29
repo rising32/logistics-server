@@ -280,7 +280,7 @@ exports.getUCPT = (req, res) => {
       message: "Content can not be empty!"
     });
   }
-  TaskAssign.getUCPT(req.body.member_id,req.body.client_id,req.body.project_id,req.body.planned_end_date, (err, data) => {
+  TaskAssign.getUCPT(req.body.user_id,req.body.member_id,req.body.client_id,req.body.project_id,req.body.planned_end_date, (err, data) => {
     if (err)
       res.status(500).send({
         message:

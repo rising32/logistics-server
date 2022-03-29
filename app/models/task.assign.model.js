@@ -24,9 +24,9 @@ TaskAssign.assignTaskToDeveloper = (newTaskAssign, result) => {
 };
 
 //Get All Team Members
-TaskAssign.getUCPT = (member_id,client_id,project_id,planned_end_date, result) => {  
-  var q = "SELECT a.*, mcp.client_id, mcp.client_name FROM (SELECT a.member_id, p. * from (SELECT * FROM tbl_task_assign WHERE member_id = ?) a, (SELECT * from tbl_priority_task where planned_end_date <= ?) p where a.task_id = p.task_id) a, (SELECT cp.*, m.client_name from tbl_client_project cp, mst_client m where cp.client_id = m.client_id and cp.client_id = ?) mcp WHERE a.project_id = mcp.project_id and a.project_id = ? ORDER BY mcp.client_name";
-  var para = [member_id,planned_end_date,client_id,project_id];
+TaskAssign.getUCPT = (user_id, member_id,client_id,project_id,planned_end_date, result) => {  
+  var q = "SELECT a.*, mcp.client_id, mcp.client_name FROM (SELECT a.member_id, p. * from (SELECT * FROM tbl_task_assign WHERE member_id = ?) a, (SELECT * from tbl_priority_task where planned_end_date <= ?) p where a.task_id = p.task_id) a, (SELECT cp.*, m.client_name from tbl_client_project cp, tbl_user_client uc, mst_client m where cp.client_id = m.client_id and uc.client_id = cp.client_id and uc.user_id = ? and cp.client_id = ?) mcp mcp WHERE a.project_id = mcp.project_id and a.project_id = ? ORDER BY mcp.client_name";
+  var para = [member_id,planned_end_date,user_id, client_id,project_id];
   if(client_id != null)
   {
     if(project_id != null)
@@ -139,38 +139,42 @@ TaskAssign.getUCPT = (member_id,client_id,project_id,planned_end_date, result) =
       return;
     }
     var week = Util.getWeekNumber(new Date(planned_end_date));
-    var data = [
-      {
-        week : week,
-        client_id:res[0].client_id, 
-        client_name:res[0].client_name, 
-        member_id:res[0].member_id,        
-        task:[new Task(res[0])]
-      }
-    ];
-    for(var i = 1; i < res.length; i++)
+    var data = [];
+    if(res.length > 0)
     {
-      var is_newClient = true;
-      data.forEach(element => {
-        if(element.client_id == res[i].client_id)
+      data = [
         {
-          is_newClient = false;
-          var is_new = true; 
-          element.task.forEach(ta => {
-            if(ta.task_id == res[i].task_id)
-              is_new = false;
-          });
-          if(is_new)
-            element.task.push(new Task(res[i]));
-        }
-      });
-      if(is_newClient)
-        data.push({
           week : week,
-          client_id:res[i].client_id, 
-          client_name:res[i].client_name, 
-          member_id:res[i].member_id,        
-          task:[new Task(res[i])]})
+          client_id:res[0].client_id, 
+          client_name:res[0].client_name, 
+          member_id:res[0].member_id,        
+          task:[new Task(res[0])]
+        }
+      ];    
+      for(var i = 1; i < res.length; i++)
+      {
+        var is_newClient = true;
+        data.forEach(element => {
+          if(element.client_id == res[i].client_id)
+          {
+            is_newClient = false;
+            var is_new = true; 
+            element.task.forEach(ta => {
+              if(ta.task_id == res[i].task_id)
+                is_new = false;
+            });
+            if(is_new)
+              element.task.push(new Task(res[i]));
+          }
+        });
+        if(is_newClient)
+          data.push({
+            week : week,
+            client_id:res[i].client_id, 
+            client_name:res[i].client_name, 
+            member_id:res[i].member_id,        
+            task:[new Task(res[i])]})
+      }
     }
     console.log("get tasks: ", data);
     result(null, data);
