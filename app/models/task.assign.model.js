@@ -1,5 +1,6 @@
 const sql = require("./db.js");
 const Util = require("../common/common.util.js");
+const Task = require("../models/task.model.js");
 
 const TaskAssign = function(taskAssign) {  
   this.assign_id = taskAssign.assign_id;
@@ -138,8 +139,41 @@ TaskAssign.getUCPT = (member_id,client_id,project_id,planned_end_date, result) =
       return;
     }
     var week = Util.getWeekNumber(new Date(planned_end_date));
-    console.log("get tasks: ", {week:week, task:res});
-    result(null, {week:week, task:res});
+    var data = [
+      {
+        week : week,
+        client_id:res[0].client_id, 
+        client_name:res[0].client_name, 
+        member_id:res[0].member_id,        
+        task:[new Task(res[0])]
+      }
+    ];
+    for(var i = 1; i < res.length; i++)
+    {
+      var is_newClient = true;
+      data.forEach(element => {
+        if(element.client_id == res[i].client_id)
+        {
+          is_newClient = false;
+          var is_new = true; 
+          element.task.forEach(ta => {
+            if(ta.task_id == res[i].task_id)
+              is_new = false;
+          });
+          if(is_new)
+            element.task.push(new Task(res[i]));
+        }
+      });
+      if(is_newClient)
+        data.push({
+          week : week,
+          client_id:res[i].client_id, 
+          client_name:res[i].client_name, 
+          member_id:res[i].member_id,        
+          task:[new Task(res[i])]})
+    }
+    console.log("get tasks: ", data);
+    result(null, data);
   });
 };
 
