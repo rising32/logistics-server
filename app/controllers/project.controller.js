@@ -14,18 +14,7 @@ exports.create = (req, res) => {
       message: "Content can not be empty!"
     });
   }
-
-  const project = new Project({
-    project_id:req.body.project_id,
-    creator_id:req.body.creator_id,
-    project_name : req.body.project_name,
-    planned_start_date : req.body.planned_start_date,
-    planned_end_date : req.body.planned_end_date,
-    actual_start_date : req.body.actual_start_date,
-    actual_end_date : req.body.actual_end_date,
-    description : req.body.description
-  });
-
+  const project = new Project(req.body);
   // Save Project in the database
   Project.insertNewProject(project, (err, data) => {
     if (err)

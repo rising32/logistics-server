@@ -5,6 +5,7 @@ const Project = function(project) {
   this.project_id = project.project_id;
   this.creator_id = project.creator_id;
   this.project_name = project.project_name;
+  this.project_type = project.project_type;
   this.planned_start_date = project.planned_start_date;
   this.planned_end_date = project.planned_end_date;
   this.actual_start_date = project.actual_start_date;
@@ -41,8 +42,8 @@ Project.getUserProjects = (creator_id, result) => {
 
 Project.updateByProject = (p, result) => {
     sql.query(
-      "UPDATE tbl_project SET creator_id = ?,project_name = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ? WHERE project_id = ?",
-      [ p.creator_id,p.project_name, p.planned_start_date, p.planned_end_date,p.actual_start_date,p.actual_end_date,p.description, p.project_id], (err, res) => {
+      "UPDATE tbl_project SET creator_id = ?,project_name = ?,project_type = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ? WHERE project_id = ?",
+      [ p.creator_id,p.project_name,p.project_type, p.planned_start_date, p.planned_end_date,p.actual_start_date,p.actual_end_date,p.description, p.project_id], (err, res) => {
         if (err) {
           console.log("error: ", err);
           result(null, err);

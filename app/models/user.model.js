@@ -83,6 +83,24 @@ User.findUserByEmail = (email, result) => {
   });
 };
 
+User.findUserByPhoneNum = (phone_number, result) => {
+  sql.query("SELECT * FROM tbl_user WHERE phone_number = ?", phone_number, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Email with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 User.findOnlineUserByEmail = (user, result) => {
   sql.query(
     "select l.login_id, l.token, u.* from tbl_login l, (SELECT * FROM `tbl_user` WHERE email = ? and password = ?) u where l.user_id = u.user_id and out_time is null", 

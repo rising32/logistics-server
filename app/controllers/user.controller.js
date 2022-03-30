@@ -190,21 +190,9 @@ exports.findOnlineUserByEmail = (req, res) => {
     email: req.body.email,
     password: req.body.password
   });
-
-  User.findOnlineUserByEmail(user, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found User with user email ${user.email}.`
-        });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving User with user email " + user.email
-        });
-      }
-    } else res.send(data);
-  });
+  loginByUserEmail(user, res);
 };
+
 // Update a User identified by the id in the request
 exports.updateByUser = (req, res) => {
   // Validate Request
@@ -272,11 +260,36 @@ exports.userLogin = (req, res) => {
     });
   }
   // Create a login User model
-  const loginUser = new User({
-    email: req.body.email,
-    password: req.body.password
-  });
+  const loginUser = new User(req.body);
+  var isEnableLogin = false;
+  if(loginUser.email != null)
+    User.findUserByEmail(loginUser.email, (er, dat) => {
+      if (er)
+        res.status(200).send({
+          message:"Could not find User with this email."
+        });
+      else
+        loginByUserEmail(loginUser, res);
+    });
+  else if(loginUser.phone_number != null)
+  {
+    User.findUserByPhoneNum(loginUser.phone_number, (er, dat) => {
+      if (er)
+        res.status(200).send({
+          message:"Could not find User with this Phone Number."
+        });
+      else
+      {          
+        loginUser.email = dat.email;      
+        loginByUserEmail(loginUser, res);     
+      }    
+    });
+  }
+};
 
+function loginByUserEmail(loginUser, res)
+{
+  //check if user already logged in
   User.findOnlineUserByEmail(loginUser, (err, data) => {
     if (!err)
       res.status(200).send(data);
@@ -294,8 +307,8 @@ exports.userLogin = (req, res) => {
           res.send(data);
       });
     }
-  }); 
-};
+  });
+}
 
 // User Login by token
 exports.userLoginByToken = (req, res) => {
