@@ -40,6 +40,21 @@ Project.getUserProjects = (creator_id, result) => {
   });
 };
 
+//Get All Projects
+Project.getClientProjectsNoAssign = (creator_id, client_id, result) => {
+  sql.query("SELECT a.* FROM (SELECT p.*, cp.client_id from (SELECT * FROM tbl_project WHERE creator_id = ?) p LEFT JOIN tbl_client_project cp ON p.project_id = cp.project_id) a WHERE a.client_id = ? OR a.client_id IS null", 
+    [creator_id, client_id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("created new Team: ", {project:res});
+    result(null, {project:res});
+  });
+};
+
 Project.updateByProject = (p, result) => {
     sql.query(
       "UPDATE tbl_project SET creator_id = ?,project_name = ?,project_type = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ? WHERE project_id = ?",

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2022 at 02:08 PM
+-- Generation Time: Mar 30, 2022 at 04:27 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -288,10 +288,10 @@ CREATE TABLE `tbl_project` (
   `project_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
   `project_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `planned_start_date` datetime DEFAULT NULL,
-  `planned_end_date` datetime DEFAULT NULL,
-  `actual_start_date` datetime DEFAULT NULL,
-  `actual_end_date` datetime DEFAULT NULL,
+  `planned_start_date` date DEFAULT NULL,
+  `planned_end_date` date DEFAULT NULL,
+  `actual_start_date` date DEFAULT NULL,
+  `actual_end_date` date DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -300,9 +300,10 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(4, 3, 'Android app', '2022-03-08 22:06:47', '2022-03-17 22:06:52', NULL, NULL, 'This is my app.'),
-(5, 3, 'IOS app', '2022-03-14 22:06:56', '2022-04-13 22:07:01', NULL, NULL, 'This is IOS app.'),
-(6, 1, 'blue sky - version', '2022-03-27 22:07:07', '2022-03-31 22:07:10', NULL, NULL, 'this is version.');
+(3, 3, 'IKEA Project', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
+(4, 3, 'Android app', '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
+(5, 3, 'IOS app', '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
+(6, 1, 'blue sky - version', '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
 
@@ -381,7 +382,7 @@ CREATE TABLE `tbl_user` (
   `display_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `birthday` date DEFAULT NULL,
   `avatar` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `is_project_manager` tinyint(1) NOT NULL DEFAULT 0,
+  `role_id` int(1) NOT NULL DEFAULT 3,
   `registration_time` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -389,15 +390,15 @@ CREATE TABLE `tbl_user` (
 -- Dumping data for table `tbl_user`
 --
 
-INSERT INTO `tbl_user` (`user_id`, `email`, `phone_number`, `password`, `display_name`, `birthday`, `avatar`, `is_project_manager`, `registration_time`) VALUES
-(1, 'tul@fg.com', '12523568954', '123456', 'Jonshn Deli', NULL, '', 0, '2022-03-17 10:42:49'),
-(3, 'a@a.com', '56345896541', '123456', 'Jim', NULL, 'dsfasdfljakfdjkaldfjakljfdaljfdkadfklaj', 0, '2022-03-17 10:42:49'),
-(4, 'b@b.com', '56894336584', '123456', 'Herdson', NULL, NULL, 0, '2022-03-17 10:42:49'),
-(7, 'c@c.com', '1235648542', '123456', 'Dorneld Trump', NULL, NULL, 0, '2022-03-17 12:38:10'),
-(8, 'd@d.com', '5264235512', '123456', 'Joe Biden', NULL, NULL, 0, '2022-03-18 09:03:43'),
-(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', 'Joji Worsington', NULL, NULL, 0, '2022-03-18 21:54:10'),
-(10, 'abd@a.com', '5264855214522', '123456', 'Bonapard Napoleon', NULL, NULL, 0, '2022-03-20 15:33:43'),
-(18, 'tulip31518@outlook.com', '5264855214', '123456', 'C Ronaldo', NULL, NULL, 0, '2022-03-20 20:09:01');
+INSERT INTO `tbl_user` (`user_id`, `email`, `phone_number`, `password`, `display_name`, `birthday`, `avatar`, `role_id`, `registration_time`) VALUES
+(1, 'tul@fg.com', '12523568954', '123456', 'Jonshn Deli', NULL, '', 2, '2022-03-17 10:42:49'),
+(3, 'a@a.com', '56345896541', '123456', 'Jim', NULL, 'dsfasdfljakfdjkaldfjakljfdaljfdkadfklaj', 1, '2022-03-17 10:42:49'),
+(4, 'b@b.com', '56894336584', '123456', 'Herdson', NULL, NULL, 2, '2022-03-17 10:42:49'),
+(7, 'c@c.com', '1235648542', '123456', 'Dorneld Trump', NULL, NULL, 3, '2022-03-17 12:38:10'),
+(8, 'd@d.com', '5264235512', '123456', 'Joe Biden', NULL, NULL, 3, '2022-03-18 09:03:43'),
+(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', 'Joji Worsington', NULL, NULL, 2, '2022-03-18 21:54:10'),
+(10, 'abd@a.com', '5264855214522', '123456', 'Bonapard Napoleon', NULL, NULL, 3, '2022-03-20 15:33:43'),
+(18, 'tulip31518@outlook.com', '5264855214', '123456', 'C Ronaldo', NULL, NULL, 2, '2022-03-20 20:09:01');
 
 -- --------------------------------------------------------
 
@@ -665,7 +666,8 @@ ALTER TABLE `tbl_team_member`
 ALTER TABLE `tbl_user`
   ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `phone_num` (`phone_number`);
+  ADD UNIQUE KEY `phone_num` (`phone_number`),
+  ADD KEY `role_id` (`role_id`);
 
 --
 -- Indexes for table `tbl_user_client`
@@ -886,7 +888,6 @@ ALTER TABLE `tbl_project_manager`
 -- Constraints for table `tbl_task_assign`
 --
 ALTER TABLE `tbl_task_assign`
-  ADD CONSTRAINT `tbl_task_assign_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_task_assign_ibfk_4` FOREIGN KEY (`member_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_task_assign_ibfk_5` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -897,6 +898,12 @@ ALTER TABLE `tbl_team_member`
   ADD CONSTRAINT `tbl_team_member_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_team_member_ibfk_4` FOREIGN KEY (`member_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_team_member_ibfk_5` FOREIGN KEY (`owner_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_user`
+--
+ALTER TABLE `tbl_user`
+  ADD CONSTRAINT `tbl_user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `tbl_user_client`

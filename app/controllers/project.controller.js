@@ -49,6 +49,27 @@ exports.getUserProjects = (req, res) => {
   });
 };
 
+//Get Client Projects and not assigned to client
+exports.getClientProjectsNoAssign = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  // Save Team member in the database
+  Project.getClientProjectsNoAssign(req.body.creator_id, req.body.client_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 // Update a Project identified by the id in the request
 exports.updateByProject = (req, res) => {
   // Validate Request

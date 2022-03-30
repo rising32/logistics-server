@@ -9,7 +9,7 @@ const User = function(user) {
   this.display_name = user.display_name;
   this.birthday = user.birthday;
   this.avatar = user.avatar;
-  this.is_project_manager = user.is_project_manager;
+  this.role_id = user.role_id;
   this.registration_time = user.registration_time;
 };
 
@@ -127,8 +127,8 @@ User.findOnlineUserByEmail = (user, result) => {
 
 User.updateByUser = (user, result) => {
   sql.query(
-    "UPDATE tbl_user SET email = ?, phone_number = ?,password = ?, display_name = ?, birthday = ?, avatar = ?, is_project_manager = ? WHERE user_id = ?",
-    [user.email, user.phone_number, user.password, user.display_name,user.birthday,user.avatar, user.is_project_manager, user.user_id],
+    "UPDATE tbl_user SET email = ?, phone_number = ?,password = ?, display_name = ?, birthday = ?, avatar = ?, role_id = ? WHERE user_id = ?",
+    [user.email, user.phone_number, user.password, user.display_name,user.birthday,user.avatar, user.role_id, user.user_id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

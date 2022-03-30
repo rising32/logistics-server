@@ -10,6 +10,9 @@ module.exports = app => {
     //Get My Project
     app.post("/project/get_user_projects", project.getUserProjects);
 
+    //Get My Project
+    app.post("/project/get/client_no_assign", project.getClientProjectsNoAssign);
+
     //Regist Project Manager
     app.post("/project/regist_manager", project.registManager);
 
