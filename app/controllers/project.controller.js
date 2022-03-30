@@ -104,6 +104,73 @@ exports.registManager = (req, res) => {
   });
 };
 
+//==================================================== Project Type =========================================================
+
+// Create and Save a new Project Type
+exports.createType = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  // Save Project Type in the database
+  Project.createType(req.body.project_type, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Project."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Update a Project Type
+exports.updateByType = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  Project.updateByType(req.body.pt_id, req.body.project_type, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found project type with id ${pt_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating project type with id " + pt_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
+//Get All Project Types
+exports.getProjectTypes = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  Project.getProjectTypes((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 //==================================================== Client ===============================================================
 // Create and Save a new Client-Project relation
 exports.setClient = (req, res) => {

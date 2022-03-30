@@ -61,8 +61,47 @@ Project.updateByProject = (p, result) => {
       }
     );
   };
+//=================================================== Project Type ===============================================================================================================
+Project.createType = (project_type, result) => {
+  sql.query("INSERT INTO tbl_project_type SET project_type = ?", [project_type], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("created new Project: ", {pt_id:res.insertId, project_type:project_type });
+    result(null, {pt_id:res.insertId, project_type:project_type });
+  });
+};
 
+//Get All Projects
+Project.getProjectTypes = (result) => {
+  sql.query("select * from tbl_project_type", (err, res) => {
+    if (err) {
+      result(err, null);
+      return;
+    }
+    result(null, {project_type:res});
+  });
+};
 
+Project.updateByType = (pt_id, project_type, result) => {
+  sql.query(
+    "UPDATE tbl_project_type SET project_type = ? WHERE pt_id = ?", [project_type, pt_id], (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      console.log("updated project type: ", {pt_id:pt_id, project_type:project_type});
+      result(null, {pt_id:pt_id, project_type:project_type});
+    }
+  );
+};
 //=================================================== Get plan work days for client from tbl_client_project =======================================================================
 
 // Get real Work day list per client, week

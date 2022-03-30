@@ -13,6 +13,16 @@ module.exports = app => {
     //Regist Project Manager
     app.post("/project/regist_manager", project.registManager);
 
+  //==================================================== Project Type ==========================================================
+    // Create a new Project Type 
+    app.post("/project/create_type", project.createType);
+
+    // Update a Project type with id
+    app.post("/project/update_type", project.updateByType);
+
+    //Get Project types
+    app.get("/project/get_type", project.getProjectTypes);
+
   //==================================================== Client Project relation ===============================================
     // Create a new On Project  
     app.post("/project/set_Client", project.setClient);
