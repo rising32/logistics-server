@@ -107,5 +107,18 @@ Priority.updateByPriority = (p, result) => {
   );
 };
 
+//========================================================== File ===============================================================
+//Add new Priority
+Priority.createPriorityFile = (priority_id, file_name, result) => {
+  sql.query("INSERT INTO tbl_priority_file SET priority_id =?, file_name = ?", [priority_id, file_name], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("inserted new file: ", {pf_id:res.insertId, priority_id:priority_id, file_name:file_name});
+    result(null, {pf_id:res.insertId, priority_id:priority_id, file_name:file_name});
+  });
+};
 
 module.exports = Priority;

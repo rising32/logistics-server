@@ -109,3 +109,69 @@ module.exports.splitRangeDate = function splitRangeDate(startDate, endDate)
   monthArray[monthArray.length - 1].end_date = new Date(endDate);
   return monthArray;
 }
+
+//==================================================== File ===============================================================
+// Upload file
+module.exports.uploadFile = async (req, res) => {
+  try {
+    if(!req.files) {
+        res.send({
+            status: false,
+            message: 'No file uploaded'
+        });
+    } else {
+        //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+        let avatar = req.files.avatar;
+        
+        //Use the mv() method to place the file in upload directory (i.e. "uploads")
+        avatar.mv('./uploads/' + avatar.name);
+
+        //send response
+        res.send({
+            status: true,
+            message: 'File is uploaded',
+            data: {
+                name: avatar.name,
+                mimetype: avatar.mimetype,
+                size: avatar.size
+            }
+        });
+    }
+  } catch (err) {
+      res.status(500).send(err);
+  }
+};
+
+// Upload Multi files
+module.exports.uploadMultiFiles = async (req, res) => {
+  try {    
+    if(!req.files) {
+        res.send({
+            status: false,
+            message: 'No file uploaded'
+        });
+    } else {
+        let data = []; 
+
+        //loop all files
+        req.files.photos.forEach(photo => {
+          photo.mv('./uploads/' + photo.name);
+
+            //push file details
+            data.push({
+                name: photo.name,
+                mimetype: photo.mimetype,
+                size: photo.size
+            });
+        });
+        //return response
+        res.send({
+            status: true,
+            message: 'Files are uploaded',
+            data: data
+        });
+    }
+  } catch (err) {
+      res.status(500).send(err);
+  }
+};

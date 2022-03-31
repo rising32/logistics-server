@@ -1,5 +1,6 @@
 module.exports = app => {
   const priority = require("../controllers/priority.controller.js");
+  const Util = require("../common/common.util.js");
 
   // Add a new priority
   app.post("/priority/create", priority.create);
@@ -32,4 +33,16 @@ module.exports = app => {
   // Update a priority with id
   app.post("/priority/agenda/update", priority.updateByPriorityAgenda);
 
+  //==================================================== File ===============================================================
+  // Upload file
+  app.post("/priority/upload/file", Util.uploadFile);
+
+  // Upload multiple files
+  app.post("/priority/upload/multi_files", Util.uploadMultiFiles);
+
+  // Add a new priority image
+  app.post("/priority/file/create", priority.createPriorityFile);
+
+  // Get user's priority files
+  // app.post("/priority/get/files", priority.getPriorityFiles);
 };

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2022 at 07:35 AM
+-- Generation Time: Mar 31, 2022 at 11:21 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -231,6 +231,25 @@ CREATE TABLE `tbl_priority_agenda` (
 INSERT INTO `tbl_priority_agenda` (`pa_id`, `wp_id`, `planned_date`, `planned_time`, `content`, `level`) VALUES
 (5, 3, NULL, NULL, 'adfsdfsdfsdfsf', 1),
 (6, 3, NULL, NULL, 'dsdsdfsdfdsfsdfsfsf', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_priority_file`
+--
+
+CREATE TABLE `tbl_priority_file` (
+  `pf_id` int(10) NOT NULL,
+  `priority_id` int(8) NOT NULL,
+  `file_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_priority_file`
+--
+
+INSERT INTO `tbl_priority_file` (`pf_id`, `priority_id`, `file_name`) VALUES
+(2, 3, 'rer.jpg');
 
 -- --------------------------------------------------------
 
@@ -613,6 +632,13 @@ ALTER TABLE `tbl_priority_agenda`
   ADD KEY `wp_id` (`wp_id`);
 
 --
+-- Indexes for table `tbl_priority_file`
+--
+ALTER TABLE `tbl_priority_file`
+  ADD PRIMARY KEY (`pf_id`),
+  ADD KEY `priority_id` (`priority_id`);
+
+--
 -- Indexes for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
@@ -759,6 +785,12 @@ ALTER TABLE `tbl_priority_agenda`
   MODIFY `pa_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `tbl_priority_file`
+--
+ALTER TABLE `tbl_priority_file`
+  MODIFY `pf_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
@@ -858,6 +890,12 @@ ALTER TABLE `tbl_precede_task`
 --
 ALTER TABLE `tbl_priority_agenda`
   ADD CONSTRAINT `tbl_priority_agenda_ibfk_2` FOREIGN KEY (`wp_id`) REFERENCES `tbl_week_priority` (`wp_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_priority_file`
+--
+ALTER TABLE `tbl_priority_file`
+  ADD CONSTRAINT `tbl_priority_file_ibfk_1` FOREIGN KEY (`priority_id`) REFERENCES `tbl_week_priority` (`wp_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_priority_task`

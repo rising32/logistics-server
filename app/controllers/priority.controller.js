@@ -223,3 +223,25 @@ exports.updateByPriorityAgenda = (req, res) => {
     }
   );
 };
+
+//========================================================== File ===============================================================
+//Add new Priority
+exports.createPriorityFile = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  // Save Priority in the database
+  Priority.createPriorityFile(req.body.priority_id, req.body.file_name, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
