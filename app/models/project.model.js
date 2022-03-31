@@ -35,8 +35,8 @@ Project.getUserProjects = (creator_id, result) => {
       return;
     }
 
-    console.log("created new Team: ", {res});
-    result(null, {res});
+    console.log("created new Team: ", {project:res});
+    result(null, {project:res});
   });
 };
 
