@@ -42,3 +42,28 @@ exports.getTeamMembers = (req, res) => {
     }
   });
 };
+
+// Update a Team member
+exports.updateByMember = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  const tm = new TeamMember(req.body);
+  TeamMember.updateByMember(tm, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found project type with id ${tm.tm_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating project type with id " + tm.tm_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};

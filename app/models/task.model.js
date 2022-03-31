@@ -58,6 +58,20 @@ Task.getUserTasks = (creator_id, result) => {
   });
 };
 
+//Get User's tasks linked with project or not linked with any one
+Task.getUserTasksByPNA = (creator_id, project_id, result) => {
+  sql.query("SELECT * FROM `tbl_priority_task` WHERE creator_id = ? and (project_id = ? OR project_id IS null) order by task_name", [creator_id, project_id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("get User's all tasks: ", {task:res});
+    result(null, {task:res});
+  });
+};
+
 Task.updateByTask = (p, result) => {
     sql.query(
       "UPDATE tbl_priority_task SET creator_id = ?,project_id = ?,task_name = ?, deliverable=?, priority_id = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ?,hourly_rate = ?,is_add_all = ?, is_active=? WHERE task_id = ?",

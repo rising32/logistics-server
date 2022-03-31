@@ -471,6 +471,26 @@ exports.getUserTasks = (req, res) => {
   });
 };
 
+//Get User's tasks linked with project or not linked with any one
+exports.getUserTasksByPNA = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  } 
+  Task.getUserTasksByPNA(req.body.creator_id,req.body.project_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the User's tasks."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 // Update a Project identified by the id in the request
 exports.updateByTask = (req, res) => {
   // Validate Request

@@ -1,6 +1,8 @@
+const SqlString = require("mysql/lib/protocol/SqlString");
 const sql = require("./db.js");
 
 const TeamMember = function(teamMember) {  
+  this.tm_id = teamMember.tm_id;
   this.owner_id = teamMember.owner_id;
   this.member_id = teamMember.member_id;
   this.role_id = teamMember.role_id;
@@ -14,7 +16,7 @@ TeamMember.addTeamMember = (newTeamMember, result) => {
       result(err, null);
       return;
     }
-
+    newTeamMember.tm_id = res.insertId;
     console.log("created new Team: ", newTeamMember);
     result(null, newTeamMember);
   });
@@ -33,6 +35,25 @@ TeamMember.getTeamMembers = (owner_id, result) => {
     console.log("created new Team: ", {owner_id:owner_id, member:res});
     result(null, {owner_id:owner_id, member:res});
   });
+};
+
+TeamMember.updateByMember = (tm, result) => {
+  sql.query(
+    "UPDATE tbl_team_member SET owner_id = ?, member_id = ?, role_id = ? WHERE tm_id = ?", 
+      [tm.owner_id, tm.member_id, tm.role_id, tm.tm_id], (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      console.log("updated team member: ", {...tm});
+      result(null, {...tm});
+    }
+  );
 };
 
 module.exports = TeamMember;

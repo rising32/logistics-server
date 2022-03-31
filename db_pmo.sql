@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2022 at 04:27 PM
+-- Generation Time: Mar 31, 2022 at 07:35 AM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- PHP Version: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -260,10 +260,11 @@ CREATE TABLE `tbl_priority_task` (
 --
 
 INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `deliverable`, `project_id`, `priority_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
+(11, 3, 'IKEA UI design', NULL, NULL, NULL, 'IKEA UI design', '2022-03-22', '2022-03-25', NULL, NULL, 32, 0, NULL),
 (12, 3, 'twetwtewet', 'asfdasfafa', 6, 5, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1),
-(13, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1),
+(13, 3, 'blue sky - task - 3', NULL, 6, 3, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1),
 (14, 3, 'blue sky - task - 1', 'jygjgyjgjgjygj', 5, 3, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1),
-(15, 3, 'blue sky - task - 1', NULL, 6, 3, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1),
+(15, 3, 'blue sky - task - 2', NULL, 6, 3, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1),
 (17, 3, 'red', NULL, 6, 4, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1);
 
 -- --------------------------------------------------------
@@ -365,7 +366,7 @@ CREATE TABLE `tbl_team_member` (
 --
 
 INSERT INTO `tbl_team_member` (`tm_id`, `owner_id`, `member_id`, `role_id`) VALUES
-(5, 3, 1, 1),
+(5, 3, 1, 2),
 (8, 3, 4, 1);
 
 -- --------------------------------------------------------
@@ -485,7 +486,7 @@ CREATE TABLE `tbl_work_setting` (
   `work_on_week` int(1) DEFAULT NULL,
   `start_work_time` int(2) DEFAULT NULL,
   `end_work_time` int(2) DEFAULT NULL,
-  `remainder` tinyint(1) DEFAULT NULL
+  `remainder` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --

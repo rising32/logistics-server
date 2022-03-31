@@ -10,7 +10,7 @@ module.exports = app => {
     //Get My Project
     app.post("/project/get_user_projects", project.getUserProjects);
 
-    //Get My Project
+    //Get My Project linked with this client or not linked with any one
     app.post("/project/get/client_no_assign", project.getClientProjectsNoAssign);
 
     //Regist Project Manager
@@ -51,6 +51,9 @@ module.exports = app => {
 
   //Get User's tasks
   app.post("/project/task/get_user_tasks", project.getUserTasks);
+
+  //Get User's tasks linked with project or not linked with any one
+  app.post("/project/task/get_by_pna", project.getUserTasksByPNA);
 
   // Create a new Task assign by user_id, task_id 
   app.post("/project/task/assign", project.assignTaskToDeveloper);
