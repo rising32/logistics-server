@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2022 at 06:19 AM
+-- Generation Time: Apr 03, 2022 at 06:29 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -267,9 +267,7 @@ CREATE TABLE `tbl_priority_task` (
   `task_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
   `task_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `project_id` int(8) DEFAULT NULL,
-  `priority_id` int(8) DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `planned_start_date` date DEFAULT NULL,
   `planned_end_date` date DEFAULT NULL,
@@ -284,13 +282,13 @@ CREATE TABLE `tbl_priority_task` (
 -- Dumping data for table `tbl_priority_task`
 --
 
-INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `deliverable`, `project_id`, `priority_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
-(11, 3, 'IKEA UI design', NULL, NULL, NULL, 'IKEA UI design', '2022-03-22', '2022-03-25', NULL, NULL, 32, 0, NULL),
-(12, 3, 'twetwtewet', 'asfdasfafa', 6, 5, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1),
-(13, 3, 'blue sky - task - 3', NULL, 6, 3, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1),
-(14, 3, 'blue sky - task - 1', 'jygjgyjgjgjygj', 5, 3, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1),
-(15, 3, 'blue sky - task - 2', NULL, 6, 3, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1),
-(17, 3, 'red', NULL, 6, 4, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1);
+INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
+(11, 3, 'IKEA UI design', NULL, 'IKEA UI design', '2022-03-22', '2022-03-25', NULL, NULL, 32, 0, NULL),
+(12, 3, 'twetwtewet', 6, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1),
+(13, 3, 'blue sky - task - 3', 6, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1),
+(14, 3, 'blue sky - task - 1', 5, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1),
+(15, 3, 'blue sky - task - 2', 6, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1),
+(17, 3, 'red', 6, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1);
 
 -- --------------------------------------------------------
 

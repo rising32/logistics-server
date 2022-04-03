@@ -382,10 +382,8 @@ exports.setUCPT = (req, res) => {
     project_id:req.body.project_id,
     task_id : req.body.task_id,
     task_name:req.body.task_name,
-    deliverable:req.body.deliverable,
     member_id:req.body.member_id,
     planned_end_date:req.body.planned_end_date,
-    cp_id : req.body.cp_id || null,
     cp_id : req.body.cp_id || null
   };
  
