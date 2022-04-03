@@ -6,7 +6,6 @@ const Priority = function(priority) {
   this.week = priority.week;
   this.priority_num = priority.priority_num;
   this.goal = priority.goal;
-  this.deliverable = priority.deliverable;
   this.detail = priority.detail;
   this.is_completed = priority.is_completed;
   this.is_weekly = priority.is_weekly;
@@ -72,7 +71,7 @@ Priority.getPriorityByWeek = (user_id, week, result) => {
 
 //Get All Priority by user id, before week
 Priority.getPriorityByBeforeWeek = (user_id, week, result) => {
-  sql.query("SELECT * FROM `tbl_week_priority` WHERE user_id = ? and week < ?", 
+  sql.query("SELECT * FROM `tbl_week_priority` WHERE user_id = ? and week < ? and (is_completed != 1 || is_completed is null)", 
   [user_id, week], (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -87,8 +86,8 @@ Priority.getPriorityByBeforeWeek = (user_id, week, result) => {
 
 Priority.updateByPriority = (p, result) => {
   sql.query(
-    "UPDATE tbl_week_priority SET user_id = ?,week = ?, priority_num = ?,goal = ?,deliverable = ?,detail = ?,is_completed = ?,is_weekly = ? ,end_date = ? WHERE wp_id = ?",
-    [ p.user_id, p.week, p.priority_num, p.goal,p.deliverable,p.detail,p.is_completed,p.is_weekly,p.end_date, p.wp_id], (err, res) => {
+    "UPDATE tbl_week_priority SET user_id = ?,week = ?, priority_num = ?,goal = ?,detail = ?,is_completed = ?,is_weekly = ? ,end_date = ? WHERE wp_id = ?",
+    [ p.user_id, p.week, p.priority_num, p.goal,p.detail,p.is_completed,p.is_weekly,p.end_date, p.wp_id], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);

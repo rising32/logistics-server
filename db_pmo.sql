@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2022 at 06:29 AM
+-- Generation Time: Apr 03, 2022 at 09:04 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -478,7 +478,6 @@ CREATE TABLE `tbl_week_priority` (
   `week` int(2) NOT NULL,
   `priority` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `goal` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_completed` float DEFAULT NULL,
   `is_weekly` tinyint(1) DEFAULT NULL,
@@ -489,10 +488,10 @@ CREATE TABLE `tbl_week_priority` (
 -- Dumping data for table `tbl_week_priority`
 --
 
-INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority`, `goal`, `deliverable`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
-(3, 3, 13, 'make ui design', 'make ui design', 'login interface', 'complete sign up ', NULL, 1, NULL),
-(4, 3, 13, 'make log in animation\n', 'make log in animation', 'user click button animation', 'Animation must be beautiful.', 1, 1, '2022-03-24'),
-(5, 3, 12, 'login service', 'login service', 'install php and mysql', 'php version 7.47', 1, 1, '2022-03-24');
+INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority`, `goal`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
+(3, 3, 13, 'make ui design', 'make ui design', 'complete sign up ', NULL, 1, NULL),
+(4, 3, 13, 'make log in animation\n', 'make log in animation', 'Animation must be beautiful.', 0, 1, '2022-03-24'),
+(5, 3, 12, 'login service', 'login service', 'php version 7.47', 1, 1, '2022-03-24');
 
 -- --------------------------------------------------------
 
