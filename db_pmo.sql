@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2022 at 05:22 AM
+-- Generation Time: Apr 03, 2022 at 06:19 AM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -140,14 +140,20 @@ CREATE TABLE `tbl_deliverable` (
   `deliverable_id` int(8) NOT NULL,
   `deliverable_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `task_id` int(8) NOT NULL,
-  `periority` int(11) DEFAULT NULL,
-  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `planned_start_date` datetime DEFAULT NULL,
-  `planned_end_date` datetime DEFAULT NULL,
+  `periority_id` int(8) DEFAULT NULL,
   `budget` float DEFAULT NULL,
-  `actual_start_time` datetime DEFAULT NULL,
-  `actual_end_time` datetime NOT NULL
+  `planned_end_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `is_completed` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_deliverable`
+--
+
+INSERT INTO `tbl_deliverable` (`deliverable_id`, `deliverable_name`, `task_id`, `periority_id`, `budget`, `planned_end_date`, `end_date`, `is_completed`) VALUES
+(1, 'IKEA UI design - PSD file', 12, NULL, NULL, NULL, '2022-03-15', 1),
+(3, 'make ui design - screenshot 10', 12, 3, NULL, '2022-03-13', '2022-03-12', 1);
 
 -- --------------------------------------------------------
 
@@ -308,7 +314,6 @@ CREATE TABLE `tbl_project` (
   `project_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
   `project_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `pt_id` int(8) NOT NULL,
   `planned_start_date` date DEFAULT NULL,
   `planned_end_date` date DEFAULT NULL,
   `actual_start_date` date DEFAULT NULL,
@@ -320,11 +325,11 @@ CREATE TABLE `tbl_project` (
 -- Dumping data for table `tbl_project`
 --
 
-INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `pt_id`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(3, 3, 'IKEA Project', 1, '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
-(4, 3, 'Android app', 1, '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
-(5, 3, 'IOS app', 1, '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
-(6, 1, 'blue sky - version', 1, '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
+INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
+(3, 3, 'IKEA Project', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
+(4, 3, 'Android app', '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
+(5, 3, 'IOS app', '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
+(6, 1, 'blue sky - version', '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
 
@@ -344,33 +349,6 @@ CREATE TABLE `tbl_project_manager` (
 
 INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
 (4, 4, 8);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_project_type`
---
-
-CREATE TABLE `tbl_project_type` (
-  `pt_id` int(8) NOT NULL,
-  `project_type` varchar(30) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_project_type`
---
-
-INSERT INTO `tbl_project_type` (`pt_id`, `project_type`) VALUES
-(1, 'New project'),
-(2, 'Analysis'),
-(3, 'Consolidation'),
-(4, 'Inventory'),
-(5, 'Joint venture'),
-(6, 'Management'),
-(7, 'Perform plan'),
-(8, 'Ramp up program'),
-(9, 'Removal'),
-(10, 'Develop');
 
 -- --------------------------------------------------------
 
@@ -500,7 +478,7 @@ CREATE TABLE `tbl_week_priority` (
   `wp_id` int(10) NOT NULL,
   `user_id` int(8) NOT NULL,
   `week` int(2) NOT NULL,
-  `priority_num` int(8) DEFAULT NULL,
+  `priority` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `goal` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `deliverable` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -513,10 +491,10 @@ CREATE TABLE `tbl_week_priority` (
 -- Dumping data for table `tbl_week_priority`
 --
 
-INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority_num`, `goal`, `deliverable`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
-(3, 3, 13, NULL, 'make ui design', 'login interface', 'complete sign up ', NULL, 1, NULL),
-(4, 3, 13, NULL, 'make log in animation', 'user click button animation', 'Animation must be beautiful.', 1, 1, '2022-03-24'),
-(5, 3, 12, NULL, 'login service', 'install php and mysql', 'php version 7.47', 1, 1, '2022-03-24');
+INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority`, `goal`, `deliverable`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
+(3, 3, 13, 'make ui design', 'make ui design', 'login interface', 'complete sign up ', NULL, 1, NULL),
+(4, 3, 13, 'make log in animation\n', 'make log in animation', 'user click button animation', 'Animation must be beautiful.', 1, 1, '2022-03-24'),
+(5, 3, 12, 'login service', 'login service', 'install php and mysql', 'php version 7.47', 1, 1, '2022-03-24');
 
 -- --------------------------------------------------------
 
@@ -636,7 +614,8 @@ ALTER TABLE `tbl_date_time_currency`
 --
 ALTER TABLE `tbl_deliverable`
   ADD PRIMARY KEY (`deliverable_id`),
-  ADD KEY `task_id` (`task_id`);
+  ADD KEY `task_id` (`task_id`),
+  ADD KEY `periority_id` (`periority_id`);
 
 --
 -- Indexes for table `tbl_login`
@@ -686,8 +665,7 @@ ALTER TABLE `tbl_proceed_deliverable`
 --
 ALTER TABLE `tbl_project`
   ADD PRIMARY KEY (`project_id`),
-  ADD KEY `creator_id` (`creator_id`),
-  ADD KEY `pt_id` (`pt_id`);
+  ADD KEY `creator_id` (`creator_id`);
 
 --
 -- Indexes for table `tbl_project_manager`
@@ -696,12 +674,6 @@ ALTER TABLE `tbl_project_manager`
   ADD PRIMARY KEY (`pm_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `project_id` (`project_id`);
-
---
--- Indexes for table `tbl_project_type`
---
-ALTER TABLE `tbl_project_type`
-  ADD PRIMARY KEY (`pt_id`);
 
 --
 -- Indexes for table `tbl_task_assign`
@@ -799,7 +771,7 @@ ALTER TABLE `tbl_date_time_currency`
 -- AUTO_INCREMENT for table `tbl_deliverable`
 --
 ALTER TABLE `tbl_deliverable`
-  MODIFY `deliverable_id` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `deliverable_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
@@ -848,12 +820,6 @@ ALTER TABLE `tbl_project`
 --
 ALTER TABLE `tbl_project_manager`
   MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `tbl_project_type`
---
-ALTER TABLE `tbl_project_type`
-  MODIFY `pt_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_task_assign`
@@ -915,6 +881,13 @@ ALTER TABLE `tbl_date_time_currency`
   ADD CONSTRAINT `tbl_date_time_currency_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `tbl_deliverable`
+--
+ALTER TABLE `tbl_deliverable`
+  ADD CONSTRAINT `tbl_deliverable_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_deliverable_ibfk_2` FOREIGN KEY (`periority_id`) REFERENCES `tbl_week_priority` (`wp_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
@@ -955,8 +928,7 @@ ALTER TABLE `tbl_proceed_deliverable`
 -- Constraints for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  ADD CONSTRAINT `tbl_project_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_project_ibfk_2` FOREIGN KEY (`pt_id`) REFERENCES `tbl_project_type` (`pt_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `tbl_project_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_project_manager`

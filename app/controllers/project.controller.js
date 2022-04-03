@@ -4,7 +4,7 @@ const Task = require("../models/task.model.js");
 const TaskAssign = require("../models/task.assign.model.js");
 const Precede = require("../models/precede.model.js");
 const ClientProject = require("../models/client.project.model.js");
-// const Deliverable = require("../models/deliverable.model.js");
+const Deliverable = require("../models/deliverable.model.js");
 
 // Create and Save a new Project
 exports.create = (req, res) => {
@@ -594,48 +594,116 @@ exports.updateByPrecede = (req, res) => {
 };
 
 //==================================================== Deliverable =================================================================
-// exports.createDeliverable = (req, res) => {
-//   // Validate request
-//   if (!req.body) {
-//     res.status(400).send({
-//       message: "Content can not be empty!"
-//     });
-//   }
+exports.createDeliverable = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
 
-//   const deliverable = new Deliverable(req.body);
-//   // Save new Deliverable in the database
-//   Deliverable.addDeliverable(deliverable, (err, data) => {
-//     if (err)
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while creating the Project."
-//       });
-//     else {
-//       res.send(data);      
-//     }
-//   });
-// };
+  const deliverable = new Deliverable(req.body);
+  // Save new Deliverable in the database
+  Deliverable.addDeliverable(deliverable, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Project."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
 
-// //Get Deliverable by Id
-// exports.getDeliverableById = (req, res) => {
-//   // Validate request
-//   if (!req.body) {
-//     res.status(400).send({
-//       message: "Content can not be empty!"
-//     });
-//   }
-//   Deliverable.getDeliverableById(req.body.deliverable_id, (err, data) => {
-//     if (err)
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while getting the Deliverable."
-//       });
-//     else {
-//       res.send(data);      
-//     }
-//   });
-// };
+//Get Deliverable by Id
+exports.getDeliverableById = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  Deliverable.getDeliverableById(req.body.deliverable_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the Deliverable."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
 
+//Get completed Deliverable by End date
+exports.getDeliverableByPlannedEndDate = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  Deliverable.getDeliverableByPlannedEndDate(req.body.task_id, req.body.planned_end_date, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+//Get completed Deliverable by End date
+exports.getDeliverableByEndDate = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  Deliverable.getDeliverableByEndDate(req.body.task_id, req.body.end_date, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Update a task Deliverable
+exports.updateByDeliverable = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  console.log(req.body);
+  const d = new Deliverable(req.body);
+  Deliverable.updateByDeliverable(d, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Deliverable with id ${d.deliverable_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating task with id " + d.deliverable_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
+//==================================================== Statistics =================================================================
 // Get real Work day list per client, week
 exports.getWorkDaysPerWeek_Client = (req, res) => {
   // Validate request

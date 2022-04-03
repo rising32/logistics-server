@@ -3,19 +3,17 @@ const sql = require("./db.js");
 const Deliverable = function(deliverable) {  
   this.deliverable_id = deliverable.deliverable_id;
   this.task_id = deliverable.task_id;
+  this.periority_id = deliverable.periority_id;
   this.deliverable_name = deliverable.deliverable_name;
-  this.periority = deliverable.periority;
-  this.description = deliverable.description;
-  this.planned_start_date = deliverable.planned_start_date;
   this.planned_end_date = deliverable.planned_end_date;
+  this.end_date = deliverable.end_date;
   this.budget = deliverable.budget;
-  this.actual_start_time = deliverable.actual_start_time;
-  this.actual_end_time = deliverable.actual_end_time;
+  this.is_completed = deliverable.is_completed;
 };
 
 //Add new Deliverable
 Deliverable.addDeliverable = (newDeliverable, result) => {
-  sql.query("INSERT INTO deliverable SET ?", newDeliverable, (err, res) => {
+  sql.query("INSERT INTO tbl_deliverable SET ?", newDeliverable, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -29,16 +27,68 @@ Deliverable.addDeliverable = (newDeliverable, result) => {
 
 //Get Deliverable by Id
 Deliverable.getDeliverableById = (deliverable_id, result) => {
-  sql.query("SELECT * FROM `deliverable` WHERE deliverable_id = ?", deliverable_id, (err, res) => {
+  sql.query("SELECT * FROM `tbl_deliverable` WHERE deliverable_id = ?", deliverable_id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created new deliverable: ", {deliverable_id:res});
-    result(null, {deliverable_id:res});
+    console.log("created new deliverable: ", {deliverable:res[0]});
+    result(null, {deliverable:res[0]});
   });
 };
+
+//Get completed Deliverable by Planned End date
+Deliverable.getDeliverableByPlannedEndDate = (task_id, planned_end_date, result) => {
+  sql.query("SELECT * FROM tbl_deliverable WHERE task_id = ? and planned_end_date = ?", [task_id, planned_end_date], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("found Priority: ", {task_id:task_id, deliverable:res});
+    result(null, {task_id:task_id, deliverable:res});
+  });
+};
+
+//Get completed Deliverable by Planned End date
+Deliverable.getDeliverableByEndDate = (task_id, end_date, result) => {
+  sql.query("SELECT * FROM tbl_deliverable WHERE task_id = ? and end_date = ?", [task_id, end_date], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("found Priority: ", {task_id:task_id, deliverable:res});
+    result(null, {task_id:task_id, deliverable:res});
+  });
+};
+
+//Update Deliverable by Id
+Deliverable.updateByDeliverable = (d, result) => {
+  sql.query(
+    "UPDATE tbl_deliverable SET task_id = ?,periority_id = ?,deliverable_name = ?,start_date = ?,end_date = ?,budget = ?,is_completed = ? WHERE deliverable_id = ?", 
+      [d.task_id,d.periority_id, d.deliverable_name, d.start_date, d.end_date, d.budget, d.is_completed, d.deliverable_id], (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found Deliverable with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated Deliverable: ", { ...d });
+      result(null, {...d });
+    }
+  );
+};
+
 
 module.exports = Deliverable;

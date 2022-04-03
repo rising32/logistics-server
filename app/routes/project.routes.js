@@ -72,11 +72,20 @@ module.exports = app => {
   app.post("/project/task/update_precede", project.updateByPrecede);
 
   //==================================================== Deliverable =================================================================
-  // Create a new Task  
-  // app.post("/project/deliverable/create", project.createDeliverable);
+  // Create a new Deliverable  
+  app.post("/project/deliverable/create", project.createDeliverable);
 
-  //Get Project's tasks
-  // app.post("/project/deliverable/get_by_id", project.getDeliverableById);
+  //Get Deliverable
+  app.post("/project/deliverable/get_by_id", project.getDeliverableById);
+
+  // Update Deliverable
+  app.post("/project/deliverable/update", project.updateByDeliverable);
+
+  // Get user's ended Deliverable by planned end date
+  app.post("/project/deliverable/get/planned_end_date", project.getDeliverableByPlannedEndDate);
+
+  // Get user's ended Deliverable by end date
+  app.post("/project/deliverable/get/end_date", project.getDeliverableByEndDate);
 
   //==================================================== statistics ===============================================================
 
