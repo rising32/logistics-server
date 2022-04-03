@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2022 at 09:04 AM
+-- Generation Time: Apr 03, 2022 at 02:20 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -139,6 +139,7 @@ INSERT INTO `tbl_date_time_currency` (`dtc_id`, `user_id`, `date_format`, `time_
 CREATE TABLE `tbl_deliverable` (
   `deliverable_id` int(8) NOT NULL,
   `deliverable_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(8) NOT NULL,
   `task_id` int(8) NOT NULL,
   `periority_id` int(8) DEFAULT NULL,
   `budget` float DEFAULT NULL,
@@ -151,9 +152,9 @@ CREATE TABLE `tbl_deliverable` (
 -- Dumping data for table `tbl_deliverable`
 --
 
-INSERT INTO `tbl_deliverable` (`deliverable_id`, `deliverable_name`, `task_id`, `periority_id`, `budget`, `planned_end_date`, `end_date`, `is_completed`) VALUES
-(1, 'IKEA UI design - PSD file', 12, NULL, NULL, NULL, '2022-03-15', 1),
-(3, 'make ui design - screenshot 10', 12, 3, NULL, '2022-03-13', '2022-03-12', 1);
+INSERT INTO `tbl_deliverable` (`deliverable_id`, `deliverable_name`, `user_id`, `task_id`, `periority_id`, `budget`, `planned_end_date`, `end_date`, `is_completed`) VALUES
+(1, 'IKEA UI design - PSD file', 3, 12, NULL, NULL, NULL, '2022-03-15', 1),
+(3, 'make ui design - screenshot 10', 3, 12, 3, NULL, '2022-03-13', '2022-03-12', 1);
 
 -- --------------------------------------------------------
 
@@ -489,9 +490,9 @@ CREATE TABLE `tbl_week_priority` (
 --
 
 INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority`, `goal`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
-(3, 3, 13, 'make ui design', 'make ui design', 'complete sign up ', NULL, 1, NULL),
+(3, 3, 12, 'make ui design', 'make ui design', 'complete sign up ', NULL, 1, NULL),
 (4, 3, 13, 'make log in animation\n', 'make log in animation', 'Animation must be beautiful.', 0, 1, '2022-03-24'),
-(5, 3, 12, 'login service', 'login service', 'php version 7.47', 1, 1, '2022-03-24');
+(5, 3, 12, 'login service', 'login service', 'php version 7.47', 0, 1, '2022-03-24');
 
 -- --------------------------------------------------------
 
@@ -612,7 +613,8 @@ ALTER TABLE `tbl_date_time_currency`
 ALTER TABLE `tbl_deliverable`
   ADD PRIMARY KEY (`deliverable_id`),
   ADD KEY `task_id` (`task_id`),
-  ADD KEY `periority_id` (`periority_id`);
+  ADD KEY `periority_id` (`periority_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `tbl_login`
