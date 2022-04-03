@@ -3,6 +3,7 @@ const sql = require("./db.js");
 const Deliverable = function(deliverable) {  
   this.deliverable_id = deliverable.deliverable_id;
   this.task_id = deliverable.task_id;
+  this.user_id = deliverable.user_id;
   this.periority_id = deliverable.periority_id;
   this.deliverable_name = deliverable.deliverable_name;
   this.planned_end_date = deliverable.planned_end_date;
@@ -40,30 +41,30 @@ Deliverable.getDeliverableById = (deliverable_id, result) => {
 };
 
 //Get completed Deliverable by Planned End date
-Deliverable.getDeliverableByPlannedEndDate = (task_id, planned_end_date, result) => {
-  sql.query("SELECT * FROM tbl_deliverable WHERE task_id = ? and planned_end_date = ?", [task_id, planned_end_date], (err, res) => {
+Deliverable.getDeliverableByPlannedEndDate = (user_id, planned_end_date, result) => {
+  sql.query("SELECT * FROM tbl_deliverable WHERE user_id = ? and planned_end_date = ?", [user_id, planned_end_date], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("found Priority: ", {task_id:task_id, deliverable:res});
-    result(null, {task_id:task_id, deliverable:res});
+    console.log("found Priority: ", {user_id:user_id, deliverable:res});
+    result(null, {user_id:user_id, deliverable:res});
   });
 };
 
 //Get completed Deliverable by Planned End date
-Deliverable.getDeliverableByEndDate = (task_id, end_date, result) => {
-  sql.query("SELECT * FROM tbl_deliverable WHERE task_id = ? and end_date = ?", [task_id, end_date], (err, res) => {
+Deliverable.getDeliverableByEndDate = (user_id, end_date, result) => {
+  sql.query("SELECT * FROM tbl_deliverable WHERE user_id = ? and end_date = ?", [user_id, end_date], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("found Priority: ", {task_id:task_id, deliverable:res});
-    result(null, {task_id:task_id, deliverable:res});
+    console.log("found Priority: ", {user_id:user_id, deliverable:res});
+    result(null, {user_id:user_id, deliverable:res});
   });
 };
 

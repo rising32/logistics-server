@@ -642,7 +642,7 @@ exports.getDeliverableByPlannedEndDate = (req, res) => {
       message: "Content can not be empty!"
     });
   }  
-  Deliverable.getDeliverableByPlannedEndDate(req.body.task_id, req.body.planned_end_date, (err, data) => {
+  Deliverable.getDeliverableByPlannedEndDate(req.body.user_id, req.body.planned_end_date, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -662,7 +662,7 @@ exports.getDeliverableByEndDate = (req, res) => {
       message: "Content can not be empty!"
     });
   }  
-  Deliverable.getDeliverableByEndDate(req.body.task_id, req.body.end_date, (err, data) => {
+  Deliverable.getDeliverableByEndDate(req.body.user_id, req.body.end_date, (err, data) => {
     if (err)
       res.status(500).send({
         message:
