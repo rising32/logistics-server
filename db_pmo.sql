@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2022 at 02:20 PM
+-- Generation Time: Apr 05, 2022 at 07:31 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -276,20 +276,21 @@ CREATE TABLE `tbl_priority_task` (
   `actual_end_date` datetime DEFAULT NULL,
   `hourly_rate` float NOT NULL,
   `is_add_all` tinyint(1) NOT NULL DEFAULT 0,
-  `is_active` tinyint(1) DEFAULT NULL
+  `is_active` tinyint(1) DEFAULT NULL,
+  `is_deleted` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tbl_priority_task`
 --
 
-INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`) VALUES
-(11, 3, 'IKEA UI design', NULL, 'IKEA UI design', '2022-03-22', '2022-03-25', NULL, NULL, 32, 0, NULL),
-(12, 3, 'twetwtewet', 6, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1),
-(13, 3, 'blue sky - task - 3', 6, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1),
-(14, 3, 'blue sky - task - 1', 5, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1),
-(15, 3, 'blue sky - task - 2', 6, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1),
-(17, 3, 'red', 6, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1);
+INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`, `is_deleted`) VALUES
+(11, 3, 'IKEA UI design', NULL, 'IKEA UI design', '2022-03-22', '2022-03-25', NULL, NULL, 32, 0, NULL, NULL),
+(12, 3, 'twetwtewet', 6, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1, NULL),
+(13, 3, 'blue sky - task - 3', 6, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1, NULL),
+(14, 3, 'blue sky - task - 1', 5, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1, NULL),
+(15, 3, 'blue sky - task - 2', 6, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1, NULL),
+(17, 3, 'red', 6, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1, NULL);
 
 -- --------------------------------------------------------
 

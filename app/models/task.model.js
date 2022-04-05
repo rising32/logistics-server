@@ -13,6 +13,7 @@ const Task = function(task) {
   this.hourly_rate = task.hourly_rate;
   this.is_add_all = task.is_add_all;
   this.is_active = task.is_active;
+  this.is_deleted = task.is_deleted;
 };
 
 Task.insertNewTask = (newTask, result) => {
@@ -30,7 +31,7 @@ Task.insertNewTask = (newTask, result) => {
 
 //Get All Project's Tasks
 Task.getProjectTasks = (project_id, result) => {
-  sql.query("select * from tbl_priority_task where project_id = ?", project_id, (err, res) => {
+  sql.query("select * from tbl_priority_task where project_id = ? and is_deleted != 1", project_id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -44,7 +45,7 @@ Task.getProjectTasks = (project_id, result) => {
 
 //Get All User's Tasks
 Task.getUserTasks = (creator_id, result) => {
-  sql.query("select * from tbl_priority_task where creator_id = ?", creator_id, (err, res) => {
+  sql.query("select * from tbl_priority_task where creator_id = ? and is_deleted != 1", creator_id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -58,7 +59,7 @@ Task.getUserTasks = (creator_id, result) => {
 
 //Get User's tasks linked with project or not linked with any one
 Task.getUserTasksByPNA = (creator_id, project_id, result) => {
-  sql.query("SELECT * FROM `tbl_priority_task` WHERE creator_id = ? and (project_id = ? OR project_id IS null) order by task_name", [creator_id, project_id], (err, res) => {
+  sql.query("SELECT * FROM `tbl_priority_task` WHERE creator_id = ? and is_deleted != 1 and (project_id = ? OR project_id IS null) order by task_name", [creator_id, project_id], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -72,8 +73,8 @@ Task.getUserTasksByPNA = (creator_id, project_id, result) => {
 
 Task.updateByTask = (p, result) => {
     sql.query(
-      "UPDATE tbl_priority_task SET creator_id = ?,project_id = ?,task_name = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ?,hourly_rate = ?,is_add_all = ?, is_active=? WHERE task_id = ?",
-      [ p.creator_id,p.project_id,p.task_name, p.planned_start_date, p.planned_end_date,p.actual_start_date,p.actual_end_date,p.description,p.hourly_rate,p.is_add_all,p.is_active, p.task_id], (err, res) => {
+      "UPDATE tbl_priority_task SET creator_id = ?,project_id = ?,task_name = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ?,hourly_rate = ?,is_add_all = ?, is_active=?, is_deleted = ? WHERE task_id = ?",
+      [ p.creator_id,p.project_id,p.task_name, p.planned_start_date, p.planned_end_date,p.actual_start_date,p.actual_end_date,p.description,p.hourly_rate,p.is_add_all,p.is_active, p.is_deleted, p.task_id], (err, res) => {
         if (err) {
           console.log("error: ", err);
           result(null, err);

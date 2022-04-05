@@ -5,7 +5,7 @@ const Task = require("../models/task.model.js");
 const TaskAssign = function(taskAssign) {  
   this.assign_id = taskAssign.assign_id;
   this.task_id = taskAssign.task_id;
-  this.developer_id = taskAssign.developer_id;
+  this.member_id = taskAssign.member_id;
   this.role_id = taskAssign.role_id;
 };
 
