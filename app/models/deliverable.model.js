@@ -71,8 +71,8 @@ Deliverable.getDeliverableByEndDate = (user_id, end_date, result) => {
 //Update Deliverable by Id
 Deliverable.updateByDeliverable = (d, result) => {
   sql.query(
-    "UPDATE tbl_deliverable SET task_id = ?,periority_id = ?,deliverable_name = ?,start_date = ?,end_date = ?,budget = ?,is_completed = ? WHERE deliverable_id = ?", 
-      [d.task_id,d.periority_id, d.deliverable_name, d.start_date, d.end_date, d.budget, d.is_completed, d.deliverable_id], (err, res) => {
+    "UPDATE tbl_deliverable SET task_id = ?,periority_id = ?,deliverable_name = ?,planned_end_date = ?,end_date = ?,budget = ?,is_completed = ? WHERE deliverable_id = ?", 
+      [d.task_id,d.periority_id, d.deliverable_name, d.planned_end_date, d.end_date, d.budget, d.is_completed, d.deliverable_id], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
