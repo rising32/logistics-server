@@ -674,6 +674,26 @@ exports.getDeliverableByEndDate = (req, res) => {
   });
 };
 
+// Get Client, Project, task by end deliverable
+exports.getCPTbyDeliverable = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  Deliverable.getCPTbyDeliverable(req.body.deliverable_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 // Update a task Deliverable
 exports.updateByDeliverable = (req, res) => {
   // Validate Request

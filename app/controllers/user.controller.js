@@ -62,7 +62,7 @@ exports.signup = (req, res) => {
                 password: req.body.password,
                 display_name: req.body.display_name || null,
                 birthday:req.body.birthday || null,
-                is_project_manager:req.body.is_project_manager || 0,
+                role_id:req.body.role_id || 0,
                 registration_time:new Date()
               });
 

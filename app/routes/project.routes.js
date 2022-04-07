@@ -87,6 +87,9 @@ module.exports = app => {
   // Get user's ended Deliverable by end date
   app.post("/project/deliverable/get/end_date", project.getDeliverableByEndDate);
 
+  // Get Client, Project, task by end deliverable
+  app.post("/project/deliverable/get_cpt_by_id", project.getCPTbyDeliverable);
+
   //==================================================== statistics ===============================================================
 
   //Get tasks by user_id, client_id, project_id, planned_end_date

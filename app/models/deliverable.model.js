@@ -68,6 +68,21 @@ Deliverable.getDeliverableByEndDate = (user_id, end_date, result) => {
   });
 };
 
+// Get Client, Project, task by end deliverable
+Deliverable.getCPTbyDeliverable = (deliverable_id, result) => {
+  sql.query("SELECT a.*, p.project_name, c.client_id, c.client_name FROM (SELECT d.*, t.task_name, t.project_id FROM `tbl_deliverable` d, tbl_priority_task t WHERE d.deliverable_id = ? and t.task_id = d.task_id) a, tbl_project p, tbl_client_project cp, mst_client c WHERE a.project_id = p.project_id AND a.project_id = cp.project_id AND cp.client_id = c.client_id", 
+    [deliverable_id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("found Priority: ", {data:res[0]});
+    result(null, {data:res[0]});
+  });
+};
+
 //Update Deliverable by Id
 Deliverable.updateByDeliverable = (d, result) => {
   sql.query(
