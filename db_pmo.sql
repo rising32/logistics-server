@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2022 at 09:09 AM
+-- Generation Time: Apr 07, 2022 at 12:52 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -40,9 +40,9 @@ CREATE TABLE `mst_client` (
 --
 
 INSERT INTO `mst_client` (`client_id`, `client_name`, `client_address`, `client_detail`, `is_active`) VALUES
-(1, 'Apple', NULL, '', 1),
-(2, 'Amazon co', NULL, NULL, 0),
-(4, 'Amazon river', NULL, NULL, 0);
+(1, 'AMAZON MHG9', NULL, '', 1),
+(2, 'AMAZON XDEY', NULL, NULL, 0),
+(4, 'ATU M2S', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -60,8 +60,8 @@ CREATE TABLE `mst_company` (
 --
 
 INSERT INTO `mst_company` (`company_id`, `company_name`) VALUES
-(1, 'Amazon TM'),
-(2, 'Facebook');
+(1, 'AMAZON MHG9'),
+(2, 'AMAZON XDEY');
 
 -- --------------------------------------------------------
 
@@ -286,11 +286,11 @@ CREATE TABLE `tbl_priority_task` (
 
 INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`, `is_deleted`) VALUES
 (11, 3, 'IKEA UI design', NULL, 'IKEA UI design', '2022-03-22', '2022-03-25', NULL, NULL, 32, 0, NULL, 0),
-(12, 3, 'twetwtewet', 6, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1, 0),
-(13, 3, 'blue sky - task - 3', 6, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1, 0),
-(14, 3, 'blue sky - task - 1', 5, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1, 0),
-(15, 3, 'blue sky - task - 2', 6, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1, 0),
-(17, 3, 'red', 6, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1, 0);
+(12, 3, 'Implement the 12 KPI', 6, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1, 0),
+(13, 3, 'Analyze causes for each', 6, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1, 0),
+(14, 3, 'Teach the 9 shift leads', 5, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1, 0),
+(15, 3, 'Prepare sorter removal', 6, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1, 0),
+(17, 3, 'Implement damage zone', 6, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -329,7 +329,7 @@ INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_
 (3, 3, 'IKEA Project', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
 (4, 3, 'Android app', '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
 (5, 3, 'IOS app', '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
-(6, 1, 'blue sky - version', '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
+(6, 1, 'Ramp up', '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
 
@@ -417,14 +417,14 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`user_id`, `email`, `phone_number`, `password`, `display_name`, `birthday`, `avatar`, `role_id`, `registration_time`) VALUES
-(1, 'tul@fg.com', '12523568954', '123456', 'Jonshn Deli', NULL, '', 2, '2022-03-17 10:42:49'),
-(3, 'a@a.com', '56345896541', '123456', 'Jim', NULL, 'dsfasdfljakfdjkaldfjakljfdaljfdkadfklaj', 1, '2022-03-17 10:42:49'),
-(4, 'b@b.com', '56894336584', '123456', 'Herdson', NULL, NULL, 2, '2022-03-17 10:42:49'),
-(7, 'c@c.com', '1235648542', '123456', 'Dorneld Trump', NULL, NULL, 3, '2022-03-17 12:38:10'),
-(8, 'd@d.com', '5264235512', '123456', 'Joe Biden', NULL, NULL, 3, '2022-03-18 09:03:43'),
-(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', 'Joji Worsington', NULL, NULL, 2, '2022-03-18 21:54:10'),
-(10, 'abd@a.com', '5264855214522', '123456', 'Bonapard Napoleon', NULL, NULL, 3, '2022-03-20 15:33:43'),
-(18, 'tulip31518@outlook.com', '5264855214', '123456', 'C Ronaldo', NULL, NULL, 2, '2022-03-20 20:09:01');
+(1, 'toni315@outlook.com', '12523568954', '123456', 'Jonshn Deli', NULL, NULL, 2, '2022-03-17 10:42:49'),
+(3, 'alisn26@gmail.com', '56345896541', '123456', 'Jim', NULL, NULL, 1, '2022-03-17 10:42:49'),
+(4, 'bini365@hotmail.com', '56894336584', '123456', 'Herdson', NULL, NULL, 2, '2022-03-17 10:42:49'),
+(7, 'cheli32@gmail.com', '1235648542', '123456', 'Dorneld henli', NULL, NULL, 3, '2022-03-17 12:38:10'),
+(8, 'desti98@outlook.com', '5264235512', '123456', 'Joe Bidal', NULL, NULL, 3, '2022-03-18 09:03:43'),
+(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', 'Romario kelli', NULL, NULL, 2, '2022-03-18 21:54:10'),
+(10, 'ascon88@gamil.com', '5264855214522', '123456', 'Bonapard kross', NULL, NULL, 3, '2022-03-20 15:33:43'),
+(18, 'tulip31518@outlook.com', '5264855214', '123456', 'Chen Royal', NULL, NULL, 2, '2022-03-20 20:09:01');
 
 -- --------------------------------------------------------
 
