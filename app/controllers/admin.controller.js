@@ -249,6 +249,8 @@ exports.createWorkSetting = (req, res) => {
   const workSetting = new WorkSetting({
     user_id : req.body.user_id,
     first_day_of_week : req.body.first_day_of_week,
+    week : req.body.week,
+    year : req.body.year,
     work_on_week : req.body.work_on_week,
     start_work_time : req.body.start_work_time,
     end_work_time : req.body.end_work_time,
@@ -257,6 +259,28 @@ exports.createWorkSetting = (req, res) => {
 
   // Save WorkSetting in the database
   WorkSetting.insertNewWorkSetting(workSetting, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Company."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+//Save WorkSetting Array
+exports.createWorkSettingByArray = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  // Save WorkSetting in the database
+  WorkSetting.createWorkSettingByArray(req.body.workSettingArray, (err, data) => {
     if (err)
       res.status(500).send({
         message:

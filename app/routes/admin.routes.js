@@ -35,6 +35,9 @@ module.exports = app => {
     // Create a new Work Settings  
     app.post("/user/create_work_setting", admin.createWorkSetting);
 
+    // Create a Work Settings by array
+    app.post("/user/create_work_setting/by_array", admin.createWorkSettingByArray);
+
     // Get Work Settings  
     app.post("/user/get_work_setting", admin.getWorkSettingByUserId);
 

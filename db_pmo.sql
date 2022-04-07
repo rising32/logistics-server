@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2022 at 12:52 PM
+-- Generation Time: Apr 07, 2022 at 02:50 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -314,6 +314,7 @@ CREATE TABLE `tbl_project` (
   `project_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
   `project_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `project_type` int(2) NOT NULL,
   `planned_start_date` date DEFAULT NULL,
   `planned_end_date` date DEFAULT NULL,
   `actual_start_date` date DEFAULT NULL,
@@ -325,11 +326,11 @@ CREATE TABLE `tbl_project` (
 -- Dumping data for table `tbl_project`
 --
 
-INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(3, 3, 'IKEA Project', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
-(4, 3, 'Android app', '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
-(5, 3, 'IOS app', '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
-(6, 1, 'Ramp up', '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
+INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `project_type`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
+(3, 3, 'IKEA Project', 1, '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
+(4, 3, 'Android app', 1, '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
+(5, 3, 'IOS app', 1, '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
+(6, 1, 'Ramp up', 1, '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
 
@@ -349,6 +350,32 @@ CREATE TABLE `tbl_project_manager` (
 
 INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
 (4, 4, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_project_type`
+--
+
+CREATE TABLE `tbl_project_type` (
+  `pt_id` int(2) NOT NULL,
+  `project_type` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_project_type`
+--
+
+INSERT INTO `tbl_project_type` (`pt_id`, `project_type`) VALUES
+(1, 'New project'),
+(2, 'Analysis '),
+(3, 'Consolidation'),
+(4, 'Inventory'),
+(5, 'Joint venture'),
+(6, 'Management'),
+(7, 'Perform plan'),
+(8, 'Ramp up program'),
+(9, 'Removal');
 
 -- --------------------------------------------------------
 
@@ -676,6 +703,12 @@ ALTER TABLE `tbl_project_manager`
   ADD KEY `project_id` (`project_id`);
 
 --
+-- Indexes for table `tbl_project_type`
+--
+ALTER TABLE `tbl_project_type`
+  ADD PRIMARY KEY (`pt_id`);
+
+--
 -- Indexes for table `tbl_task_assign`
 --
 ALTER TABLE `tbl_task_assign`
@@ -822,6 +855,12 @@ ALTER TABLE `tbl_project_manager`
   MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `tbl_project_type`
+--
+ALTER TABLE `tbl_project_type`
+  MODIFY `pt_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `tbl_task_assign`
 --
 ALTER TABLE `tbl_task_assign`
@@ -861,7 +900,7 @@ ALTER TABLE `tbl_week_priority`
 -- AUTO_INCREMENT for table `tbl_work_setting`
 --
 ALTER TABLE `tbl_work_setting`
-  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- Constraints for dumped tables

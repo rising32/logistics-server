@@ -26,6 +26,20 @@ WorkSetting.insertNewWorkSetting = (newWorkSetting, result) => {
   });
 };
 
+WorkSetting.createWorkSettingByArray = (workSettingArray, result) => {
+  sql.query("INSERT INTO tbl_work_setting (user_id, week, year, first_day_of_week, work_on_week, start_work_time, end_work_time,remainder) VALUES ?",
+     [workSettingArray], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("created WorkSettings: ", { ...workSettingArray });
+    result(null, {...workSettingArray });
+  });
+};
+
 WorkSetting.getWorkSettingByUserId = (user_id, result) => {    
   sql.query(
       "SELECT * FROM `tbl_work_setting` WHERE user_id = ?", user_id, (err, res) => 
