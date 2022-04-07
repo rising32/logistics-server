@@ -17,6 +17,9 @@ module.exports = app => {
   // Get user's priority by before week
   app.post("/priority/get/userid/week/before", priority.getPriorityByBeforeWeek);
 
+  // Get user's not completed priority by before week
+  app.post("/priority/get/userid/week/before/not_completed", priority.getNCPriorityByBeforeWeek);
+
   // Update a priority with id
   app.post("/priority/update", priority.updateByPriority);
 

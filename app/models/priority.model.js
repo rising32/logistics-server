@@ -71,6 +71,21 @@ Priority.getPriorityByWeek = (user_id, week, result) => {
 
 //Get All Priority by user id, before week
 Priority.getPriorityByBeforeWeek = (user_id, week, result) => {
+  sql.query("SELECT * FROM `tbl_week_priority` WHERE user_id = ? and week < ? ORDER BY week DESC", 
+  [user_id, week], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("created new Team: ", {user_id:user_id, priority:res});
+    result(null, {user_id:user_id, priority:res});
+  });
+};
+
+//Get Not Completed Priority by user id, before week
+Priority.getNCPriorityByBeforeWeek = (user_id, week, result) => {
   sql.query("SELECT * FROM `tbl_week_priority` WHERE user_id = ? and week < ? and (is_completed != 1 || is_completed is null) ORDER BY week DESC", 
   [user_id, week], (err, res) => {
     if (err) {
