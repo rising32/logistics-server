@@ -27,7 +27,7 @@ Project.insertNewProject = (newProject, result) => {
 
 //Get All Projects
 Project.getUserProjects = (creator_id, result) => {
-  sql.query("select * from tbl_project where creator_id = ?", creator_id, (err, res) => {
+  sql.query("select * from tbl_project where creator_id = ? order by project_id", creator_id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
