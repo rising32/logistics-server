@@ -110,6 +110,18 @@ module.exports.splitRangeDate = function splitRangeDate(startDate, endDate)
   return monthArray;
 }
 
+module.exports.getDateByWeek = function getDateOfWeek(w, y) {
+
+  const sunday = new Date(y, 0, (1 + w * 7));
+  while (sunday.getDay() !== 1) {
+    sunday.setDate(sunday.getDate() - 1);
+  }
+  const saturday = new Date(y, 0, (2 + w * 7));
+  var d1 = sunday.toISOString().split("T")[0];
+  var d2 = saturday.toISOString().split("T")[0];
+  return {d1:d1, d2: d2};
+}
+
 //==================================================== File ===============================================================
 // Upload file
 module.exports.uploadFile = async (req, res) => {

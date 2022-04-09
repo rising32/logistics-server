@@ -1,4 +1,6 @@
+// const utils = require("nodemon/lib/utils");
 const sql = require("./db.js");
+const Util = require("../common/common.util.js");
 
 const Task = function(task) {
   this.task_id = task.task_id;
@@ -46,6 +48,25 @@ Task.getProjectTasks = (project_id, result) => {
 //Get All User's Tasks
 Task.getUserTasks = (creator_id, result) => {
   sql.query("select * from tbl_priority_task where creator_id = ? and is_deleted != 1", creator_id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("get User's all tasks: ", {task:res});
+    result(null, {task:res});
+  });
+};
+
+//Get All User's Tasks
+Task.getUserTasksByWeek = (creator_id, week, year, result) => {
+  var daterange = Util.getDateByWeek(week, year);
+  console.log(daterange);
+  var d1= daterange.d1;
+  var d2 = daterange.d2;
+  sql.query("select * from tbl_priority_task where creator_id = ? and is_deleted != 1 and ((planned_start_date <= ? AND planned_end_date >= ? AND planned_end_date <= ?) OR (planned_start_date >= ? AND planned_start_date <= ?) OR (planned_start_date >= ? AND planned_start_date <= ? AND planned_end_date >= ?) OR (planned_start_date <= ? AND planned_end_date >= ?))", 
+    [creator_id,   d1,d1,d2,   d1,d2,   d1,d2,d2,   d1,d2], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

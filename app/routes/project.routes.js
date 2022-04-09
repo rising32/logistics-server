@@ -52,6 +52,9 @@ module.exports = app => {
   //Get User's tasks
   app.post("/project/task/get_user_tasks", project.getUserTasks);
 
+  //Get User's tasks by week
+  app.post("/project/task/get_user_tasks/week", project.getUserTasksByWeek);
+
   //Get User's tasks linked with project or not linked with any one
   app.post("/project/task/get_by_pna", project.getUserTasksByPNA);
 

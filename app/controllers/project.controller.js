@@ -469,6 +469,26 @@ exports.getUserTasks = (req, res) => {
   });
 };
 
+// Get User's all tasks by week
+exports.getUserTasksByWeek = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  } 
+  Task.getUserTasksByWeek(req.body.creator_id, req.body.week, req.body.year, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the User's tasks."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 //Get User's tasks linked with project or not linked with any one
 exports.getUserTasksByPNA = (req, res) => {
   // Validate request
