@@ -1,5 +1,5 @@
 const Project = require("../models/project.model.js");
-const ProjectManager = require("../models/projectManager.model.js");
+const ProjectManager = require("../models/projectmanager.model.js");
 const Task = require("../models/task.model.js");
 const TaskAssign = require("../models/task.assign.model.js");
 const Precede = require("../models/precede.model.js");
