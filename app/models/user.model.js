@@ -229,7 +229,7 @@ User.findOnlineUserByToken = (token, result) => {
 
 User.userLogout = (user_id, result) => {
   sql.query(
-    "UPDATE tbl_login SET out_time = ? WHERE login_time = (select MAX(login_time) from tbl_login where user_id = ?)",
+    "UPDATE tbl_login SET out_time = ? WHERE login_id = (select MAX(login_id) from tbl_login where user_id = ?)",
     [new Date(), user_id],
     (err, res) => {
       if (err) {
