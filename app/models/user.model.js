@@ -206,8 +206,8 @@ User.userLogin = (loginUser, result) => {
             result(err, null);
             return;
           }
-          console.log("login user: ", {login_id:res.insertId, token:token, user:resUser });
-          result(null, { login_id:res.insertId,token:token, user:resUser});
+          console.log("login user: ", {login_id:res.insertId, token:token, user:resUser[0] });
+          result(null, { login_id:res.insertId,token:token, user:resUser[0]});
         });
     });
 };
@@ -229,8 +229,8 @@ User.findOnlineUserByToken = (token, result) => {
 
 User.userLogout = (user_id, result) => {
   sql.query(
-    "UPDATE tbl_login SET out_time = ? WHERE login_id = (select MAX(login_id) from tbl_login where user_id = ?)",
-    [new Date(), user_id],
+    "UPDATE tbl_login SET tbl_login.out_time = NOW() WHERE login_id = (select tmp.max_login_id from (select MAX(login_id) max_login_id from tbl_login where user_id = ?) tmp)",
+    [user_id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
