@@ -43,6 +43,26 @@ exports.getTeamMembers = (req, res) => {
   });
 };
 
+//Get Team Member
+exports.getTeamMember = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  TeamMember.getTeamMember(req.body.member_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Team."
+      });
+    else {      
+      res.send(data);      
+    }
+  });
+};
+
 // Update a Team member
 exports.updateByMember = (req, res) => {
   // Validate Request

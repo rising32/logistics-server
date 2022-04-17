@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2022 at 03:56 AM
+-- Generation Time: Apr 17, 2022 at 01:48 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -128,7 +128,7 @@ CREATE TABLE `tbl_date_time_currency` (
 --
 
 INSERT INTO `tbl_date_time_currency` (`dtc_id`, `user_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
-(5, 3, 'YY-MM-DD', 'HH:mm:SS', 0, 0);
+(5, 3, 'YY-MM-DD', '12', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -185,15 +185,15 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (15, 3, '2022-03-16 16:06:38', NULL, '2022-03-16 16:08:37'),
 (16, 3, '2022-03-16 16:09:22', NULL, '2022-03-16 16:33:05'),
 (17, 4, '2022-03-16 16:45:22', NULL, '2022-03-16 16:45:42'),
-(25, 7, '2022-03-18 12:47:53', NULL, NULL),
+(25, 7, '2022-03-18 12:47:53', NULL, '2022-04-17 15:02:43'),
 (26, 4, '2022-03-18 12:48:11', NULL, NULL),
 (27, 3, '2022-03-18 21:50:32', NULL, '2022-03-18 21:50:55'),
 (28, 9, '2022-03-18 21:54:10', NULL, '2022-03-18 21:54:56'),
 (29, 9, '2022-03-18 21:55:14', NULL, '2022-03-18 21:55:31'),
 (30, 9, '2022-03-18 22:00:14', NULL, '2022-03-18 22:00:26'),
 (31, 9, '2022-03-18 22:00:40', NULL, '2022-03-24 20:11:11'),
-(32, 3, '2022-03-20 15:31:52', NULL, NULL),
-(33, 10, '2022-03-20 15:33:43', NULL, NULL),
+(32, 3, '2022-03-20 15:31:52', NULL, '2022-04-17 14:35:20'),
+(33, 10, '2022-03-20 15:33:43', NULL, '2022-04-17 14:45:10'),
 (38, 18, '2022-03-20 20:09:01', 'FmZ2zwT0V2hXVzK9lS9smw==$0uK4GyWJn+bzBPl0QyoAHLv5BJHBxb8QSgGP0mvoKGYQv9kP3pVNU531tpPp3g+h6mkQJ4xzElMmxjMnmfQGUQ==', NULL);
 
 -- --------------------------------------------------------
@@ -314,6 +314,7 @@ CREATE TABLE `tbl_project` (
   `project_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
   `project_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `project_type` int(2) NOT NULL,
   `planned_start_date` date DEFAULT NULL,
   `planned_end_date` date DEFAULT NULL,
   `actual_start_date` date DEFAULT NULL,
@@ -325,11 +326,11 @@ CREATE TABLE `tbl_project` (
 -- Dumping data for table `tbl_project`
 --
 
-INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(3, 3, 'IKEA Project', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
-(4, 3, 'Android app', '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
-(5, 3, 'IOS app', '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
-(6, 1, 'Ramp up', '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
+INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `project_type`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
+(3, 3, 'IKEA Project', 1, '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
+(4, 3, 'Android app', 1, '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
+(5, 3, 'IOS app', 1, '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
+(6, 1, 'Ramp up', 1, '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
 
@@ -466,7 +467,7 @@ CREATE TABLE `tbl_user_company` (
 
 INSERT INTO `tbl_user_company` (`uc_id`, `user_id`, `company_id`, `is_manager`) VALUES
 (3, 4, 2, NULL),
-(4, 4, 1, 1);
+(4, 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -479,6 +480,7 @@ CREATE TABLE `tbl_week_priority` (
   `user_id` int(8) NOT NULL,
   `week` int(2) NOT NULL,
   `priority` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `project_id` int(8) NOT NULL,
   `goal` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_completed` float DEFAULT NULL,
@@ -490,10 +492,10 @@ CREATE TABLE `tbl_week_priority` (
 -- Dumping data for table `tbl_week_priority`
 --
 
-INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority`, `goal`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
-(3, 3, 12, 'make ui design', 'make ui design', 'complete sign up ', NULL, 1, NULL),
-(4, 3, 13, 'make log in animation\n', 'make log in animation', 'Animation must be beautiful.', 0, 1, '2022-03-24'),
-(5, 3, 12, 'login service', 'login service', 'php version 7.47', 0, 1, '2022-03-24');
+INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority`, `project_id`, `goal`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
+(3, 3, 12, 'make ui design', 3, 'make ui design', 'complete sign up ', NULL, 1, NULL),
+(4, 3, 13, 'make log in animation\n', 3, 'make log in animation', 'Animation must be beautiful.', 0, 1, '2022-03-24'),
+(5, 3, 12, 'login service', 4, 'login service', 'php version 7.47', 0, 1, '2022-03-24');
 
 -- --------------------------------------------------------
 
@@ -724,7 +726,8 @@ ALTER TABLE `tbl_user_company`
 --
 ALTER TABLE `tbl_week_priority`
   ADD PRIMARY KEY (`wp_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `project_id` (`project_id`);
 
 --
 -- Indexes for table `tbl_work_setting`
@@ -976,7 +979,8 @@ ALTER TABLE `tbl_user_company`
 -- Constraints for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  ADD CONSTRAINT `tbl_week_priority_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_week_priority_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_week_priority_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_work_setting`

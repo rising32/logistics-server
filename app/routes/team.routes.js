@@ -9,4 +9,7 @@ module.exports = app => {
 
   // Get user's team member
   app.post("/team/get_team_members", team.getTeamMembers);
+
+  // Get user's team Member
+  app.post("/team/get_member", team.getTeamMember);
 };

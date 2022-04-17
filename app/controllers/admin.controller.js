@@ -1,5 +1,7 @@
 const Client = require("../models/client.model.js");
 const Company = require("../models/company.model.js");
+const Team = require("../models/team.model.js");
+const User = require("../models/user.model.js");
 const WorkSetting = require("../models/worksetting.model.js");
 const DTC = require("../models/dtc.model.js");
 
@@ -232,6 +234,56 @@ exports.getMyCompany = (req, res) => {
       });
     else {
       res.send(data);      
+    }
+  });
+};
+
+// Get My Company Profile
+exports.getMyCompanyProfile = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  Team.getTeamMember(req.body.member_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the Company info."
+      });
+    else {
+      var owner_id = req.body.member_id;
+      var owner = null;
+      if(data.member.length > 0) 
+        owner_id = data.member[0].owner_id;
+
+      Company.getMyCompanyProfile(owner_id, (err, company) => {
+        if (err)
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while getting the Company info."
+          });
+        else {
+          if(company.company.length > 0)
+          {
+            var dat = company.company[0];
+            res.send({company:{
+              admin_info:new User(dat), 
+              company_id: dat.company_id, 
+              company_name: dat.company_name, 
+              currency: dat.currency, 
+              time_format: dat.time_format, 
+              member_count: dat.member_count,
+              client_count: dat.client_count,
+              project_count: dat.project_count,
+              task_count: dat.task_count
+            }});
+          }
+          else          
+            res.send({company:{}});
+        }
+      });      
     }
   });
 };

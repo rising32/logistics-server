@@ -29,7 +29,9 @@ module.exports = app => {
 
     // Get my Companies
     app.post("/user/get_my_company", admin.getMyCompany);  
-  
+
+    // Get my Company profile
+    app.post("/user/get_my_company/profile", admin.getMyCompanyProfile);
 
 //==================================================== Work Settings =================================================================
     // Create a new Work Settings  

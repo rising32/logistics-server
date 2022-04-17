@@ -37,6 +37,19 @@ TeamMember.getTeamMembers = (owner_id, result) => {
   });
 };
 
+//Get Team's Member
+TeamMember.getTeamMember = (member_id, result) => {
+  sql.query("select o.owner_id, u.* from tbl_user u, (SELECT * FROM `tbl_team_member` WHERE member_id = ?) o where u.user_id = o.member_id", 
+  member_id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    result(null, {member:res});
+  });
+};
+
 TeamMember.updateByMember = (tm, result) => {
   sql.query(
     "UPDATE tbl_team_member SET owner_id = ?, member_id = ?, role_id = ? WHERE tm_id = ?", 
