@@ -25,7 +25,7 @@ TaskAssign.assignTaskToDeveloper = (newTaskAssign, result) => {
 
 //Get All Team Members
 TaskAssign.getUCPT = (user_id, member_id,client_id,project_id,planned_end_date, result) => {  
-  var q = "SELECT a.*, mcp.client_id, mcp.client_name FROM (SELECT a.member_id, p. * from (SELECT * FROM tbl_task_assign WHERE member_id = ?) a, (SELECT * from tbl_priority_task where planned_end_date <= ?) p where a.task_id = p.task_id) a, (SELECT cp.*, m.client_name from tbl_client_project cp, tbl_user_client uc, mst_client m where cp.client_id = m.client_id and uc.client_id = cp.client_id and uc.user_id = ? and cp.client_id = ?) mcp WHERE a.project_id = mcp.project_id and a.project_id = ? ORDER BY mcp.client_name";
+  var q = "SELECT a.*, mcp.client_id, mcp.client_name FROM (SELECT a.member_id, p.*, u.display_name as member_name from (SELECT * FROM tbl_task_assign WHERE member_id = ?) a, (SELECT * from tbl_priority_task where planned_end_date <= ?) p, tbl_user u where a.task_id = p.task_id AND u.user_id = a.member_id) a, (SELECT cp.*, m.client_name from tbl_client_project cp, tbl_user_client uc, mst_client m where cp.client_id = m.client_id and uc.client_id = cp.client_id and uc.user_id = ? and cp.client_id = ?) mcp WHERE a.project_id = mcp.project_id and a.project_id = ? ORDER BY mcp.client_name";
   var para = [member_id,planned_end_date,user_id, client_id,project_id];
   if(client_id != null)
   {
@@ -146,8 +146,7 @@ TaskAssign.getUCPT = (user_id, member_id,client_id,project_id,planned_end_date, 
         {
           week : week,
           client_id:res[0].client_id, 
-          client_name:res[0].client_name, 
-          member_id:res[0].member_id,        
+          client_name:res[0].client_name,      
           task:[new Task(res[0])]
         }
       ];    
@@ -171,8 +170,7 @@ TaskAssign.getUCPT = (user_id, member_id,client_id,project_id,planned_end_date, 
           data.push({
             week : week,
             client_id:res[i].client_id, 
-            client_name:res[i].client_name, 
-            member_id:res[i].member_id,        
+            client_name:res[i].client_name,      
             task:[new Task(res[i])]})
       }
     }

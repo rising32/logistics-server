@@ -16,6 +16,8 @@ const Task = function(task) {
   this.is_add_all = task.is_add_all;
   this.is_active = task.is_active;
   this.is_deleted = task.is_deleted;
+  this.member_id = task.member_id;
+  this.member_name = task.member_name;
 };
 
 Task.insertNewTask = (newTask, result) => {
