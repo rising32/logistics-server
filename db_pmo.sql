@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2022 at 01:48 PM
+-- Generation Time: Apr 18, 2022 at 03:26 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -117,8 +117,8 @@ INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_star
 CREATE TABLE `tbl_date_time_currency` (
   `dtc_id` int(8) NOT NULL,
   `user_id` int(8) NOT NULL,
-  `date_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `time_format` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `date_format` int(2) DEFAULT NULL,
+  `time_format` int(2) DEFAULT NULL,
   `currency` int(1) DEFAULT NULL,
   `decimal_seperator` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -128,7 +128,7 @@ CREATE TABLE `tbl_date_time_currency` (
 --
 
 INSERT INTO `tbl_date_time_currency` (`dtc_id`, `user_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
-(5, 3, 'YY-MM-DD', '12', 0, 0);
+(5, 3, 0, 12, 0, 0);
 
 -- --------------------------------------------------------
 
