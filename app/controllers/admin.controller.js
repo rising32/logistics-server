@@ -3,7 +3,7 @@ const Company = require("../models/company.model.js");
 const Team = require("../models/team.model.js");
 const User = require("../models/user.model.js");
 const WorkSetting = require("../models/worksetting.model.js");
-const DTC = require("../models/dtc.model.js");
+const AccountSetting = require("../models/accountsetting.model.js");
 
 // Create and Save a new User
 exports.createClient = (req, res) => {
@@ -397,7 +397,7 @@ exports.updateByWorkSetting = (req, res) => {
 
   //============================================================ Date, Time, Currency Setting ================================================================
   // Create and Save a new Date, Time, Currency Setting
-  exports.createDateTimeCurrency = (req, res) => {
+  exports.createAccountSetting = (req, res) => {
     // Validate request
     if (!req.body) {
       res.status(400).send({
@@ -406,16 +406,9 @@ exports.updateByWorkSetting = (req, res) => {
     }
   
     // Create a Date, Time, Currency Setting
-    const dtc = new DTC({
-      user_id : req.body.user_id,
-      date_format : req.body.date_format,
-      time_format : req.body.time_format,
-      currency : req.body.currency,
-      decimal_seperator : req.body.decimal_seperator
-    });
-  
+    const as = new AccountSetting(req.body);  
     // Save Date, Time, Currency Setting in the database
-    DTC.insertNewDTC(dtc, (err, data) => {
+    AccountSetting.insertNewAS(as, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -428,7 +421,7 @@ exports.updateByWorkSetting = (req, res) => {
   };
 
 // Get My Date, Time, Currency Setting
-exports.getDTCByUserId = (req, res) => {
+exports.getAccountSettingByUserId = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
@@ -437,11 +430,11 @@ exports.getDTCByUserId = (req, res) => {
   }    
 
   // Save WorkSetting in the database
-  DTC.getDTCByUserId(req.body.user_id, (err, data) => {
+  AccountSetting.getAccountSettingByUserId(req.body.user_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while getting the DTC."
+          err.message || "Some error occurred while getting the AccountSetting."
       });
     else {
       res.send(data);      
@@ -450,7 +443,7 @@ exports.getDTCByUserId = (req, res) => {
 };
 
   // Update Date, Time, Currency Setting
-exports.updateByDateTimeCurrency = (req, res) => {
+exports.updateByAccountSetting = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
@@ -459,18 +452,18 @@ exports.updateByDateTimeCurrency = (req, res) => {
   }
 
   console.log(req.body);
-  const dtc = new DTC(req.body);
-  DTC.updateByDTC(
-    dtc,
+  const as = new AccountSetting(req.body);
+  AccountSetting.updateByAccountSetting(
+    as,
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found DTC with id ${dtc.dtc_id}.`
+            message: `Not found AccountSetting with id ${as.as_id}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating DTC with id " + dtc.dtc_id
+            message: "Error updating AccountSetting with id " + as.as_id
           });
         }
       } else res.send(data);

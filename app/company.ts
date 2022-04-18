@@ -14,7 +14,7 @@ export interface CompanyState {
     priorites: boolean;
     deliverables: boolean;
   };
-  date_time_currency: {
+  account_setting: {
     date_format: string;
     time_format: boolean;
     currency: string;
@@ -57,7 +57,7 @@ export interface MemberState {
     priorites: boolean;
     deliverables: boolean;
   };
-  date_time_currency: {
+  account_setting: {
     date_format: string;
     time_format: boolean;
     currency: string;
@@ -89,7 +89,7 @@ export const companyData: CompanyState = {
     priorites: true,
     deliverables: true,
   },
-  date_time_currency: {
+  account_setting: {
     date_format: 'YYYY-MM-DD',
     time_format: true,
     currency: 'Euro',
@@ -131,7 +131,7 @@ export const memberData: MemberState = {
     priorites: true,
     deliverables: true,
   },
-  date_time_currency: {
+  account_setting: {
     date_format: 'YYYY-MM-DD',
     time_format: true,
     currency: 'Euro (€)',

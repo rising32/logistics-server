@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2022 at 03:26 PM
+-- Generation Time: Apr 18, 2022 at 03:56 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -87,6 +87,29 @@ INSERT INTO `mst_role` (`role_id`, `role_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_account_setting`
+--
+
+CREATE TABLE `tbl_account_setting` (
+  `as_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `date_format` int(2) DEFAULT NULL,
+  `time_format` int(2) DEFAULT NULL,
+  `currency` int(1) DEFAULT NULL,
+  `decimal_seperator` int(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_account_setting`
+--
+
+INSERT INTO `tbl_account_setting` (`as_id`, `user_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
+(5, 3, 0, 12, 0, 0),
+(8, 4, 1, 1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_client_project`
 --
 
@@ -107,28 +130,6 @@ INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_star
 (1, 4, 4, '2022-01-03 09:59:01', '2022-01-31 09:59:01', 'Google Advice App'),
 (2, 6, 4, '2022-01-12 16:37:08', '2022-02-10 16:37:08', 'UI design'),
 (3, 5, 2, '2022-01-18 14:11:56', '2022-03-28 21:11:56', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_date_time_currency`
---
-
-CREATE TABLE `tbl_date_time_currency` (
-  `dtc_id` int(8) NOT NULL,
-  `user_id` int(8) NOT NULL,
-  `date_format` int(2) DEFAULT NULL,
-  `time_format` int(2) DEFAULT NULL,
-  `currency` int(1) DEFAULT NULL,
-  `decimal_seperator` int(2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_date_time_currency`
---
-
-INSERT INTO `tbl_date_time_currency` (`dtc_id`, `user_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
-(5, 3, 0, 12, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -596,19 +597,19 @@ ALTER TABLE `mst_role`
   ADD PRIMARY KEY (`role_id`);
 
 --
+-- Indexes for table `tbl_account_setting`
+--
+ALTER TABLE `tbl_account_setting`
+  ADD PRIMARY KEY (`as_id`),
+  ADD UNIQUE KEY `userId` (`user_id`);
+
+--
 -- Indexes for table `tbl_client_project`
 --
 ALTER TABLE `tbl_client_project`
   ADD PRIMARY KEY (`cp_id`),
   ADD KEY `project_id` (`project_id`),
   ADD KEY `client_id` (`client_id`);
-
---
--- Indexes for table `tbl_date_time_currency`
---
-ALTER TABLE `tbl_date_time_currency`
-  ADD PRIMARY KEY (`dtc_id`),
-  ADD UNIQUE KEY `userId` (`user_id`);
 
 --
 -- Indexes for table `tbl_deliverable`
@@ -759,16 +760,16 @@ ALTER TABLE `mst_role`
   MODIFY `role_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `tbl_account_setting`
+--
+ALTER TABLE `tbl_account_setting`
+  MODIFY `as_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `tbl_client_project`
 --
 ALTER TABLE `tbl_client_project`
   MODIFY `cp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `tbl_date_time_currency`
---
-ALTER TABLE `tbl_date_time_currency`
-  MODIFY `dtc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_deliverable`
@@ -871,17 +872,17 @@ ALTER TABLE `tbl_work_setting`
 --
 
 --
+-- Constraints for table `tbl_account_setting`
+--
+ALTER TABLE `tbl_account_setting`
+  ADD CONSTRAINT `tbl_account_setting_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `tbl_client_project`
 --
 ALTER TABLE `tbl_client_project`
   ADD CONSTRAINT `tbl_client_project_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_client_project_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_date_time_currency`
---
-ALTER TABLE `tbl_date_time_currency`
-  ADD CONSTRAINT `tbl_date_time_currency_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_deliverable`

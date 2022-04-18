@@ -47,15 +47,15 @@ module.exports = app => {
     app.post("/user/update_work_setting", admin.updateByWorkSetting);
 
 
-//==================================================== Date, Time, Currency =================================================================
-    // Create a new Date,Time,Currency  
-    app.post("/user/create_date_time_currency", admin.createDateTimeCurrency);
+//==================================================== Account setting =================================================================
+    // Create a new Account setting
+    app.post("/user/create_account_setting", admin.createAccountSetting);
 
-    // Update Date, Time, Currency 
-    app.post("/user/update_date_time_currency", admin.updateByDateTimeCurrency);
+    // Update Account setting
+    app.post("/user/update_account_setting", admin.updateByAccountSetting);
 
-    // Get Date, Time, Currency  
-    app.post("/user/get_date_time_currency", admin.getDTCByUserId);   
+    // Get Account setting
+    app.post("/user/get_account_setting", admin.getAccountSettingByUserId);   
     
   
   
