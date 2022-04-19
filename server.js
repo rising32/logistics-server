@@ -26,7 +26,7 @@ app.use(fileUpload({
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to PMO application." });l
+  res.json({ message: "Welcome to PMO application." });
 });
 //get image
 app.get('/show/files', (req,res)=>{
