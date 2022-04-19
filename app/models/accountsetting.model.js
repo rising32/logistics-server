@@ -16,9 +16,9 @@ AccountSetting.insertNewAS = (newAS, result) => {
       result(err, null);
       return;
     }
-
-    console.log("created new AccountSetting: ", { as_id: res.insertId, ...newAS });
-    result(null, { as_id: res.insertId, ...newAS });
+    newAS.as_id = res.insertId;
+    console.log("created new AccountSetting: ", {...newAS });
+    result(null, {...newAS });
   });
 };
 
