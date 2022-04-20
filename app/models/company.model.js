@@ -100,8 +100,8 @@ Company.getMyCompany = (user_id, result) => {
 
 Company.getMyCompanyProfile = (owner_id, member_id, result) => {    
   sql.query(
-      "SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count, p.project_count, task.task_count FROM (SELECT * FROM tbl_user WHERE user_id = 3) u, (SELECT * from tbl_user_company WHERE user_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_team_member WHERE owner_id = ? GROUP BY owner_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli, (SELECT COUNT(project_id) project_count FROM tbl_project WHERE creator_id = ? GROUP by creator_id) p, (SELECT COUNT(task_id) task_count FROM tbl_task_assign WHERE member_id = ?) task WHERE c.company_id = uc.company_id AND ase.user_id = ?;", 
-      [owner_id, owner_id, member_id, member_id,member_id, owner_id], (err, res) => 
+      "SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count, p.project_count, task.task_count FROM (SELECT * FROM tbl_user WHERE user_id = ?) u, (SELECT * from tbl_user_company WHERE user_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_team_member WHERE owner_id = ? GROUP BY owner_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli, (SELECT COUNT(project_id) project_count FROM tbl_project WHERE creator_id = ? GROUP by creator_id) p, (SELECT COUNT(task_id) task_count FROM tbl_priority_task WHERE creator_id = ?) task WHERE c.company_id = uc.company_id AND ase.user_id = ?;", 
+      [owner_id, owner_id, owner_id, member_id, member_id,member_id, owner_id], (err, res) => 
       {
           if (err) {
               console.log("error: ", err);
