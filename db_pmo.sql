@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2022 at 02:09 PM
+-- Generation Time: Apr 20, 2022 at 02:30 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -155,7 +155,8 @@ CREATE TABLE `tbl_deliverable` (
 
 INSERT INTO `tbl_deliverable` (`deliverable_id`, `deliverable_name`, `user_id`, `task_id`, `periority_id`, `budget`, `planned_end_date`, `end_date`, `is_completed`) VALUES
 (1, 'IKEA UI design - PSD file', 3, 12, NULL, NULL, NULL, '2022-03-15', 1),
-(3, 'make ui design - screenshot 10', 3, 12, 3, NULL, '2022-03-13', '2022-03-12', 1);
+(3, 'make ui design - screenshot 10', 3, 12, 3, NULL, '2022-03-13', '2022-03-12', 1),
+(4, 'IKEA UI design - PSD file1', 4, 12, NULL, NULL, NULL, '2022-03-16', 0);
 
 -- --------------------------------------------------------
 
@@ -315,7 +316,6 @@ CREATE TABLE `tbl_project` (
   `project_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
   `project_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `project_type` int(2) NOT NULL,
   `planned_start_date` date DEFAULT NULL,
   `planned_end_date` date DEFAULT NULL,
   `actual_start_date` date DEFAULT NULL,
@@ -327,11 +327,11 @@ CREATE TABLE `tbl_project` (
 -- Dumping data for table `tbl_project`
 --
 
-INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `project_type`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(3, 3, 'IKEA Project', 1, '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
-(4, 3, 'Android app', 1, '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
-(5, 4, 'IOS app', 1, '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
-(6, 1, 'Ramp up', 1, '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
+INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
+(3, 3, 'IKEA Project', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
+(4, 3, 'Android app', '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
+(5, 4, 'IOS app', '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
+(6, 1, 'Ramp up', '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
 
@@ -775,7 +775,7 @@ ALTER TABLE `tbl_client_project`
 -- AUTO_INCREMENT for table `tbl_deliverable`
 --
 ALTER TABLE `tbl_deliverable`
-  MODIFY `deliverable_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `deliverable_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
