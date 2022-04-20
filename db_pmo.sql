@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2022 at 02:30 PM
+-- Generation Time: Apr 20, 2022 at 02:59 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -277,9 +277,9 @@ CREATE TABLE `tbl_priority_task` (
   `actual_start_date` datetime DEFAULT NULL,
   `actual_end_date` datetime DEFAULT NULL,
   `hourly_rate` float NOT NULL,
-  `is_add_all` tinyint(1) NOT NULL DEFAULT 0,
+  `is_add_all` tinyint(1) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0
+  `is_deleted` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -292,7 +292,8 @@ INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_
 (13, 3, 'Analyze causes for each', 6, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1, 0),
 (14, 3, 'Teach the 9 shift leads', 5, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1, 0),
 (15, 3, 'Prepare sorter removal', 6, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1, 0),
-(17, 3, 'Implement damage zone', 6, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1, 0);
+(17, 3, 'Implement damage zone', 6, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1, 0),
+(18, 3, 'task.task_name', NULL, 'task.description', '2022-03-25', '2022-03-25', '2022-03-25 00:00:00', '2022-03-25 00:00:00', 25, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -805,7 +806,7 @@ ALTER TABLE `tbl_priority_file`
 -- AUTO_INCREMENT for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
-  MODIFY `task_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `task_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbl_proceed_deliverable`

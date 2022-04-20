@@ -20,16 +20,33 @@ const Task = function(task) {
   this.member_name = task.member_name;
 };
 
+const TblTask = function(task) {
+  this.task_id = task.task_id;
+  this.creator_id = task.creator_id,
+  this.project_id = task.project_id;
+  this.task_name = task.task_name;
+  this.planned_start_date = task.planned_start_date;
+  this.planned_end_date = task.planned_end_date;
+  this.actual_start_date = task.actual_start_date;
+  this.actual_end_date = task.actual_end_date;
+  this.description = task.description;
+  this.hourly_rate = task.hourly_rate;
+  this.is_add_all = task.is_add_all;
+  this.is_active = task.is_active;
+  this.is_deleted = task.is_deleted;
+};
+
 Task.insertNewTask = (newTask, result) => {
-  sql.query("INSERT INTO tbl_priority_task SET ?", newTask, (err, res) => {
+  var task = new TblTask(newTask);
+  sql.query("INSERT INTO tbl_priority_task SET ?", task, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    newTask.task_id = res.insertId;
-    console.log("created new Task: ", {task:newTask });
-    result(null, { task:newTask });
+    task.task_id = res.insertId;
+    console.log("created new Task: ", {task:task });
+    result(null, { task:task });
   });
 };
 
