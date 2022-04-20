@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2022 at 03:56 PM
+-- Generation Time: Apr 20, 2022 at 02:09 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -330,7 +330,7 @@ CREATE TABLE `tbl_project` (
 INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `project_type`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
 (3, 3, 'IKEA Project', 1, '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
 (4, 3, 'Android app', 1, '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
-(5, 3, 'IOS app', 1, '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
+(5, 4, 'IOS app', 1, '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
 (6, 1, 'Ramp up', 1, '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
 
 -- --------------------------------------------------------
@@ -447,7 +447,7 @@ CREATE TABLE `tbl_user_client` (
 
 INSERT INTO `tbl_user_client` (`uc_id`, `user_id`, `client_id`, `is_active`) VALUES
 (1, 3, 1, 1),
-(2, 3, 4, 0);
+(2, 4, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -481,7 +481,7 @@ CREATE TABLE `tbl_week_priority` (
   `user_id` int(8) NOT NULL,
   `week` int(2) NOT NULL,
   `priority` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `project_id` int(8) NOT NULL,
+  `project_id` int(8) DEFAULT NULL,
   `goal` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `detail` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `is_completed` float DEFAULT NULL,
@@ -859,7 +859,7 @@ ALTER TABLE `tbl_user_company`
 -- AUTO_INCREMENT for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_work_setting`
