@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2022 at 02:59 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Generation Time: May 09, 2022 at 12:38 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_pmo`
+-- Database: `pmo_db`
 --
 
 -- --------------------------------------------------------
@@ -337,21 +337,22 @@ INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_project_manager`
+-- Table structure for table `tbl_project_member`
 --
 
-CREATE TABLE `tbl_project_manager` (
+CREATE TABLE `tbl_project_member` (
   `pm_id` int(8) NOT NULL,
   `project_id` int(8) NOT NULL,
-  `user_id` int(8) NOT NULL
+  `user_id` int(8) NOT NULL,
+  `is_manager` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `tbl_project_manager`
+-- Dumping data for table `tbl_project_member`
 --
 
-INSERT INTO `tbl_project_manager` (`pm_id`, `project_id`, `user_id`) VALUES
-(4, 4, 8);
+INSERT INTO `tbl_project_member` (`pm_id`, `project_id`, `user_id`, `is_manager`) VALUES
+(4, 4, 8, 0);
 
 -- --------------------------------------------------------
 
@@ -672,9 +673,9 @@ ALTER TABLE `tbl_project`
   ADD KEY `creator_id` (`creator_id`);
 
 --
--- Indexes for table `tbl_project_manager`
+-- Indexes for table `tbl_project_member`
 --
-ALTER TABLE `tbl_project_manager`
+ALTER TABLE `tbl_project_member`
   ADD PRIMARY KEY (`pm_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `project_id` (`project_id`);
@@ -821,9 +822,9 @@ ALTER TABLE `tbl_project`
   MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `tbl_project_manager`
+-- AUTO_INCREMENT for table `tbl_project_member`
 --
-ALTER TABLE `tbl_project_manager`
+ALTER TABLE `tbl_project_member`
   MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
@@ -936,11 +937,11 @@ ALTER TABLE `tbl_project`
   ADD CONSTRAINT `tbl_project_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tbl_project_manager`
+-- Constraints for table `tbl_project_member`
 --
-ALTER TABLE `tbl_project_manager`
-  ADD CONSTRAINT `tbl_project_manager_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_project_manager_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `tbl_project_member`
+  ADD CONSTRAINT `tbl_project_member_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_project_member_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_task_assign`
