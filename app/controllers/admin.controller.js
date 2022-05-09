@@ -257,8 +257,8 @@ exports.getMyCompanyProfile = (req, res) => {
       var owner = null;
       if(data.member.length > 0) 
         owner_id = data.member[0].owner_id;
-
-      Company.getMyCompanyProfile(owner_id, req.body.member_id, (err, company) => {
+      
+      Company.getMyCompanyProfile(owner_id, (err, company) => {
         if (err)
           res.status(500).send({
             message:
