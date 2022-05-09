@@ -99,12 +99,19 @@ Company.getMyCompany = (user_id, result) => {
   };
 
 Company.getMyCompanyProfile = (owner_id, member_id, result) => {   
-  var q = "";  
+  var q = ""; var param = []; 
   if(owner_id == member_id)
+  {
     q =  "SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count, p.project_count, task.task_count FROM (SELECT * FROM tbl_user WHERE user_id = ?) u, (SELECT * from tbl_user_company WHERE user_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_team_member WHERE owner_id = ? GROUP BY owner_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli, (SELECT COUNT(project_id) project_count FROM tbl_project WHERE creator_id = ? GROUP by creator_id) p, (SELECT COUNT(task_id) task_count FROM tbl_priority_task WHERE creator_id = ?) task WHERE c.company_id = uc.company_id AND ase.user_id = ?;";
+    param = [owner_id, owner_id, owner_id, owner_id, member_id,member_id, owner_id];
+  }  
   else
-    q = "SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count, p.project_count, task.task_count FROM (SELECT * FROM tbl_user WHERE user_id = ?) u, (SELECT * from tbl_user_company WHERE user_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_team_member WHERE owner_id = ? GROUP BY owner_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli, (SELECT COUNT(project_id) project_count FROM tbl_project_member WHERE user_id = ? GROUP by user_id) p, (SELECT COUNT(task_id) task_count from tbl_task_assign WHERE member_id = ? GROUP BY member_id) task WHERE c.company_id = uc.company_id AND ase.user_id = ?";
-  sql.query(q, [owner_id, owner_id, owner_id, owner_id, member_id,member_id, owner_id], (err, res) => 
+  {
+    q = "SELECT a.*, p.* FROM (SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count FROM (SELECT * FROM tbl_user WHERE user_id = ?) u, (SELECT * from tbl_user_company WHERE user_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_team_member WHERE owner_id = ? GROUP BY owner_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli WHERE c.company_id = uc.company_id AND ase.user_id = ?) a LEFT JOIN (SELECT p.*, task.* FROM (SELECT COUNT(project_id) project_count FROM tbl_project_member WHERE user_id = ? GROUP by user_id) p, (SELECT COUNT(task_id) task_count from tbl_task_assign WHERE member_id = ? GROUP BY member_id) task) p ON 1;";
+    param = [owner_id, owner_id, owner_id, owner_id, owner_id, member_id,member_id];
+  }
+  
+    sql.query(q, param, (err, res) => 
       {
           if (err) {
               console.log("error: ", err);
