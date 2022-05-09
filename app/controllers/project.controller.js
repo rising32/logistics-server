@@ -1,5 +1,5 @@
 const Project = require("../models/project.model.js");
-const ProjectManager = require("../models/projectmanager.model.js");
+const ProjectMember = require("../models/projectmember.model.js");
 const Task = require("../models/task.model.js");
 const TaskAssign = require("../models/task.assign.model.js");
 const Precede = require("../models/precede.model.js");
@@ -23,7 +23,13 @@ exports.create = (req, res) => {
           err.message || "Some error occurred while creating the Project."
       });
     else {
-      res.send(data);      
+      const pm = new ProjectMember({
+        project_id : project.project_id,
+        user_id : project.creator_id,
+        is_manager : 1
+      });
+      ProjectMember.insertNewProjectMember(pm, (err, dat) => {});
+      res.send(data);     
     }
   });
 };
@@ -107,13 +113,14 @@ exports.registManager = (req, res) => {
   }
 
   // Create a Project Manager
-  const pm = new ProjectManager({
+  const pm = new ProjectMember({
     project_id : req.body.project_id,
-    user_id : req.body.user_id
+    user_id : req.body.user_id,
+    is_manager : req.body.is_manager
   });
 
   // Save Project Manager in the database
-  ProjectManager.insertNewProjectManager(pm, (err, data) => {
+  ProjectMember.insertNewProjectMember(pm, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -344,7 +351,21 @@ exports.assignTaskToDeveloper = (req, res) => {
           err.message || "Some error occurred while creating the Project."
       });
     else {
-      res.send(data);      
+      //Insert when this member belong to project
+      ProjectMember.checkIfMemberExistInProject(taskAssign.task_id, taskAssign.member_id, (err, da) => {
+        if (!err)     
+          if(da.res[0].user_id == null)
+          {
+            const pm = new ProjectMember({
+              project_id : da.res[0].project_id,
+              task_id : taskAssign.task_id,
+              user_id : taskAssign.member_id,
+              is_manager : 0
+            });
+            ProjectMember.insertNewProjectMember(pm, (err, dat) => {});            
+          }
+      });
+      res.send(data);
     }
   });
 };

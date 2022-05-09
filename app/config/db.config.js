@@ -1,6 +1,6 @@
 module.exports = {
   HOST: "localhost",
   USER: "root",
-  PASSWORD: "",
-  DB: "pmo_db"
+  PASSWORD: "taeyongil910",//"taeyongil910"
+  DB: "PMO_DB"
 };

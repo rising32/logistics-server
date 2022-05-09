@@ -1,6 +1,7 @@
 const Priority = require("../models/priority.model.js");
 const PriorityAgenda = require("../models/priority.agenda.model.js");
 const util = require("../common/common.util.js");
+const ProjectMember = require("../models/projectmember.model.js");
 //Add new Priority
 exports.create = (req, res) => {
   // Validate request
@@ -148,7 +149,23 @@ exports.updateByPriority = (req, res) => {
             message: "Error updating priority with id " + priority.wp_id
           });
         }
-      } else res.send(data);
+      } 
+      else 
+      {
+        ProjectMember.checkIfMemberExistInPro(priority.project_id, priority.user_id, (err, da) => {
+          if (!err)   
+            if(da.res.length == 0)
+            {
+              const pm = new ProjectMember({
+                project_id : priority.project_id,
+                user_id : priority.user_id,
+                is_manager : 0
+              });
+              ProjectMember.insertNewProjectMember(pm, (err, dat) => {});
+            }
+        });
+        res.send(data);
+      }
     }
   );
 };

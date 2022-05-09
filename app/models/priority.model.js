@@ -5,6 +5,7 @@ const Priority = function(priority) {
   this.user_id = priority.user_id;
   this.week = priority.week;
   this.priority = priority.priority;
+  this.project_id = priority.project_id
   this.goal = priority.goal;
   this.detail = priority.detail;
   this.is_completed = priority.is_completed;
@@ -101,8 +102,8 @@ Priority.getNCPriorityByBeforeWeek = (user_id, week, result) => {
 
 Priority.updateByPriority = (p, result) => {
   sql.query(
-    "UPDATE tbl_week_priority SET user_id = ?,week = ?, priority = ?,goal = ?,detail = ?,is_completed = ?,is_weekly = ? ,end_date = ? WHERE wp_id = ?",
-    [ p.user_id, p.week, p.priority, p.goal,p.detail,p.is_completed,p.is_weekly,p.end_date, p.wp_id], (err, res) => {
+    "UPDATE tbl_week_priority SET user_id = ?,week = ?, priority = ?,project_id = ?,goal = ?,detail = ?,is_completed = ?,is_weekly = ? ,end_date = ? WHERE wp_id = ?",
+    [ p.user_id, p.week, p.priority,p.project_id, p.goal,p.detail,p.is_completed,p.is_weekly,p.end_date, p.wp_id], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
