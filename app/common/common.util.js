@@ -16,7 +16,10 @@ function getWorkDaysWeek(start_date, end_date, res, wd)
   var weekEnd = getWN(new Date(end_date));
   var weekdayFirst = new Date(start_date).getDay();
   var weekdayEnd = new Date(end_date).getDay();
-  // console.log(res);
+  var tmpDt = new Date(null);
+  if(start_date == null || end_date == null || start_date <= tmpDt || end_date <= tmpDt)
+    return wd;
+  
   for(var i = 0; i < res.length; i++)
   {          
     if(res[i].week >= weekFirst && res[i].week <= weekEnd)

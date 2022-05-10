@@ -171,6 +171,7 @@ function getWorkDaysPerWeek(res, resWS, option)
         break;  
     }        
   } 
+  
   var removeIndexes = [];
   for(var i = 0; i < data.length; i++) 
   {
@@ -203,6 +204,7 @@ function getWorkDaysPerWeek(res, resWS, option)
       }                     
     }    
   }
+  
   var tmp_data = [...data];
   for(var k = 0; k < removeIndexes.length; k++)
     data.splice(data.indexOf(tmp_data[removeIndexes[k]]), 1);
@@ -280,7 +282,7 @@ function getWorkDaysPerMonth(res, resWS, year, option)
     result_data.splice(0, 0, {project_id:-1, project_name:"Available", realWorkdays : mwd});
   else if(option == "member")
     result_data.splice(0, 0, {member_id:-1, member_name:"Available", realWorkdays : mwd});
-
+  
   //===================================================== Statistic Client - Project data ====================
   for(var i = 0; i < res.length; i++) 
   {            
