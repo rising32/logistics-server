@@ -1,6 +1,6 @@
 const Client = require("../models/client.model.js");
 const Company = require("../models/company.model.js");
-const Team = require("../models/team.model.js");
+const CompanyMember = require("../models/company.member.model.js");
 const User = require("../models/user.model.js");
 const WorkSetting = require("../models/worksetting.model.js");
 const AccountSetting = require("../models/accountsetting.model.js");
@@ -246,7 +246,7 @@ exports.getMyCompanyProfile = (req, res) => {
       message: "Content can not be empty!"
     });
   }  
-  Team.getTeamMember(req.body.member_id, (err, data) => {
+  CompanyMember.getCompanyMember(req.body.member_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:

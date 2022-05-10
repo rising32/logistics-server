@@ -16,7 +16,7 @@ exports.create = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -36,7 +36,7 @@ exports.getPriorityByUserId = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -56,7 +56,7 @@ exports.getPriorityByEndDate = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -77,7 +77,7 @@ exports.getPriorityByWeek = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -98,7 +98,7 @@ exports.getPriorityByBeforeWeek = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -119,7 +119,7 @@ exports.getNCPriorityByBeforeWeek = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -185,7 +185,7 @@ exports.createAgenda = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -206,7 +206,7 @@ exports.getAgendaByWpId = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -227,7 +227,7 @@ exports.getAgendaByWeek = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -276,7 +276,7 @@ exports.createPriorityFile = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      

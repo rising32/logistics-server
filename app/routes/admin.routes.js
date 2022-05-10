@@ -1,5 +1,6 @@
 module.exports = app => {
     const admin = require("../controllers/admin.controller.js");
+    const company = require("../controllers/company.controller.js");
   
 //==================================================== Client =================================================================
     // Create a new Client  
@@ -32,6 +33,20 @@ module.exports = app => {
 
     // Get my Company profile
     app.post("/user/get_my_company/profile", admin.getMyCompanyProfile);
+
+    //==================================================================================
+
+     // Add a new Company member
+    app.post("/company/add_member", company.addCompanyMember);
+
+    // Update a Company member type with id
+    app.post("/company/update_by_member", company.updateByMember);
+
+    // Get user's Company member
+    app.post("/company/get_company_members", company.getCompanyMembers);
+
+    // Get user's Company Member
+    app.post("/company/get_member", company.getCompanyMember);
 
 //==================================================== Work Settings =================================================================
     // Create a new Work Settings  

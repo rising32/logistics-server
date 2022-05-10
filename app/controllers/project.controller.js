@@ -42,12 +42,12 @@ exports.getUserProjects = (req, res) => {
       message: "Content can not be empty!"
     });
   }  
-  // Save Team member in the database
+  // Save Company member in the database
   Project.getUserProjects(req.body.creator_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -63,12 +63,12 @@ exports.getClientProjectsNoAssign = (req, res) => {
       message: "Content can not be empty!"
     });
   }  
-  // Save Team member in the database
+  // Save Company member in the database
   Project.getClientProjectsNoAssign(req.body.creator_id, req.body.client_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -191,7 +191,7 @@ exports.getProjectTypes = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -258,12 +258,12 @@ exports.getClientProjects = (req, res) => {
       message: "Content can not be empty!"
     });
   }  
-  // Save Team member in the database
+  // Save Company member in the database
   ClientProject.getClientProjects(req.body.client_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -279,12 +279,12 @@ exports.getClientProjectByCid_Pid = (req, res) => {
       message: "Content can not be empty!"
     });
   }  
-  // Save Team member in the database
+  // Save Company member in the database
   ClientProject.getClientProjectByCid_Pid(req.body.client_id, req.body.project_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -687,7 +687,7 @@ exports.getDeliverableByPlannedEndDate = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -707,7 +707,7 @@ exports.getDeliverableByEndDate = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -727,7 +727,7 @@ exports.getCPTbyDeliverable = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      

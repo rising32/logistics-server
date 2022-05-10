@@ -22,7 +22,7 @@ Priority.addPriority = (newPriority, result) => {
       return;
     }
     newPriority.wp_id = res.insertId;
-    console.log("created new Team: ", newPriority);
+    console.log("created new Company: ", newPriority);
     result(null, newPriority);
   });
 };
@@ -65,7 +65,7 @@ Priority.getPriorityByWeek = (user_id, week, result) => {
       return;
     }
 
-    console.log("created new Team: ", {user_id:user_id, priority:res});
+    console.log("created new Company: ", {user_id:user_id, priority:res});
     result(null, {user_id:user_id, priority:res});
   });
 };
@@ -80,7 +80,7 @@ Priority.getPriorityByBeforeWeek = (user_id, week, result) => {
       return;
     }
 
-    console.log("created new Team: ", {user_id:user_id, priority:res});
+    console.log("created new Company: ", {user_id:user_id, priority:res});
     result(null, {user_id:user_id, priority:res});
   });
 };
@@ -95,7 +95,7 @@ Priority.getNCPriorityByBeforeWeek = (user_id, week, result) => {
       return;
     }
 
-    console.log("created new Team: ", {user_id:user_id, priority:res});
+    console.log("created new Company: ", {user_id:user_id, priority:res});
     result(null, {user_id:user_id, priority:res});
   });
 };

@@ -9,7 +9,7 @@ const TaskAssign = function(taskAssign) {
   this.role_id = taskAssign.role_id;
 };
 
-//Add new Team Member
+//Add new Company Member
 TaskAssign.assignTaskToDeveloper = (newTaskAssign, result) => {
   sql.query("INSERT INTO tbl_task_assign SET ?", newTaskAssign, (err, res) => {
     if (err) {
@@ -23,7 +23,7 @@ TaskAssign.assignTaskToDeveloper = (newTaskAssign, result) => {
   });
 };
 
-//Get All Team Members
+//Get All Company Members
 TaskAssign.getUCPT = (user_id, member_id,client_id,project_id,planned_end_date, result) => {  
   var q = "SELECT a.*, mcp.client_id, mcp.client_name FROM (SELECT a.member_id, p.*, u.display_name as member_name from (SELECT * FROM tbl_task_assign WHERE member_id = ?) a, (SELECT * from tbl_priority_task where planned_end_date <= ?) p, tbl_user u where a.task_id = p.task_id AND u.user_id = a.member_id) a, (SELECT cp.*, m.client_name from tbl_client_project cp, tbl_user_client uc, mst_client m where cp.client_id = m.client_id and uc.client_id = cp.client_id and uc.user_id = ? and cp.client_id = ?) mcp WHERE a.project_id = mcp.project_id and a.project_id = ? ORDER BY mcp.client_name";
   var para = [member_id,planned_end_date,user_id, client_id,project_id];

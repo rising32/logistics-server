@@ -19,7 +19,7 @@ PriorityAgenda.addPriorityAgenda = (newPA, result) => {
       return;
     }
     newPA.pa_id = res.insertId;
-    console.log("created new Team: ", newPA);
+    console.log("created new Company: ", newPA);
     result(null, newPA);
   });
 };
@@ -48,7 +48,7 @@ PriorityAgenda.getAgendaByWeek = (user_id, week, result) => {
       return;
     }
 
-    console.log("created new Team: ", {user_id:user_id, agenda:res});
+    console.log("created new Company: ", {user_id:user_id, agenda:res});
     result(null, {user_id:user_id, agenda:res});
   });
 };

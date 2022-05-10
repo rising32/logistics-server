@@ -34,7 +34,7 @@ Project.getUserProjects = (creator_id, result) => {
       return;
     }
 
-    console.log("created new Team: ", {project:res});
+    console.log("created new Company: ", {project:res});
     result(null, {project:res});
   });
 };
@@ -49,7 +49,7 @@ Project.getClientProjectsNoAssign = (creator_id, client_id, result) => {
       return;
     }
 
-    console.log("created new Team: ", {project:res});
+    console.log("created new Company: ", {project:res});
     result(null, {project:res});
   });
 };

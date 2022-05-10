@@ -1,20 +1,20 @@
-const TeamMember = require("../models/team.model.js");
+const CompanyMember = require("../models/company.member.model.js");
 
-//Add new Team Member
-exports.addTeamMember = (req, res) => {
+//Add new Company Member
+exports.addCompanyMember = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   }
-  const newTeamMember = new TeamMember(req.body);
-  // Save Team member in the database
-  TeamMember.addTeamMember(newTeamMember, (err, data) => {
+  const newCompanyMember = new CompanyMember(req.body);
+  // Save Company member in the database
+  CompanyMember.addCompanyMember(newCompanyMember, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -22,20 +22,20 @@ exports.addTeamMember = (req, res) => {
   });
 };
 
-//Get All Team Members
-exports.getTeamMembers = (req, res) => {
+//Get All Company Members
+exports.getCompanyMembers = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   }  
-  // Save Team member in the database
-  TeamMember.getTeamMembers(req.body.owner_id, (err, data) => {
+  // Save Company member in the database
+  CompanyMember.getCompanyMembers(req.body.owner_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {
       res.send(data);      
@@ -43,19 +43,19 @@ exports.getTeamMembers = (req, res) => {
   });
 };
 
-//Get Team Member
-exports.getTeamMember = (req, res) => {
+//Get Company Member
+exports.getCompanyMember = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   }  
-  TeamMember.getTeamMember(req.body.member_id, (err, data) => {
+  CompanyMember.getCompanyMember(req.body.member_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Team."
+          err.message || "Some error occurred while creating the Company."
       });
     else {      
       res.send(data);      
@@ -63,7 +63,7 @@ exports.getTeamMember = (req, res) => {
   });
 };
 
-// Update a Team member
+// Update a Company member
 exports.updateByMember = (req, res) => {
   // Validate Request
   if (!req.body) {
@@ -71,8 +71,8 @@ exports.updateByMember = (req, res) => {
       message: "Content can not be empty!"
     });
   }
-  const tm = new TeamMember(req.body);
-  TeamMember.updateByMember(tm, (err, data) => {
+  const tm = new CompanyMember(req.body);
+  CompanyMember.updateByMember(tm, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({

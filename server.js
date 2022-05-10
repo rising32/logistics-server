@@ -34,7 +34,6 @@ app.get('/show/files', (req,res)=>{
  })
 
 require("./app/routes/user.routes.js")(app);
-require("./app/routes/team.routes.js")(app);
 require("./app/routes/admin.routes.js")(app);
 require("./app/routes/project.routes.js")(app);
 require("./app/routes/priority.routes.js")(app);

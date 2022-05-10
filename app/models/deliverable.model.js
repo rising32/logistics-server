@@ -21,7 +21,7 @@ Deliverable.addDeliverable = (newDeliverable, result) => {
       return;
     }
     newDeliverable.deliverable_id = res.insertId;
-    console.log("created new Team: ", newDeliverable);
+    console.log("created new Company: ", newDeliverable);
     result(null, newDeliverable);
   });
 };

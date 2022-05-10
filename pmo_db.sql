@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2022 at 12:38 PM
+-- Generation Time: May 10, 2022 at 08:02 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -40,9 +40,17 @@ CREATE TABLE `mst_client` (
 --
 
 INSERT INTO `mst_client` (`client_id`, `client_name`, `client_address`, `client_detail`, `is_active`) VALUES
-(1, 'AMAZON MHG9', NULL, '', 1),
+(1, 'AMAZON MHG9', NULL, NULL, 1),
 (2, 'AMAZON XDEY', NULL, NULL, 0),
-(4, 'ATU M2S', NULL, NULL, 0);
+(4, 'ATU M2S', NULL, NULL, 0),
+(12, 'Ikea', NULL, NULL, 1),
+(13, 'Coty', NULL, NULL, 1),
+(14, 'Mobivia', NULL, NULL, 1),
+(15, 'TitTok', NULL, NULL, 1),
+(16, 'Cinatis', NULL, NULL, 1),
+(17, 'GCL Group', NULL, NULL, 1),
+(18, 'IER BOLLORE', NULL, NULL, 1),
+(19, 'Baidu', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -60,7 +68,7 @@ CREATE TABLE `mst_company` (
 --
 
 INSERT INTO `mst_company` (`company_id`, `company_name`) VALUES
-(1, 'AMAZON MHG9'),
+(1, 'ID LOGISTICS'),
 (2, 'AMAZON XDEY');
 
 -- --------------------------------------------------------
@@ -104,8 +112,7 @@ CREATE TABLE `tbl_account_setting` (
 --
 
 INSERT INTO `tbl_account_setting` (`as_id`, `user_id`, `date_format`, `time_format`, `currency`, `decimal_seperator`) VALUES
-(5, 3, 0, 12, 0, 0),
-(8, 4, 1, 1, 1, 0);
+(5, 3, 0, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -127,9 +134,35 @@ CREATE TABLE `tbl_client_project` (
 --
 
 INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_start`, `date_end`, `description`) VALUES
-(1, 4, 4, '2022-01-03 09:59:01', '2022-01-31 09:59:01', 'Google Advice App'),
-(2, 6, 4, '2022-01-12 16:37:08', '2022-02-10 16:37:08', 'UI design'),
-(3, 5, 2, '2022-01-18 14:11:56', '2022-03-28 21:11:56', NULL);
+(4, 3, 1, NULL, NULL, NULL),
+(20, 24, 1, NULL, NULL, NULL),
+(21, 25, 1, NULL, NULL, NULL),
+(22, 26, 1, NULL, NULL, NULL),
+(23, 27, 1, NULL, NULL, NULL),
+(24, 28, 12, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_company_member`
+--
+
+CREATE TABLE `tbl_company_member` (
+  `tm_id` int(8) NOT NULL,
+  `owner_id` int(8) NOT NULL,
+  `member_id` int(8) NOT NULL,
+  `role_id` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_company_member`
+--
+
+INSERT INTO `tbl_company_member` (`tm_id`, `owner_id`, `member_id`, `role_id`) VALUES
+(5, 3, 1, 2),
+(10, 3, 7, 3),
+(11, 3, 20, 3),
+(12, 3, 21, 3);
 
 -- --------------------------------------------------------
 
@@ -154,9 +187,29 @@ CREATE TABLE `tbl_deliverable` (
 --
 
 INSERT INTO `tbl_deliverable` (`deliverable_id`, `deliverable_name`, `user_id`, `task_id`, `periority_id`, `budget`, `planned_end_date`, `end_date`, `is_completed`) VALUES
-(1, 'IKEA UI design - PSD file', 3, 12, NULL, NULL, NULL, '2022-03-15', 1),
-(3, 'make ui design - screenshot 10', 3, 12, 3, NULL, '2022-03-13', '2022-03-12', 1),
-(4, 'IKEA UI design - PSD file1', 4, 12, NULL, NULL, NULL, '2022-03-16', 0);
+(31, 'React Hook Form', 3, 42, NULL, 50, '2022-04-29', NULL, 1),
+(32, 'logic diagram ', 3, 43, NULL, 50, '2022-04-01', NULL, 0),
+(33, 'Logic diagram ', 3, 44, NULL, 50, '2022-04-02', NULL, 0),
+(34, 'Logic diagram of priority and deliverable ', 3, 47, NULL, 50, '2022-04-05', NULL, 0),
+(35, 'Weekly statistics ', 3, 49, NULL, 50, '2022-04-06', NULL, 0),
+(36, 'React select component ', 3, 61, NULL, 50, '2022-04-29', NULL, 1),
+(37, 'Account page logic and role', 3, 46, 20, 50, '2022-04-29', NULL, 1),
+(38, 'Change Database with real data', 1, 62, NULL, 50, '2022-04-30', NULL, 0),
+(39, 'Form submit function', 3, 57, NULL, 50, '2022-05-05', NULL, 1),
+(40, 'Form reset', 3, 48, NULL, 50, '2022-05-05', NULL, 0),
+(41, 'Spinner function', 3, 56, NULL, 50, '2022-05-06', NULL, 0),
+(42, 'Deliverable Page Form', 3, 57, NULL, 50, '2022-05-07', NULL, 1),
+(43, 'Material UI', 3, 57, NULL, 50, '2022-05-07', NULL, 1),
+(44, 'Bug fix', 3, 57, NULL, 50, '2022-05-07', NULL, 1),
+(45, 'Create Deliverable', 3, 57, NULL, 50, '2022-05-07', NULL, 1),
+(46, 'Bug', 3, 57, NULL, 50, '2022-05-07', NULL, 1),
+(47, 'Custom component', 3, 57, NULL, 50, '2022-05-07', NULL, 1),
+(48, 'Decrease font globally ', 3, 57, 18, 50, '2022-05-07', NULL, 1),
+(49, 'Week of Agenda calendar ', 3, 59, 21, 50, '2022-05-07', NULL, 1),
+(50, 'Detail Priority', 3, 61, NULL, 50, '2022-05-08', NULL, 1),
+(51, 'Create Task and Project', 7, 61, NULL, 50, '2022-05-08', NULL, 0),
+(52, 'Auth Restful Api', 21, 55, NULL, 50, '2022-05-08', NULL, 0),
+(53, 'Camera Image Picture', 3, 57, NULL, 50, '2022-05-09', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -186,17 +239,51 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (14, 1, '2022-03-16 15:50:45', NULL, '2022-03-16 15:51:02'),
 (15, 3, '2022-03-16 16:06:38', NULL, '2022-03-16 16:08:37'),
 (16, 3, '2022-03-16 16:09:22', NULL, '2022-03-16 16:33:05'),
-(17, 4, '2022-03-16 16:45:22', NULL, '2022-03-16 16:45:42'),
 (25, 7, '2022-03-18 12:47:53', NULL, '2022-04-17 15:02:43'),
-(26, 4, '2022-03-18 12:48:11', NULL, NULL),
 (27, 3, '2022-03-18 21:50:32', NULL, '2022-03-18 21:50:55'),
-(28, 9, '2022-03-18 21:54:10', NULL, '2022-03-18 21:54:56'),
-(29, 9, '2022-03-18 21:55:14', NULL, '2022-03-18 21:55:31'),
-(30, 9, '2022-03-18 22:00:14', NULL, '2022-03-18 22:00:26'),
-(31, 9, '2022-03-18 22:00:40', NULL, '2022-03-24 20:11:11'),
 (32, 3, '2022-03-20 15:31:52', NULL, '2022-04-17 14:35:20'),
-(33, 10, '2022-03-20 15:33:43', NULL, '2022-04-17 14:45:10'),
-(38, 18, '2022-03-20 20:09:01', 'FmZ2zwT0V2hXVzK9lS9smw==$0uK4GyWJn+bzBPl0QyoAHLv5BJHBxb8QSgGP0mvoKGYQv9kP3pVNU531tpPp3g+h6mkQJ4xzElMmxjMnmfQGUQ==', NULL);
+(39, 3, '2022-04-20 14:38:03', '5auQwjXkGDqjLokexbsrFA==$DPu6bfxB1hi5YykBU8i3GVT4BYlBLAX14XYN35vJviTqO07lFH5FW4YuVpnGO0T0WSzryVFIgdaPeo/1E3cOmQ==', '2022-04-21 06:15:45'),
+(40, 1, '2022-04-20 14:45:19', 'onfBp+fgDOz5GJONHMMtzQ==$r/iGc0LN6vXPaAZEdBzn63x0eBAePGAToHBtRnXhk+oKRooO9ogd2wLL0LY7lYStVVuLaBjcS+gUIkQL1xEjJw==', '2022-04-29 05:50:55'),
+(41, 3, '2022-04-21 06:15:52', 'zjwOUtKP1ccep1xgdiN2JQ==$B5r0viW2XfjaZUoscGlSwMjLTaLQxDzbRsB+aQDh5rCZkWcIjIfGA0HihpT721novr0PDADyVa0ipmYeSt6AZg==', '2022-04-22 16:13:54'),
+(42, 3, '2022-04-22 20:00:56', 'oQrCnZn6UGMpo2B3J3gFvw==$cR0UrcIxjjxtYRr8sfCPAZJumjzArIAlZQUc3R4OGrPjOmvbKruxzhMfzJF0PuA8t7VO3Cv+0wdMjnUr8wVt9Q==', '2022-04-26 20:00:23'),
+(45, 3, '2022-04-26 20:03:57', 'Kcmq/+tG2QlnWcc95b6Ktg==$5dzsOFUSSV90hX9GQq4EVNyQNOBjLeq0gjMtBoufpw7NKd79N9rNfUuLSVC6J6B+YstzZNhbwOzzy/RogA/SBg==', '2022-04-26 20:05:47'),
+(46, 3, '2022-04-27 00:39:42', 'M7zeEBq9yDYiuhoNOZ4UbQ==$T+8tRdI+2tHtgOu2WXAALYMl+lYXJvgG6BHcHLSPHihUkJQaY0mj5OKnR7RVV3NXxIUIw5So6887Vvwa5eAMrA==', '2022-04-28 08:24:28'),
+(48, 3, '2022-04-29 03:35:20', '5zrpf+QQDA/Yc3zETriB6g==$mcjEpd9TkvnOxaIx0a48fajoYMkeSunY78aqs5NeakYI66zAcnnVMdDJ+f1ZmgfMPKqQ3iXv/Bgbm6z+mZStUg==', '2022-04-29 13:29:05'),
+(50, 1, '2022-04-29 13:29:20', '9OPFVSq+QUWUm+y9IgYgKw==$F7tIwyH5U7W5xASVZzpULkPM+vWaAl2LzDzAuaOaT+OWOeSWr7UruwPQhAbJQiFaYmXSutAK2MDbq8/e2eTlyA==', '2022-04-29 13:29:46'),
+(51, 7, '2022-04-29 13:30:23', 'ACI2CfgMkzw56ZCNcftxhg==$CMO0dPo9IXgQ9tu1iRz1BrRXrerHdvwFy/Bbj61oqBjoTFqShMbbWa7vPn8D8eh+gE2Frd/mBYAeIs4lxVxzzw==', '2022-04-29 13:32:26'),
+(52, 3, '2022-04-29 13:32:36', 'j+ebtarw1dpci+EZyUevXQ==$4i/UYXZAKyc/YpDPsIh1FLyKJpv4tpFUseoF7ZSKcwidX/JyH9EaBEZFfVLmKtOfgWb7y1JPJPIG5IvGUv2gtg==', '2022-04-29 13:36:59'),
+(53, 3, '2022-04-29 13:37:07', 'mlpW90sO8Y9BjupC4+Y9cw==$60rnue1L0bvNXvKKjCaZFBuMg1qd4Yi1cFcahRbkuGa1Y7PHjszddVclzTRwZntU2J2eh0xSEqQ/DmfKSW9sHg==', '2022-04-29 13:37:12'),
+(54, 20, '2022-04-29 13:39:02', 'BG/3J+L6oO1BBhODG+f58A==$mRfCoMdc65Czi6wcYW+8vPpMeG7drkrYaRsR1u/DJTBz7/5fOykfsYNiNMD6K7gtcfef9nyufGQqnv/bf+/wrw==', '2022-04-29 13:40:25'),
+(55, 3, '2022-04-29 13:40:32', 'I12WAepcqSbGwi/h0P38pw==$kISf5X2+VZF8H6TDc9qoGCj+sOrNZIHrsb7it+yoC6bBz7QXDDYnbDL1aCyuwWOy2TywgWaKV0MKzWZ3yC4bYg==', '2022-04-29 13:42:50'),
+(56, 3, '2022-04-30 00:58:26', 'yV0U/LwrRIUkVKrz/5g7Uw==$q3JbToNPM3aFmXQ01gbH3b+gZCifPxMtKE/BqEsmGdSamLukXaAhbifi1oGzDb0qLMv16ur8G6A02fF7C/HkHA==', '2022-04-30 01:52:37'),
+(57, 1, '2022-04-30 01:52:48', 'XtGiIfbB0EBBw1BLKB//mw==$v4FHD8gqSQCbwHNRM7Jzxgp7Xy6rc7VC2ZCw9ZYQLa4WgW//k2kzk/5JSaTerUErpjRqmIAOgRmR9h5dbrZ+WA==', '2022-05-03 14:57:23'),
+(58, 3, '2022-04-30 05:08:27', '1H0LnVXujaOO36z9cOCNxg==$H/bZvQpDaBdyj16Yr37JV1vQWIhPT0Nncqg8B9w8JNuNhxpNVjSzNHmNDFMJmAaduOxPJb47iTz4MtoUV+ZXDg==', '2022-05-03 14:55:58'),
+(59, 3, '2022-05-03 14:57:40', 'WbZ35Tsv/E+qmW/yVVXEDg==$ByNeqeN58md3LexxYV9Fshp8gj999Ayu/A+Tm92JBl7ajomAubzqtQ+ey+etqfaKCIcOzHsV5YFpvyTUR27s/A==', '2022-05-03 15:10:10'),
+(60, 3, '2022-05-04 01:18:23', 'IYtBaknOSOgbFKaXQBohFA==$A9uGT0vsZ3cl4TrPUEcwHWUVr+ZZoNDeumhECnvBJkaz3zpKOJ/A73zdw4IB+hcAbd6629BoIMeJ+bRY8fO27w==', '2022-05-04 02:20:43'),
+(61, 3, '2022-05-04 02:20:53', 'x+uwuXGetQg5y8SudSgVdQ==$LntjgRaA/d0GXINNhfcv7JUusiIJQDQq+QfV85By2dHuLBfORRz+iEjTKs58sSlZc0P4hANxFIaSVyyo8cN7tg==', '2022-05-04 02:34:56'),
+(62, 3, '2022-05-04 02:45:50', 'WEwzN5gNs17DvQondyrq2Q==$Ot4kuZsF5bGHYZQUfjgRnzx/PxCIdsDx7jUEV4ctyxNkb5nCCfFcGC6R/A3FqpjtqeCkEFa2bqWYX/hdq7F8fA==', '2022-05-04 03:45:26'),
+(63, 3, '2022-05-05 01:05:11', 'NBKxBh929H3ea/k6z9LWoA==$TeXzEVlw87iHxwPjyN/x8EL3W3eC5wZztIgihBfM24p3fjdnITPzZDhCavchEwqY327wRRwsKmio7qrR+P9Rxg==', '2022-05-05 11:01:10'),
+(64, 3, '2022-05-05 13:48:21', '7cI+DO/e5o8+gtsF5B1rdQ==$ZkuqRXpaEVBn5O9IwUGftIphwGpv6Eb2nEtXr0Ai8pAqjFgGJjzQDT6eClse8EwANfvkf5VQeAnADSXFhLAzNw==', '2022-05-05 13:49:06'),
+(65, 3, '2022-05-06 01:01:56', 'hYUxwdqdlOQ1Wu92Z/z9yg==$asXJ5eFr7NTXzI5JUvdCopbBckg55/9X1DUllMsd9hGuQK8OZVbSFUCfnT1Ll6HQMR1O1XTWnupxNhB7RJhDvQ==', '2022-05-06 10:16:32'),
+(66, 3, '2022-05-07 01:07:51', 'iCm96EkI5En6ZeG5Q50lSg==$5xW0rjotCTEGdjltqdYWm/+bVgATQyX89MarewFB9pc8PjUesBF/Rs3QYceEH39zkpn7IalfcBswUmQe1uAHFw==', '2022-05-07 05:18:50'),
+(67, 1, '2022-05-07 05:19:00', 'Fr0d+c4zewU6gEp7GEa3DA==$scBrWhQakaW1vKiBdvjB0+JYA19a2Kazm1WQhyR6HrnphWtMcDXKx9GTBWR7NqG6qLjJ/G0DNI8ZVUBsHDREPQ==', '2022-05-07 08:10:20'),
+(68, 3, '2022-05-07 05:26:06', 'MOnK0vTOe5/bVlZZ/S8Ouw==$nHvDkhgcLwS4QduyhfWOX1qdBGEuFKQx0/wjmhfVAPS6M0/DdgMz030ztGD57t+8FRghyD6hGJh1/E6GyUfaKA==', '2022-05-07 05:26:16'),
+(69, 3, '2022-05-07 05:26:18', '2TTE68/Qxb0l1+wiRDk9cQ==$/4MNagtmCFRycBQfS47XDQa04kFvDb9yW16PIWS+GoPFibHNzpJwsZGUPeJFb8rBeI9tljDHPh+JItlV3l+kXQ==', '2022-05-07 08:28:36'),
+(70, 3, '2022-05-07 08:28:40', 'h8z4xYqz4IQYORWnrNGJdw==$h0iqRE4xm3fk+KJKo4DrVzUrRH1SVMJE5o+k5XaU+v9GjQj182tkWZfjFw5Wxbx5piFCp9yEG6E2bqMd7mNaTg==', '2022-05-07 12:18:33'),
+(71, 3, '2022-05-07 13:42:51', 'mX+V7WKGKVGCLfGDdVfoRQ==$my0EOfPoUnyLYyqiMYQGkH7W7R+ULL85Wc3ShLRFRm7iWwtRfOGbMoI96ozZXgdo4G0pg5KrfI4O8zEdxTTzrw==', '2022-05-08 01:25:38'),
+(72, 3, '2022-05-08 02:16:45', 'ftb35jxd3Dg7KEsu9ED1Aw==$os3QAZFZP1q+VLutDBzzGtZfeqKBgEzu0ezpWsg0Zg6nj9gO/RzWtDmc53FkULwDq79O42LyybEF37o7fAInhQ==', '2022-05-08 06:35:04'),
+(73, 7, '2022-05-08 06:26:19', 'ALd43z28g5JtVKwqBkggfg==$bkJXI14TYJX3nIH63aY0fRW9DhFI6SqwTwcAxdG9U0VQ0Rh9LIWfbZoNvnFb6IfEHwJzLGp712vWjJhFOSIEQA==', '2022-05-08 06:30:09'),
+(74, 20, '2022-05-08 06:31:14', '8xeMMiWrtFt+7oHlXavBQA==$sln+p8Y7X6oozkOWcmNHZprrtMIeEJi3kPoX8ew/mDLP88wxTu65wiLERHgNaB3uypFhllCmlCw5X6ItecdBkA==', '2022-05-08 06:31:53'),
+(75, 21, '2022-05-08 06:32:36', 'kfDnnSwl5FV4zFYBW6LTgQ==$rbUxhIr9jIT4elK/DiXu5r8VfOkMbK1QhC5uXRnLyQdgUA0ewN7VRjmtqg6RPb7IQG0MONKDbE+VISca6akbAA==', '2022-05-08 06:56:50'),
+(76, 3, '2022-05-08 06:56:56', 'VnyGJA4IAvTYEkj2AGFULA==$SM0Fsaw0WfBRyjQaJ7kKDjOvi2DiWiUNHWAQwRXnWWj+fwNjo2k0d9GWiHSVVDMCPwoXFkdUPEoDzBszTZUCqA==', '2022-05-09 01:11:23'),
+(77, 1, '2022-05-09 01:11:44', '2iUG8hAJMcd/gCK1J/S9DQ==$XSSltB5ncwoNwTRd6N4ptTIjTpVFHRep/4vW0Iu0BmnoHP7E8thf+H4dDUcjOaYXdYC/1RB6u7/kyGpHk2RsdA==', NULL),
+(78, 3, '2022-05-09 01:24:49', 'wupXKqTssT7HNaoMHx17/A==$F3FWplUcPLHvCxYViq2/a7+qFPL0t1CcsrPyowuebQSGVtzr0UJg8Yzx9mV3BaO2RkfTFDaH+Q1ZzIgmPYnYhw==', '2022-05-09 02:32:30'),
+(79, 3, '2022-05-09 02:32:32', '0HcR88UVqkgTw5cec2tAhw==$C19pipogIvwXRhOCtDSQT2+h3t/JpP+RbBlMJsuVUAgNvkeL7AFCowf/oK2DJCa5hGbaZvPVpl4WzfLV4F0foQ==', '2022-05-09 05:52:41'),
+(80, 21, '2022-05-09 02:51:16', 'H4Q6gWHbTTJgYuDN9awnPA==$UaRxa+k1CzWoxmVcEn5/QGSTTWNzUDydKIpLanJ7+ZdB741ORNrsKJu6Z5DnG5i+QglEnxpXJ7IpQqZk/n5Xcw==', '2022-05-09 03:24:40'),
+(81, 21, '2022-05-09 03:24:43', 'albtxpVmrMklj+jm4KC+QQ==$vmpbH3jakWSXNgIkidxnceduehPO7o2kQSVqPQdwfWUzqJw7UjyCplk2PIgAk5nXerZEQkdFlb/utBVXbsigUg==', '2022-05-09 05:51:52'),
+(82, 3, '2022-05-09 05:52:47', 'gWi7e0XuuibMcsfzzABOZg==$tjLcLzOxFF7y2Xro6lvf1/qIyMeenkZtE/luPzcEKBzxebwYcxVEFNTsINOg2wjwyBP0vfhrfiK9pUWyBrxSmQ==', '2022-05-09 05:55:13'),
+(83, 21, '2022-05-09 05:55:17', 'M4XlyLR0WODEioINi2A02w==$HC722gAWsrgzmFfIxs39TCm4OandtA+7umq6YCX3Ck61wRkxu37AkrcRS68ooe196H1SDNeiRKR5JOr5EBPOng==', '2022-05-09 07:28:32'),
+(84, 3, '2022-05-09 07:28:38', 'JRSoyS+9we+UhKUUdzcmKQ==$0lcNh4waloCN2HGcDjAIS6ye+nTQDLHmR7N7gvW4JiiejyIgFUOm9/mzgX0zV0ydm053reTAseaR/RzDzdCtCA==', NULL);
 
 -- --------------------------------------------------------
 
@@ -209,14 +296,6 @@ CREATE TABLE `tbl_precede_task` (
   `task_id` int(8) NOT NULL,
   `preceding` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_precede_task`
---
-
-INSERT INTO `tbl_precede_task` (`precede_id`, `task_id`, `preceding`) VALUES
-(1, 12, 1),
-(2, 13, 2);
 
 -- --------------------------------------------------------
 
@@ -233,14 +312,6 @@ CREATE TABLE `tbl_priority_agenda` (
   `level` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `tbl_priority_agenda`
---
-
-INSERT INTO `tbl_priority_agenda` (`pa_id`, `wp_id`, `planned_date`, `planned_time`, `content`, `level`) VALUES
-(5, 3, NULL, NULL, 'adfsdfsdfsdfsf', 1),
-(6, 3, NULL, NULL, 'dsdsdfsdfdsfsdfsfsf', 2);
-
 -- --------------------------------------------------------
 
 --
@@ -252,13 +323,6 @@ CREATE TABLE `tbl_priority_file` (
   `priority_id` int(8) NOT NULL,
   `file_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_priority_file`
---
-
-INSERT INTO `tbl_priority_file` (`pf_id`, `priority_id`, `file_name`) VALUES
-(2, 3, 'rer.jpg');
 
 -- --------------------------------------------------------
 
@@ -287,13 +351,27 @@ CREATE TABLE `tbl_priority_task` (
 --
 
 INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`, `is_deleted`) VALUES
-(11, 3, 'IKEA UI design', NULL, 'IKEA UI design', '2022-03-22', '2022-03-25', NULL, NULL, 32, 0, NULL, 0),
-(12, 3, 'Implement the 12 KPI', 6, 'asdfasdfsadfadfa', '2022-03-09', '2022-03-29', NULL, NULL, 25, 0, 1, 0),
-(13, 3, 'Analyze causes for each', 6, 'this is blue sky task.', '2022-03-02', '2022-03-03', NULL, NULL, 35.5, 0, 1, 0),
-(14, 3, 'Teach the 9 shift leads', 5, 'this is blue sky task.', '2022-03-09', '2022-03-13', NULL, NULL, 35.5, 0, 1, 0),
-(15, 3, 'Prepare sorter removal', 6, 'this is blue sky task.', '2022-03-09', '2022-03-10', NULL, NULL, 35.5, 0, 1, 0),
-(17, 3, 'Implement damage zone', 6, 'this is red color.', '2022-03-07', '2022-03-07', NULL, NULL, 15, 0, 1, 0),
-(18, 3, 'task.task_name', NULL, 'task.description', '2022-03-25', '2022-03-25', '2022-03-25 00:00:00', '2022-03-25 00:00:00', 25, NULL, NULL, NULL);
+(42, 3, 'Login Interface', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 35, 0, 1, 0),
+(43, 3, 'User role', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(44, 3, 'Relationship of Project and Client', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(45, 3, 'Relationship of priority and deliverable ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(46, 3, 'Account setting ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(47, 3, 'priority concept ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(48, 3, 'deliverable concept ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(49, 3, 'statistics method ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(50, 3, 'Sign out and User profile ', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(51, 3, 'Team members logic', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(52, 3, 'Sign out interface ', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(53, 3, 'Task page Material UI', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(54, 3, 'Priority page design ', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(55, 3, 'Account page design ', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(56, 3, 'User profile page', 28, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(57, 3, 'Deliverable page', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(58, 3, 'user model', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(59, 3, 'priority and deliverable model', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(60, 3, 'statistics logic', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(61, 3, 'Change of Task page', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(62, 3, 'Decrease font globally', 26, '', '2022-04-30', '2022-05-07', '2022-04-30 00:00:00', '2022-05-07 00:00:00', 30, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -329,10 +407,18 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(3, 3, 'IKEA Project', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
-(4, 3, 'Android app', '2022-03-08', '2022-03-17', NULL, NULL, 'This is my app.'),
-(5, 4, 'IOS app', '2022-03-14', '2022-04-13', NULL, NULL, 'This is IOS app.'),
-(6, 1, 'Ramp up', '2022-03-27', '2022-03-31', NULL, NULL, 'this is version.');
+(3, 3, 'Research App Logic', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
+(24, 3, 'Frontend of IDL logistics ', NULL, NULL, NULL, NULL, NULL),
+(25, 3, 'Backend of IDL logistics ', '2022-04-29', '2022-05-06', '2022-04-29', '2022-05-06', ''),
+(26, 3, 'Feedback and Bug fix', NULL, NULL, NULL, NULL, NULL),
+(27, 3, 'Self Project', NULL, NULL, NULL, NULL, NULL),
+(28, 3, 'Test Project', NULL, NULL, NULL, NULL, NULL),
+(29, 3, 'Working Project', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
+(30, 3, 'Responsive Design', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
+(31, 3, 'Exceiption', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
+(32, 3, 'Project Model', '2022-05-09', '2022-05-16', '2022-05-09', '2022-05-16', ''),
+(33, 3, 'Add User Role', '2022-05-01', '2022-05-31', '2022-05-01', '2022-05-31', ''),
+(34, 1, 'Project Manager Control', '2022-05-09', '2022-05-16', '2022-05-09', '2022-05-16', '');
 
 -- --------------------------------------------------------
 
@@ -346,13 +432,6 @@ CREATE TABLE `tbl_project_member` (
   `user_id` int(8) NOT NULL,
   `is_manager` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_project_member`
---
-
-INSERT INTO `tbl_project_member` (`pm_id`, `project_id`, `user_id`, `is_manager`) VALUES
-(4, 4, 8, 0);
 
 -- --------------------------------------------------------
 
@@ -372,31 +451,17 @@ CREATE TABLE `tbl_task_assign` (
 --
 
 INSERT INTO `tbl_task_assign` (`assign_id`, `task_id`, `member_id`, `role_id`) VALUES
-(1, 12, 4, 1),
-(2, 14, 4, 3),
-(3, 13, 7, 3),
-(4, 15, 8, 3);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_team_member`
---
-
-CREATE TABLE `tbl_team_member` (
-  `tm_id` int(8) NOT NULL,
-  `owner_id` int(8) NOT NULL,
-  `member_id` int(8) NOT NULL,
-  `role_id` int(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_team_member`
---
-
-INSERT INTO `tbl_team_member` (`tm_id`, `owner_id`, `member_id`, `role_id`) VALUES
-(5, 3, 1, 2),
-(8, 3, 4, 1);
+(24, 42, 3, 3),
+(25, 43, 3, 3),
+(26, 44, 3, 3),
+(27, 47, 3, 3),
+(28, 49, 3, 3),
+(29, 62, 1, 3),
+(30, 56, 3, 3),
+(31, 56, 3, 3),
+(32, 61, 3, 3),
+(33, 61, 7, 3),
+(34, 55, 21, 3);
 
 -- --------------------------------------------------------
 
@@ -421,14 +486,11 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`user_id`, `email`, `phone_number`, `password`, `display_name`, `birthday`, `avatar`, `role_id`, `registration_time`) VALUES
-(1, 'toni315@outlook.com', '12523568954', '123456', 'Jonshn Deli', NULL, NULL, 2, '2022-03-17 10:42:49'),
-(3, 'alisn26@gmail.com', '56345896541', '123456', 'Jim', NULL, NULL, 1, '2022-03-17 10:42:49'),
-(4, 'bini365@hotmail.com', '56894336584', '123456', 'Herdson', NULL, NULL, 2, '2022-03-17 10:42:49'),
-(7, 'cheli32@gmail.com', '1235648542', '123456', 'Dorneld henli', NULL, NULL, 3, '2022-03-17 12:38:10'),
-(8, 'desti98@outlook.com', '5264235512', '123456', 'Joe Bidal', NULL, NULL, 3, '2022-03-18 09:03:43'),
-(9, 'dschrabonnat@id.logistics.com', '18600559425', 'a123456', 'Romario kelli', NULL, NULL, 2, '2022-03-18 21:54:10'),
-(10, 'ascon88@gamil.com', '5264855214522', '123456', 'Bonapard kross', NULL, NULL, 3, '2022-03-20 15:33:43'),
-(18, 'tulip31518@outlook.com', '5264855214', '123456', 'Chen Royal', NULL, NULL, 2, '2022-03-20 20:09:01');
+(1, 'pmanager@mail.com', '12523568954', '123456', 'Jonshn Deli', NULL, NULL, 2, '2022-03-17 10:42:49'),
+(3, 'admin@mail.com', '56345896541', '123456', 'Admin', NULL, NULL, 1, '2022-03-17 10:42:49'),
+(7, 'puser@mail.com', '1235648542', '123456', 'Dorneld henli', NULL, NULL, 3, '2022-03-17 12:38:10'),
+(20, 'testuser1@mail.com', '18600559433', '123456', 'Test user', NULL, NULL, 3, '2022-04-29 13:39:03'),
+(21, 'common@mail.com', '18600559489', '123456', 'Common User', NULL, NULL, 3, '2022-05-08 06:32:36');
 
 -- --------------------------------------------------------
 
@@ -449,7 +511,14 @@ CREATE TABLE `tbl_user_client` (
 
 INSERT INTO `tbl_user_client` (`uc_id`, `user_id`, `client_id`, `is_active`) VALUES
 (1, 3, 1, 1),
-(2, 4, 4, 0);
+(10, 3, 12, 1),
+(11, 3, 13, 1),
+(12, 3, 14, 1),
+(13, 3, 15, 1),
+(14, 3, 16, 1),
+(15, 3, 17, 1),
+(16, 3, 18, 1),
+(17, 3, 19, 1);
 
 -- --------------------------------------------------------
 
@@ -469,7 +538,6 @@ CREATE TABLE `tbl_user_company` (
 --
 
 INSERT INTO `tbl_user_company` (`uc_id`, `user_id`, `company_id`, `is_manager`) VALUES
-(3, 4, 2, NULL),
 (4, 3, 1, 1);
 
 -- --------------------------------------------------------
@@ -496,9 +564,17 @@ CREATE TABLE `tbl_week_priority` (
 --
 
 INSERT INTO `tbl_week_priority` (`wp_id`, `user_id`, `week`, `priority`, `project_id`, `goal`, `detail`, `is_completed`, `is_weekly`, `end_date`) VALUES
-(3, 3, 12, 'make ui design', 3, 'make ui design', 'complete sign up ', NULL, 1, NULL),
-(4, 3, 13, 'make log in animation\n', 3, 'make log in animation', 'Animation must be beautiful.', 0, 1, '2022-03-24'),
-(5, 3, 12, 'login service', 4, 'login service', 'php version 7.47', 0, 1, '2022-03-24');
+(18, 3, 17, 'Decrease font globally ', NULL, 'Bug fix ', '', 0, 0, NULL),
+(19, 3, 17, 'Task page UI', NULL, 'Bug fix ', '', 0, 0, NULL),
+(20, 3, 16, 'Account page logic and role', NULL, 'User role', '', 1, 0, '2022-04-29'),
+(21, 3, 17, 'Week of Agenda calendar ', NULL, 'UI', '', 1, 0, '2022-05-07'),
+(22, 3, 18, 'Priority interface fix', NULL, 'input enter key ', '', 0, 0, NULL),
+(23, 3, 18, 'Form action by React Hook Form', NULL, 'form action', '', 0, 0, NULL),
+(24, 3, 18, 'Reset of Form', NULL, 'form action', '', 0, 0, NULL),
+(25, 3, 18, 'Form Reset Api', NULL, 'form action', '', 0, 0, NULL),
+(26, 3, 18, 'Edit priority', NULL, 'Edit ', '', 1, 1, '2022-05-08'),
+(27, 3, 18, 'Priority Tab', NULL, '', '', 0, 0, NULL),
+(28, 3, 19, 'User role', NULL, '', '', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -614,6 +690,16 @@ ALTER TABLE `tbl_client_project`
   ADD KEY `client_id` (`client_id`);
 
 --
+-- Indexes for table `tbl_company_member`
+--
+ALTER TABLE `tbl_company_member`
+  ADD PRIMARY KEY (`tm_id`),
+  ADD UNIQUE KEY `owner_id_2` (`owner_id`,`member_id`),
+  ADD KEY `role_id` (`role_id`),
+  ADD KEY `owner_id` (`owner_id`),
+  ADD KEY `member_id` (`member_id`);
+
+--
 -- Indexes for table `tbl_deliverable`
 --
 ALTER TABLE `tbl_deliverable`
@@ -690,16 +776,6 @@ ALTER TABLE `tbl_task_assign`
   ADD KEY `member_id` (`member_id`);
 
 --
--- Indexes for table `tbl_team_member`
---
-ALTER TABLE `tbl_team_member`
-  ADD PRIMARY KEY (`tm_id`),
-  ADD UNIQUE KEY `owner_id_2` (`owner_id`,`member_id`),
-  ADD KEY `role_id` (`role_id`),
-  ADD KEY `owner_id` (`owner_id`),
-  ADD KEY `member_id` (`member_id`);
-
---
 -- Indexes for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
@@ -747,7 +823,7 @@ ALTER TABLE `tbl_work_setting`
 -- AUTO_INCREMENT for table `mst_client`
 --
 ALTER TABLE `mst_client`
-  MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `client_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `mst_company`
@@ -759,55 +835,61 @@ ALTER TABLE `mst_company`
 -- AUTO_INCREMENT for table `mst_role`
 --
 ALTER TABLE `mst_role`
-  MODIFY `role_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `role_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_account_setting`
 --
 ALTER TABLE `tbl_account_setting`
-  MODIFY `as_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `as_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_client_project`
 --
 ALTER TABLE `tbl_client_project`
-  MODIFY `cp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `tbl_company_member`
+--
+ALTER TABLE `tbl_company_member`
+  MODIFY `tm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_deliverable`
 --
 ALTER TABLE `tbl_deliverable`
-  MODIFY `deliverable_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `deliverable_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `tbl_precede_task`
 --
 ALTER TABLE `tbl_precede_task`
-  MODIFY `precede_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `precede_id` int(8) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_priority_agenda`
 --
 ALTER TABLE `tbl_priority_agenda`
-  MODIFY `pa_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `pa_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_priority_file`
 --
 ALTER TABLE `tbl_priority_file`
-  MODIFY `pf_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pf_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_priority_task`
 --
 ALTER TABLE `tbl_priority_task`
-  MODIFY `task_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `task_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `tbl_proceed_deliverable`
@@ -819,37 +901,31 @@ ALTER TABLE `tbl_proceed_deliverable`
 -- AUTO_INCREMENT for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tbl_project_member`
 --
 ALTER TABLE `tbl_project_member`
-  MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_task_assign`
 --
 ALTER TABLE `tbl_task_assign`
-  MODIFY `assign_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `tbl_team_member`
---
-ALTER TABLE `tbl_team_member`
-  MODIFY `tm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `assign_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_client`
 --
 ALTER TABLE `tbl_user_client`
-  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `uc_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_company`
@@ -861,13 +937,13 @@ ALTER TABLE `tbl_user_company`
 -- AUTO_INCREMENT for table `tbl_week_priority`
 --
 ALTER TABLE `tbl_week_priority`
-  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `wp_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_work_setting`
 --
 ALTER TABLE `tbl_work_setting`
-  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `ws_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- Constraints for dumped tables
@@ -885,6 +961,14 @@ ALTER TABLE `tbl_account_setting`
 ALTER TABLE `tbl_client_project`
   ADD CONSTRAINT `tbl_client_project_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `tbl_project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_client_project_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_company_member`
+--
+ALTER TABLE `tbl_company_member`
+  ADD CONSTRAINT `tbl_company_member_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_company_member_ibfk_4` FOREIGN KEY (`member_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_company_member_ibfk_5` FOREIGN KEY (`owner_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_deliverable`
@@ -949,14 +1033,6 @@ ALTER TABLE `tbl_project_member`
 ALTER TABLE `tbl_task_assign`
   ADD CONSTRAINT `tbl_task_assign_ibfk_4` FOREIGN KEY (`member_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_task_assign_ibfk_5` FOREIGN KEY (`task_id`) REFERENCES `tbl_priority_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_team_member`
---
-ALTER TABLE `tbl_team_member`
-  ADD CONSTRAINT `tbl_team_member_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_team_member_ibfk_4` FOREIGN KEY (`member_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_team_member_ibfk_5` FOREIGN KEY (`owner_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_user`

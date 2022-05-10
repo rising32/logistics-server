@@ -59,7 +59,7 @@ Task.getProjectTasks = (project_id, result) => {
       return;
     }
 
-    console.log("created new Team: ", {task:res});
+    console.log("created new Company: ", {task:res});
     result(null, {task:res});
   });
 };
