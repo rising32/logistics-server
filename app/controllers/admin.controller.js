@@ -111,6 +111,28 @@ exports.getMyClients = (req, res) => {
     });
   };
 
+  // Get My clients
+exports.getCompanyClients = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }    
+
+  // Save Client in the database
+  Client.getCompanyClients(req.body.company_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Client."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 
 //============================================================ Work Setting ================================================================
 // Create and Save a new WorkSetting

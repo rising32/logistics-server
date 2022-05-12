@@ -76,4 +76,20 @@ Client.getMyClients = (user_id, result) => {
         });
     };
 
+Client.getCompanyClients = (company_id, result) => {    
+  sql.query(
+      "select c.* from mst_client c, (SELECT uc.* FROM tbl_company_member cm, tbl_user_client uc WHERE cm.company_id = ? AND cm.role_id = 1 AND cm.member_id = uc.user_id) uc where c.client_id = uc.client_id", 
+      company_id, (err, res) => 
+      {
+          if (err) {
+              console.log("error: ", err);
+              result(err, null);
+              return;
+          }    
+          console.log("created my Client: ", { company_id : company_id, clients:res});
+          result(null, { company_id : company_id, clients:res });
+      });
+  };
+  
+
 module.exports = Client;

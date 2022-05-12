@@ -15,6 +15,9 @@ module.exports = app => {
     // Get my Client
     app.post("/admin/get_my_clients", admin.getMyClients);
 
+    // Get company Client
+    app.post("/admin/get_company_clients", admin.getCompanyClients);
+
 //==================================================== Company =================================================================
     // Create a new Company  
     app.post("/user/create_company", company.createCompany);
