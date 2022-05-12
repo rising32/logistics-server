@@ -4,6 +4,7 @@ const Util = require("../common/common.util.js");
 const Project = function(project) {
   this.project_id = project.project_id;
   this.creator_id = project.creator_id;
+  this.company_id = project.company_id;
   this.project_name = project.project_name;
   this.planned_start_date = project.planned_start_date;
   this.planned_end_date = project.planned_end_date;
@@ -40,9 +41,8 @@ Project.getUserProjects = (creator_id, result) => {
 };
 
 //Get All Projects
-Project.getClientProjectsNoAssign = (creator_id, client_id, result) => {
-  sql.query("SELECT a.* FROM (SELECT p.*, cp.client_id from (SELECT * FROM tbl_project WHERE creator_id = ?) p LEFT JOIN tbl_client_project cp ON p.project_id = cp.project_id) a WHERE a.client_id = ? OR a.client_id IS null", 
-    [creator_id, client_id], (err, res) => {
+Project.getCompanyProjects = (company_id, result) => {
+  sql.query("select * from tbl_project where company_id = ? order by project_id desc", company_id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -54,10 +54,23 @@ Project.getClientProjectsNoAssign = (creator_id, client_id, result) => {
   });
 };
 
+//Get All Projects
+Project.getClientProjectsNoAssign = (company_id, client_id, result) => {
+  sql.query("SELECT a.* FROM (SELECT p.*, cp.client_id from (SELECT * FROM tbl_project WHERE company_id = ?) p LEFT JOIN tbl_client_project cp ON p.project_id = cp.project_id) a WHERE a.client_id = ? OR a.client_id IS null", 
+    [company_id, client_id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    result(null, {project:res});
+  });
+};
+
 Project.updateByProject = (p, result) => {
     sql.query(
-      "UPDATE tbl_project SET creator_id = ?,project_name = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ? WHERE project_id = ?",
-      [ p.creator_id,p.project_name, p.planned_start_date, p.planned_end_date,p.actual_start_date,p.actual_end_date,p.description, p.project_id], (err, res) => {
+      "UPDATE tbl_project SET creator_id = ?, company_id = ?,project_name = ?, planned_start_date = ?,planned_end_date = ?,actual_start_date = ?,actual_end_date = ?,description = ? WHERE project_id = ?",
+      [ p.creator_id,p.company_id,p.project_name, p.planned_start_date, p.planned_end_date,p.actual_start_date,p.actual_end_date,p.description, p.project_id], (err, res) => {
         if (err) {
           console.log("error: ", err);
           result(null, err);

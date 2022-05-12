@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2022 at 08:02 AM
+-- Generation Time: May 12, 2022 at 09:47 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -69,7 +69,9 @@ CREATE TABLE `mst_company` (
 
 INSERT INTO `mst_company` (`company_id`, `company_name`) VALUES
 (1, 'ID LOGISTICS'),
-(2, 'AMAZON XDEY');
+(2, 'AMAZON XDEY'),
+(3, 'ATU M2S'),
+(4, 'IKEA');
 
 -- --------------------------------------------------------
 
@@ -134,7 +136,7 @@ CREATE TABLE `tbl_client_project` (
 --
 
 INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_start`, `date_end`, `description`) VALUES
-(4, 3, 1, NULL, NULL, NULL),
+(4, 3, 1, '2022-02-16 14:59:01', '2022-03-16 14:59:11', NULL),
 (20, 24, 1, NULL, NULL, NULL),
 (21, 25, 1, NULL, NULL, NULL),
 (22, 26, 1, NULL, NULL, NULL),
@@ -148,21 +150,22 @@ INSERT INTO `tbl_client_project` (`cp_id`, `project_id`, `client_id`, `date_star
 --
 
 CREATE TABLE `tbl_company_member` (
-  `tm_id` int(8) NOT NULL,
-  `owner_id` int(8) NOT NULL,
+  `cm_id` int(8) NOT NULL,
+  `company_id` int(8) NOT NULL,
   `member_id` int(8) NOT NULL,
-  `role_id` int(8) NOT NULL
+  `role_id` int(8) NOT NULL DEFAULT 3
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tbl_company_member`
 --
 
-INSERT INTO `tbl_company_member` (`tm_id`, `owner_id`, `member_id`, `role_id`) VALUES
-(5, 3, 1, 2),
+INSERT INTO `tbl_company_member` (`cm_id`, `company_id`, `member_id`, `role_id`) VALUES
+(5, 3, 3, 1),
 (10, 3, 7, 3),
 (11, 3, 20, 3),
-(12, 3, 21, 3);
+(12, 3, 21, 3),
+(13, 4, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -283,7 +286,8 @@ INSERT INTO `tbl_login` (`login_id`, `user_id`, `login_time`, `token`, `out_time
 (81, 21, '2022-05-09 03:24:43', 'albtxpVmrMklj+jm4KC+QQ==$vmpbH3jakWSXNgIkidxnceduehPO7o2kQSVqPQdwfWUzqJw7UjyCplk2PIgAk5nXerZEQkdFlb/utBVXbsigUg==', '2022-05-09 05:51:52'),
 (82, 3, '2022-05-09 05:52:47', 'gWi7e0XuuibMcsfzzABOZg==$tjLcLzOxFF7y2Xro6lvf1/qIyMeenkZtE/luPzcEKBzxebwYcxVEFNTsINOg2wjwyBP0vfhrfiK9pUWyBrxSmQ==', '2022-05-09 05:55:13'),
 (83, 21, '2022-05-09 05:55:17', 'M4XlyLR0WODEioINi2A02w==$HC722gAWsrgzmFfIxs39TCm4OandtA+7umq6YCX3Ck61wRkxu37AkrcRS68ooe196H1SDNeiRKR5JOr5EBPOng==', '2022-05-09 07:28:32'),
-(84, 3, '2022-05-09 07:28:38', 'JRSoyS+9we+UhKUUdzcmKQ==$0lcNh4waloCN2HGcDjAIS6ye+nTQDLHmR7N7gvW4JiiejyIgFUOm9/mzgX0zV0ydm053reTAseaR/RzDzdCtCA==', NULL);
+(84, 3, '2022-05-09 07:28:38', 'JRSoyS+9we+UhKUUdzcmKQ==$0lcNh4waloCN2HGcDjAIS6ye+nTQDLHmR7N7gvW4JiiejyIgFUOm9/mzgX0zV0ydm053reTAseaR/RzDzdCtCA==', NULL),
+(85, 21, '2022-05-10 14:29:16', '2rlfjtupLtJ+hvTPj5Huew==$2kNwUGPpbaRCrgPoJvEyVeLCZth8YSHBNglYPVovHZRjT0hOCo15qbGS8f1aHCwBquWdeA/aTxvNCf8UpCV37Q==', NULL);
 
 -- --------------------------------------------------------
 
@@ -333,6 +337,7 @@ CREATE TABLE `tbl_priority_file` (
 CREATE TABLE `tbl_priority_task` (
   `task_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
+  `company_id` int(8) DEFAULT NULL,
   `task_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `project_id` int(8) DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -350,28 +355,28 @@ CREATE TABLE `tbl_priority_task` (
 -- Dumping data for table `tbl_priority_task`
 --
 
-INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `task_name`, `project_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`, `is_deleted`) VALUES
-(42, 3, 'Login Interface', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 35, 0, 1, 0),
-(43, 3, 'User role', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(44, 3, 'Relationship of Project and Client', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(45, 3, 'Relationship of priority and deliverable ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(46, 3, 'Account setting ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(47, 3, 'priority concept ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(48, 3, 'deliverable concept ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(49, 3, 'statistics method ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(50, 3, 'Sign out and User profile ', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(51, 3, 'Team members logic', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(52, 3, 'Sign out interface ', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(53, 3, 'Task page Material UI', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(54, 3, 'Priority page design ', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(55, 3, 'Account page design ', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(56, 3, 'User profile page', 28, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(57, 3, 'Deliverable page', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(58, 3, 'user model', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(59, 3, 'priority and deliverable model', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(60, 3, 'statistics logic', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(61, 3, 'Change of Task page', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
-(62, 3, 'Decrease font globally', 26, '', '2022-04-30', '2022-05-07', '2022-04-30 00:00:00', '2022-05-07 00:00:00', 30, 0, 1, 0);
+INSERT INTO `tbl_priority_task` (`task_id`, `creator_id`, `company_id`, `task_name`, `project_id`, `description`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `hourly_rate`, `is_add_all`, `is_active`, `is_deleted`) VALUES
+(42, 3, 3, 'Login Interface', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 35, 0, 1, 0),
+(43, 3, 3, 'User role', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(44, 3, 3, 'Relationship of Project and Client', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(45, 3, 3, 'Relationship of priority and deliverable ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(46, 3, 3, 'Account setting ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(47, 3, 3, 'priority concept ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(48, 3, 3, 'deliverable concept ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(49, 3, 3, 'statistics method ', 3, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(50, 3, 3, 'Sign out and User profile ', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(51, 3, 3, 'Team members logic', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(52, 3, 3, 'Sign out interface ', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(53, 3, 3, 'Task page Material UI', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(54, 3, 3, 'Priority page design ', NULL, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(55, 3, 3, 'Account page design ', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(56, 3, 3, 'User profile page', 28, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(57, 3, 3, 'Deliverable page', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(58, 3, 3, 'user model', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(59, 3, 3, 'priority and deliverable model', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(60, 3, 3, 'statistics logic', 25, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(61, 3, 3, 'Change of Task page', 24, '', '2022-04-29', '2022-05-06', '2022-04-29 00:00:00', '2022-05-06 00:00:00', 30, 0, 1, 0),
+(62, 3, 3, 'Decrease font globally', 26, '', '2022-04-30', '2022-05-07', '2022-04-30 00:00:00', '2022-05-07 00:00:00', 30, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -394,6 +399,7 @@ CREATE TABLE `tbl_proceed_deliverable` (
 CREATE TABLE `tbl_project` (
   `project_id` int(8) NOT NULL,
   `creator_id` int(8) NOT NULL,
+  `company_id` int(8) NOT NULL,
   `project_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `planned_start_date` date DEFAULT NULL,
   `planned_end_date` date DEFAULT NULL,
@@ -406,19 +412,20 @@ CREATE TABLE `tbl_project` (
 -- Dumping data for table `tbl_project`
 --
 
-INSERT INTO `tbl_project` (`project_id`, `creator_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
-(3, 3, 'Research App Logic', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
-(24, 3, 'Frontend of IDL logistics ', NULL, NULL, NULL, NULL, NULL),
-(25, 3, 'Backend of IDL logistics ', '2022-04-29', '2022-05-06', '2022-04-29', '2022-05-06', ''),
-(26, 3, 'Feedback and Bug fix', NULL, NULL, NULL, NULL, NULL),
-(27, 3, 'Self Project', NULL, NULL, NULL, NULL, NULL),
-(28, 3, 'Test Project', NULL, NULL, NULL, NULL, NULL),
-(29, 3, 'Working Project', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
-(30, 3, 'Responsive Design', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
-(31, 3, 'Exceiption', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
-(32, 3, 'Project Model', '2022-05-09', '2022-05-16', '2022-05-09', '2022-05-16', ''),
-(33, 3, 'Add User Role', '2022-05-01', '2022-05-31', '2022-05-01', '2022-05-31', ''),
-(34, 1, 'Project Manager Control', '2022-05-09', '2022-05-16', '2022-05-09', '2022-05-16', '');
+INSERT INTO `tbl_project` (`project_id`, `creator_id`, `company_id`, `project_name`, `planned_start_date`, `planned_end_date`, `actual_start_date`, `actual_end_date`, `description`) VALUES
+(3, 3, 3, 'Research App Logic', '2022-03-15', '2022-03-30', NULL, NULL, 'IKEA Project'),
+(24, 3, 3, 'Frontend of IDL logistics ', NULL, NULL, NULL, NULL, NULL),
+(25, 3, 3, 'Backend of IDL logistics ', '2022-04-29', '2022-05-06', '2022-04-29', '2022-05-06', ''),
+(26, 3, 3, 'Feedback and Bug fix', NULL, NULL, NULL, NULL, NULL),
+(27, 3, 3, 'Self Project', NULL, NULL, NULL, NULL, NULL),
+(28, 7, 3, 'Test Project', NULL, NULL, NULL, NULL, NULL),
+(29, 3, 3, 'Working Project', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
+(30, 3, 3, 'Responsive Design', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
+(31, 3, 3, 'Exceiption', '2022-05-07', '2022-05-14', '2022-05-07', '2022-05-14', ''),
+(32, 3, 3, 'Project Model', '2022-05-09', '2022-05-16', '2022-05-09', '2022-05-16', ''),
+(33, 3, 3, 'Add User Role', '2022-05-01', '2022-05-31', '2022-05-01', '2022-05-31', ''),
+(34, 1, 4, 'Project Manager Control', '2022-05-09', '2022-05-16', '2022-05-09', '2022-05-16', ''),
+(35, 3, 3, 'IKEA LOGIN 1', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -432,6 +439,13 @@ CREATE TABLE `tbl_project_member` (
   `user_id` int(8) NOT NULL,
   `is_manager` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_project_member`
+--
+
+INSERT INTO `tbl_project_member` (`pm_id`, `project_id`, `user_id`, `is_manager`) VALUES
+(1, 35, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -693,11 +707,10 @@ ALTER TABLE `tbl_client_project`
 -- Indexes for table `tbl_company_member`
 --
 ALTER TABLE `tbl_company_member`
-  ADD PRIMARY KEY (`tm_id`),
-  ADD UNIQUE KEY `owner_id_2` (`owner_id`,`member_id`),
+  ADD PRIMARY KEY (`cm_id`),
   ADD KEY `role_id` (`role_id`),
-  ADD KEY `owner_id` (`owner_id`),
-  ADD KEY `member_id` (`member_id`);
+  ADD KEY `member_id` (`member_id`),
+  ADD KEY `company_id` (`company_id`);
 
 --
 -- Indexes for table `tbl_deliverable`
@@ -756,7 +769,8 @@ ALTER TABLE `tbl_proceed_deliverable`
 --
 ALTER TABLE `tbl_project`
   ADD PRIMARY KEY (`project_id`),
-  ADD KEY `creator_id` (`creator_id`);
+  ADD KEY `creator_id` (`creator_id`),
+  ADD KEY `company_id` (`company_id`);
 
 --
 -- Indexes for table `tbl_project_member`
@@ -829,7 +843,7 @@ ALTER TABLE `mst_client`
 -- AUTO_INCREMENT for table `mst_company`
 --
 ALTER TABLE `mst_company`
-  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `company_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `mst_role`
@@ -853,7 +867,7 @@ ALTER TABLE `tbl_client_project`
 -- AUTO_INCREMENT for table `tbl_company_member`
 --
 ALTER TABLE `tbl_company_member`
-  MODIFY `tm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_deliverable`
@@ -865,7 +879,7 @@ ALTER TABLE `tbl_deliverable`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `login_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `tbl_precede_task`
@@ -901,13 +915,13 @@ ALTER TABLE `tbl_proceed_deliverable`
 -- AUTO_INCREMENT for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `project_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `tbl_project_member`
 --
 ALTER TABLE `tbl_project_member`
-  MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT;
+  MODIFY `pm_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_task_assign`
@@ -968,7 +982,7 @@ ALTER TABLE `tbl_client_project`
 ALTER TABLE `tbl_company_member`
   ADD CONSTRAINT `tbl_company_member_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `mst_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_company_member_ibfk_4` FOREIGN KEY (`member_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_company_member_ibfk_5` FOREIGN KEY (`owner_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_company_member_ibfk_5` FOREIGN KEY (`company_id`) REFERENCES `mst_company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_deliverable`
@@ -1018,7 +1032,8 @@ ALTER TABLE `tbl_proceed_deliverable`
 -- Constraints for table `tbl_project`
 --
 ALTER TABLE `tbl_project`
-  ADD CONSTRAINT `tbl_project_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_project_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_project_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `mst_company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_project_member`
@@ -1046,13 +1061,6 @@ ALTER TABLE `tbl_user`
 ALTER TABLE `tbl_user_client`
   ADD CONSTRAINT `tbl_user_client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_user_client_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `mst_client` (`client_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_user_company`
---
-ALTER TABLE `tbl_user_company`
-  ADD CONSTRAINT `tbl_user_company_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `mst_company` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_user_company_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_week_priority`

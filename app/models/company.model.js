@@ -1,11 +1,12 @@
+const SqlString = require("mysql/lib/protocol/SqlString");
 const sql = require("./db.js");
 
 const Company = function(company) {
-  this.uc_id = company.uc_id;
+  this.cm_id = company.cm_id;
   this.company_id = company.company_id;
-  this.user_id = company.user_id;
+  this.member_id = company.member_id;
   this.company_name = company.company_name;
-  this.is_manager = company.is_manager;
+  this.role_id = company.role_id;
 };
 // Create and Save a new Company
 Company.insertNewCompany = (company_name, result) => {
@@ -46,14 +47,14 @@ Company.updateCompany = (company, result) => {
 
 //Create new User - Company Relation
 Company.insertNewUserCompanyRelation = (company, result) => {
-    sql.query("INSERT INTO tbl_user_company SET user_id=?, company_id=? ,is_manager=?", 
-      [company.user_id, company.company_id, company.is_manager], (err, res) => {
+    sql.query("INSERT INTO tbl_company_member SET member_id=?, company_id=? ,role_id=?", 
+      [company.member_id, company.company_id, company.role_id], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
         return;
       }  
-      company.uc_id = res.insertId;
+      company.cm_id = res.insertId;
       console.log("created new User-Company Relation: ", { ...company});
       result(null, {...company });
     });
@@ -62,8 +63,8 @@ Company.insertNewUserCompanyRelation = (company, result) => {
 // Update a User - Company Relation
 Company.updateUserCompanyRelation = (company, result) => {
   sql.query(
-    "UPDATE tbl_user_company SET user_id=?, company_id = ?, is_manager = ? WHERE uc_id = ?",
-    [company.user_id, company.company_id, company.is_manager, company.uc_id],
+    "UPDATE tbl_company_member SET member_id=?, company_id = ?, role_id = ? WHERE cm_id = ?",
+    [company.member_id, company.company_id, company.role_id, company.cm_id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -83,10 +84,10 @@ Company.updateUserCompanyRelation = (company, result) => {
   );
 };
 
-Company.getMyCompany = (user_id, result) => {    
+Company.getMyCompany = (member_id, result) => {    
   sql.query(
-      "select c.*, uc.user_id, uc.is_manager from mst_company c, (SELECT * FROM tbl_user_company WHERE user_id = ?) uc where c.company_id = uc.company_id", 
-      user_id, (err, res) => 
+      "select c.*, cm.member_id, cm.role_id from mst_company c, (SELECT * FROM tbl_company_member WHERE member_id = ?) cm where c.company_id = cm.company_id", 
+      member_id, (err, res) => 
       {
           if (err) {
               console.log("error: ", err);
@@ -98,20 +99,20 @@ Company.getMyCompany = (user_id, result) => {
       });
   };
 
-Company.getMyCompanyProfile = (owner_id, member_id, result) => {   
+Company.getMyCompanyProfile = (company_id, owner_id, member_id, result) => {   
   var q = ""; var param = []; 
   if(owner_id == member_id)
   {
-    q =  "SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count, p.project_count, task.task_count FROM (SELECT * FROM tbl_user WHERE user_id = ?) u, (SELECT * from tbl_user_company WHERE user_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_company_member WHERE owner_id = ? GROUP BY owner_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli, (SELECT COUNT(project_id) project_count FROM tbl_project WHERE creator_id = ? GROUP by creator_id) p, (SELECT COUNT(task_id) task_count FROM tbl_priority_task WHERE creator_id = ?) task WHERE c.company_id = uc.company_id AND ase.user_id = ?;";
-    param = [owner_id, owner_id, owner_id, owner_id, member_id,member_id, owner_id];
+    q =  "SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count, p.project_count, task.task_count FROM (SELECT * FROM tbl_user WHERE user_id = ?) u, (SELECT * from tbl_company_member WHERE member_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_company_member WHERE company_id = ? GROUP BY company_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli, (SELECT COUNT(project_id) project_count FROM tbl_project WHERE company_id = ? GROUP by company_id) p, (SELECT COUNT(task_id) task_count FROM tbl_priority_task WHERE company_id = ? GROUP by company_id) task WHERE c.company_id = uc.company_id AND ase.user_id = ?";
+    param = [owner_id, member_id, company_id, owner_id, company_id,company_id, owner_id];
   }  
   else
   {
-    q = "SELECT a.*, p.* FROM (SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count FROM (SELECT * FROM tbl_user WHERE user_id = ?) u, (SELECT * from tbl_user_company WHERE user_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_company_member WHERE owner_id = ? GROUP BY owner_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli WHERE c.company_id = uc.company_id AND ase.user_id = ?) a LEFT JOIN (SELECT p.*, task.* FROM (SELECT COUNT(project_id) project_count FROM tbl_project_member WHERE user_id = ? GROUP by user_id) p, (SELECT COUNT(task_id) task_count from tbl_task_assign WHERE member_id = ? GROUP BY member_id) task) p ON 1;";
-    param = [owner_id, owner_id, owner_id, owner_id, owner_id, member_id,member_id];
+    q = "SELECT a.*, p.* FROM (SELECT u.*, uc.company_id, c.company_name, ase.currency, ase.time_format, tm.member_count, cli.client_count FROM (SELECT * FROM tbl_user WHERE user_id = ?) u, (SELECT * from tbl_company_member WHERE member_id = ?) uc, mst_company c, tbl_account_setting ase, (SELECT COUNT(member_id) member_count FROM tbl_company_member WHERE company_id = ? GROUP BY company_id) tm, (SELECT COUNT(client_id) client_count FROM `tbl_user_client` WHERE user_id = ? GROUP BY user_id) cli WHERE c.company_id = uc.company_id AND ase.user_id = ?) a LEFT JOIN (SELECT p.*, task.* FROM (SELECT COUNT(project_id) project_count FROM tbl_project_member WHERE user_id = ? GROUP by user_id) p, (SELECT COUNT(task_id) task_count from tbl_task_assign WHERE member_id = ? GROUP BY member_id) task) p ON 1";
+    param = [owner_id, member_id, company_id, owner_id, owner_id, member_id,member_id];
   }
   
-    sql.query(q, param, (err, res) => 
+    var c = sql.query(q, param, (err, res) => 
       {
           if (err) {
               console.log("error: ", err);
@@ -121,4 +122,79 @@ Company.getMyCompanyProfile = (owner_id, member_id, result) => {
           result(null, {company:res });
       });
   };
+
+  //Add new Company Member
+Company.addCompanyMember = (cm, result) => {
+  sql.query("INSERT INTO tbl_company_member SET company_id=?, member_id=?, role_id=?", [cm.company_id, cm.member_id, cm.role_id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    cm.cm_id = res.insertId;
+    console.log("created new Company: ", cm);
+    result(null, cm);
+  });
+};
+
+//Get All Company Members
+Company.getCompanyMembers = (member_id, result) => {
+  sql.query("select o.member_id, u.* from tbl_user u, (SELECT cm2.* FROM `tbl_company_member` cm1, tbl_company_member cm2 WHERE cm1.member_id = ? AND cm1.company_id = cm2.company_id) o where u.user_id = o.member_id", 
+    member_id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("created new Company: ", {member_id:member_id, member:res});
+    result(null, {member_id:member_id, member:res});
+  });
+};
+
+//Get Company's Member
+Company.getCompanyMember = (member_id, result) => {
+  sql.query("select o.member_id, o.company_id, u.* from tbl_user u, (SELECT * FROM `tbl_company_member` WHERE member_id = ?) o where u.user_id = o.member_id", 
+  member_id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    result(null, {member:res});
+  });
+};
+
+//Get Company's Boss
+Company.getCompanyBoss = (member_id, result) => {
+  sql.query("select o.member_id, o.company_id, u.* from tbl_user u, (SELECT c.* from (SELECT company_id FROM `tbl_company_member` WHERE member_id = ?) c1, tbl_company_member c where c1.company_id = c.company_id AND c.role_id = 1) o where u.user_id = o.member_id", 
+  member_id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    result(null, {member:res});
+  });
+};
+
+Company.updateByMember = (tm, result) => {
+  sql.query(
+    "UPDATE tbl_company_member SET company_id = ?, member_id = ?, role_id = ? WHERE cm_id = ?", 
+      [tm.company_id, tm.member_id, tm.role_id, tm.cm_id], (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      console.log("updated Company member: ", {...tm});
+      result(null, {...tm});
+    }
+  );
+};
+
 module.exports = Company;

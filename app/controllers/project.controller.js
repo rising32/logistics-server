@@ -55,6 +55,27 @@ exports.getUserProjects = (req, res) => {
   });
 };
 
+//Get All Company Projects
+exports.getCompanyProjects = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }  
+  // Save Company member in the database
+  Project.getCompanyProjects(req.body.company_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Company."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
 //Get Client Projects and not assigned to client
 exports.getClientProjectsNoAssign = (req, res) => {
   // Validate request
@@ -64,7 +85,7 @@ exports.getClientProjectsNoAssign = (req, res) => {
     });
   }  
   // Save Company member in the database
-  Project.getClientProjectsNoAssign(req.body.creator_id, req.body.client_id, (err, data) => {
+  Project.getClientProjectsNoAssign(req.body.company_id, req.body.client_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -490,15 +511,35 @@ exports.getUserTasks = (req, res) => {
   });
 };
 
-// Get User's all tasks by week
-exports.getUserTasksByWeek = (req, res) => {
+// Get Company's all tasks
+exports.getCompanyTasks = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   } 
-  Task.getUserTasksByWeek(req.body.creator_id, req.body.week, req.body.year, (err, data) => {
+  Task.getCompanyTasks(req.body.company_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while getting the User's tasks."
+      });
+    else {
+      res.send(data);      
+    }
+  });
+};
+
+// Get User's all tasks by week
+exports.getCompanyTasksByWeek = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  } 
+  Task.getCompanyTasksByWeek(req.body.company_id, req.body.week, req.body.year, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -511,14 +552,14 @@ exports.getUserTasksByWeek = (req, res) => {
 };
 
 //Get User's tasks linked with project or not linked with any one
-exports.getUserTasksByPNA = (req, res) => {
+exports.getCompanyTasksByPNA = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   } 
-  Task.getUserTasksByPNA(req.body.creator_id,req.body.project_id, (err, data) => {
+  Task.getCompanyTasksByPNA(req.body.company_id,req.body.project_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:

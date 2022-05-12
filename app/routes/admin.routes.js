@@ -17,24 +17,22 @@ module.exports = app => {
 
 //==================================================== Company =================================================================
     // Create a new Company  
-    app.post("/user/create_company", admin.createCompany);
+    app.post("/user/create_company", company.createCompany);
 
     // Update Company  
-    app.post("/user/update_company", admin.updateCompany); 
+    app.post("/user/update_company", company.updateCompany); 
 
     // Create a new User-Company  
-    app.post("/user/relate_user_company", admin.createUserCompanyRelation);
+    app.post("/user/relate_user_company", company.createUserCompanyRelation);
 
     // Update User-Company Relation  
-    app.post("/user/update_user_company", admin.updateUserCompanyRelation);
+    app.post("/user/update_user_company", company.updateUserCompanyRelation);
 
     // Get my Companies
-    app.post("/user/get_my_company", admin.getMyCompany);  
+    app.post("/user/get_my_company", company.getMyCompany);  
 
     // Get my Company profile
-    app.post("/user/get_my_company/profile", admin.getMyCompanyProfile);
-
-    //==================================================================================
+    app.post("/user/get_my_company/profile", company.getMyCompanyProfile);
 
      // Add a new Company member
     app.post("/company/add_member", company.addCompanyMember);
